@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Constantes
+import '../components/drawer.dart';
 import '../constantes/cores.dart';
 
 class Home extends StatelessWidget {
@@ -13,6 +14,9 @@ class Home extends StatelessWidget {
         title: const Text('BookTok'),
         backgroundColor: Colors.yellow,
       ),
+
+      drawer: MyDrawer(),
+
       backgroundColor: paletteBlack,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
