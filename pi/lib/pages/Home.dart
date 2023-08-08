@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi/components/book_template.dart';
+import 'package:pi/components/booktok_appbar.dart';
 
 // Constantes
 import '../components/drawer.dart';
@@ -11,10 +12,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BookTok'),
-        backgroundColor: Colors.yellow,
-      ),
+      // Comum Component App Bar 
+      appBar: BookTokAppBar,
 
       drawer: MyDrawer(),
 

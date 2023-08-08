@@ -40,7 +40,10 @@ class _MyDrawerState extends State<MyDrawer> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset('images/logo-transparent.png'),
+                  Image.asset(
+                    'images/logo-transparent.png',
+                    height: 40,
+                  ),
 
                   SizedBox(width: 15,),
                   
