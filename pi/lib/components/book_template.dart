@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../constantes/cores.dart';
-import '../pages/Home.dart';
+import '../pages/book_page.dart';
+import '../pages/home.dart';
 
 class BookTemplate extends StatelessWidget {
   String nomeLivro;
@@ -17,26 +18,43 @@ class BookTemplate extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Home(),
+                      builder: (context) => BookDetailsPage(nomeLivro: nomeLivro,),
                     ),
                   );
                 },
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 50, 5, 10),
-                      child: Image.asset(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Image.asset(
                         caminhoImagem,
                         height: 120,
+                        fit: BoxFit.fill,
                       ),
-                    ),
-                    Text(
-                      nomeLivro,
-                      style: TextStyle(
-                        color: paletteWhite,
+
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                  ],
+
+                      Container(
+                        constraints: BoxConstraints(
+                          maxWidth: 110,
+                        ),
+                        child: Text(
+                          nomeLivro,
+                          style: TextStyle(
+                            color: paletteWhite,
+                          ),
+                      
+                        softWrap: false,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                
+                        textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
   }

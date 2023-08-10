@@ -1,7 +1,10 @@
+// Packages
 import 'package:flutter/material.dart';
+
+// Components
 import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
-import 'package:pi/components/navigation-bar.dart';
+import 'package:pi/components/navigation_bar.dart';
 
 // Constantes
 import '../components/drawer.dart';
@@ -24,7 +27,7 @@ class Home extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+              padding: EdgeInsets.only(left: 20),
               child: Text(
                 'Lançamentos',
                 style: TextStyle(
@@ -33,13 +36,39 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
-            //const SizedBox(height: 20),
-            Row(
-              children: [
-                BookTemplate(
-                    caminhoImagem: 'images/livros/livro.png',
-                    nomeLivro: 'aaaaaa')
-              ],
+
+            SizedBox(height: 20),
+
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro: 'O Gato que Amava Livros'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                ],
+              ),
             ),
 
             Row(
@@ -495,7 +524,7 @@ class Home extends StatelessWidget {
         ),
       ),
 
-      bottomNavigationBar: MyNavigationBar(
+      bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
             route: Home(), icon: Icon(Icons.home), current: true),
         search: MyIconButtonNavigator(

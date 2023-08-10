@@ -1,14 +1,16 @@
+// Packages
 import 'package:flutter/material.dart';
 
+// Constants
 import '../constantes/cores.dart';
 
-class MyNavigationBar extends StatelessWidget {
-  MyIconButtonNavigator home;
-  MyIconButtonNavigator search;
-  MyIconButtonNavigator cart;
-  MyIconButtonNavigator user;
+class BookTokNavigation extends StatelessWidget {
+  final MyIconButtonNavigator home;
+  final MyIconButtonNavigator search;
+  final MyIconButtonNavigator cart;
+  final MyIconButtonNavigator user;
 
-  MyNavigationBar({
+  const BookTokNavigation({
     super.key,
     required this.home,
     required this.search,
