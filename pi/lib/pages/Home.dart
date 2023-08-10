@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi/components/navigation-bar.dart';
 
 // Constantes
 import '../components/drawer.dart';
@@ -39,6 +40,13 @@ class Home extends StatelessWidget {
             ),
           ),
         ],
+      ),
+
+      bottomNavigationBar: MyNavigationBar(
+        home: MyIconButtonNavigator(route: Home(), icon: Icon(Icons.home), current: true), 
+        search: MyIconButtonNavigator(route: Home(), icon: Icon(Icons.search), current: false), 
+        cart: MyIconButtonNavigator(route: Home(), icon: Icon(Icons.shopping_cart), current: false), 
+        user: MyIconButtonNavigator(route: Home(), icon: Icon(Icons.person), current: false), 
       ),
     );
   }
