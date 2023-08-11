@@ -8,54 +8,56 @@ class BookTemplate extends StatelessWidget {
   String nomeLivro;
   String caminhoImagem;
 
-  BookTemplate({super.key, required this.caminhoImagem, required this.nomeLivro});
-
+  BookTemplate(
+      {super.key, required this.caminhoImagem, required this.nomeLivro});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BookDetailsPage(nomeLivro: nomeLivro,),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        caminhoImagem,
-                        height: 120,
-                        fit: BoxFit.fill,
-                      ),
-
-                      SizedBox(
-                        height: 10,
-                      ),
-
-                      Container(
-                        constraints: const BoxConstraints(
-                          maxWidth: 110,
-                        ),
-                        child: Text(
-                          nomeLivro,
-                          style: const TextStyle(
-                            color: paletteWhite,
-                          ),
-                      
-                        softWrap: false,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                
-                        textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookDetailsPage(
+              nomeLivro: nomeLivro,
+            ),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Hero(
+              tag: 'imagem-livro',
+              child: Image.asset(
+                caminhoImagem,
+                height: 120,
+                fit: BoxFit.fill,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              constraints: const BoxConstraints(
+                maxWidth: 90,
+              ),
+              child: Text(
+                nomeLivro,
+                style: const TextStyle(
+                  color: paletteWhite,
+                  fontSize: 12,
                 ),
-              );
+                softWrap: false,
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
