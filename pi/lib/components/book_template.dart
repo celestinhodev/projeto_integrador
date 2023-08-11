@@ -37,12 +37,12 @@ class BookTemplate extends StatelessWidget {
                       ),
 
                       Container(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: 110,
                         ),
                         child: Text(
                           nomeLivro,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: paletteWhite,
                           ),
                       

@@ -10,6 +10,10 @@ import 'package:pi/components/navigation_bar.dart';
 import '../components/drawer.dart';
 import '../constantes/cores.dart';
 
+//carrossel (organizar depois)
+//import 'package:carousel_slider/carousel_slider.dart';  // Importe a biblioteca aqui
+
+
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -37,7 +41,62 @@ class Home extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 20),
+            //Carrossel -----------------------------------------------------------------------
+    /*CarouselSlider(
+        options: CarouselOptions(
+          // Configurações do carrossel
+          height: 200,
+          enlargeCenterPage: true,
+          autoPlay: true,
+          autoPlayInterval: Duration(seconds: 3),
+          autoPlayCurve: Curves.fastOutSlowIn,
+          pauseAutoPlayOnTouch: true,
+        ),
+        items: [
+          // Itens do carrossel
+          _buildBookTemplate('Título 1'),
+          _buildBookTemplate('Título 2'),
+          _buildBookTemplate('Título 3'),
+          // ...adicionar mais itens conforme necessário
+        ],
+      ),
+    ],*/
+
+
+            //Fim do Carrossel ----------------------------------------------------------------
+
+            const SizedBox(height: 20),
+
+            //Linha 1 -----------------------------------------------------------------------
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro: 'O Gato que Amava Livros'
+                  ),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
+                  ),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
+                  ),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
+                  ),
+                ],
+              ),
+            ),
+
+            //Linha 2 -------------------------------------------------------------------------------------------------
 
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -71,468 +130,121 @@ class Home extends StatelessWidget {
               ),
             ),
 
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 50, 5, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 1',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 50, 10, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 2',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 50, 5, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 3',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 50, 10, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 4',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            //Linha 3 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro: 'O Gato que Amava Livros'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                ],
+              ),
             ),
 
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 50, 5, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 1',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 50, 10, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 2',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 50, 5, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 3',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 50, 10, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 4',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            //Linha 4 ----------------------------------------------------------------------------------------------------------------------------------------------
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro: 'O Gato que Amava Livros'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                ],
+              ),
             ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 50, 5, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 1',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 50, 10, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 2',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 50, 5, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 3',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 50, 10, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 4',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+
+            //Linha 5 ---------------------------------------------------------------------------------------------------------------------------------------------
+
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro: 'O Gato que Amava Livros'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                  BookTemplate(
+                      caminhoImagem: 'images/livros/livro.png',
+                      nomeLivro:
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                ],
+              ),
             ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 50, 5, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 1',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 50, 10, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 2',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 50, 5, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 3',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 50, 10, 10),
-                        child: Image.asset(
-                          'images/livros/livro.png',
-                          height: 120,
-                        ),
-                      ),
-                      const Text(
-                        'Livro 4',
-                        style: TextStyle(
-                          color: paletteWhite,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+
           ],
         ),
       ),
 
+      //Barra de navegação ------------------------------------------------------
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-            route: Home(), icon: Icon(Icons.home), current: true),
+            route: const Home(), icon: const Icon(Icons.home), current: true),
         search: MyIconButtonNavigator(
-            route: Home(), icon: Icon(Icons.search), current: false),
+            route: const Home(), icon: const Icon(Icons.search), current: false),
         cart: MyIconButtonNavigator(
-            route: Home(), icon: Icon(Icons.shopping_cart), current: false),
+            route: const Home(), icon: const Icon(Icons.shopping_cart), current: false),
         user: MyIconButtonNavigator(
-            route: Home(), icon: Icon(Icons.person), current: false),
+            route: const Home(), icon: const Icon(Icons.person), current: false),
       ),
     );
   }

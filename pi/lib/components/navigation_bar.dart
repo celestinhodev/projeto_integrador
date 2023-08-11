@@ -22,7 +22,6 @@ class BookTokNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
       color: paletteBlack,
-      padding: EdgeInsets.all(8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
