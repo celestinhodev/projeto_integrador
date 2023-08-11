@@ -24,21 +24,21 @@ class BookTemplate extends StatelessWidget {
           ),
         );
       },
-
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Image.asset(
-              caminhoImagem,
-              height: 120,
-              fit: BoxFit.fill,
+            Hero(
+              tag: 'imagem-livro',
+              child: Image.asset(
+                caminhoImagem,
+                height: 120,
+                fit: BoxFit.fill,
+              ),
             ),
-
             SizedBox(
               height: 10,
             ),
-
             Container(
               constraints: const BoxConstraints(
                 maxWidth: 90,
