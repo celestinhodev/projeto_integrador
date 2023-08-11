@@ -51,11 +51,7 @@ class _HomeState extends State<Home> {
                   autoPlayCurve: Curves.fastOutSlowIn,
                   pauseAutoPlayOnTouch: true,
                   enableInfiniteScroll: true,
-                  onPageChanged: (index, reason) {
-                  setState(() {
-                   _current = index;
-                  });
-                }),
+                  )
                   ),
               carouselController: controller,
               items: [
