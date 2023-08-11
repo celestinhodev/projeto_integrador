@@ -29,7 +29,7 @@ class BookTemplate extends StatelessWidget {
         child: Column(
           children: [
             Hero(
-              tag: 'imagem-livro',
+              tag: nomeLivro,
               child: Image.asset(
                 caminhoImagem,
                 height: 120,

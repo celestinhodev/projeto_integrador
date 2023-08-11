@@ -26,6 +26,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   CarouselController controller = CarouselController();
+  int? _current;
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +54,10 @@ class _HomeState extends State<Home> {
                   enableInfiniteScroll: true,
                   onPageChanged: (index, reason) {
                   setState(() {
-                   _current = index;
+                  _current = index;
                   });
                 }),
-                  ),
+                  
               carouselController: controller,
               items: [
                 //Itens do carrossel
@@ -94,14 +95,6 @@ class _HomeState extends State<Home> {
                       caminhoImagem: 'images/livros/livro.png',
                       nomeLivro:
                           'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
                 ],
               ),
             ),
@@ -112,19 +105,7 @@ class _HomeState extends State<Home> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro: 'O Gato que Amava Livros'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'O Gato que Amava Livros 2'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'O Gato que Amava Livros, O Retorno do Gato'),
-                ],
+                children: [],
               ),
             ),
 
@@ -134,31 +115,7 @@ class _HomeState extends State<Home> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro: 'O Gato que Amava Livros'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                ],
+                children: [],
               ),
             ),
 
@@ -167,31 +124,7 @@ class _HomeState extends State<Home> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro: 'O Gato que Amava Livros'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                ],
+                children: [],
               ),
             ),
 
@@ -201,31 +134,7 @@ class _HomeState extends State<Home> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro: 'O Gato que Amava Livros'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                ],
+                children: [],
               ),
             ),
           ],
