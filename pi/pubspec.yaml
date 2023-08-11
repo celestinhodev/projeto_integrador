@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  //dependência do carrossel
+  #dependência do carrossel
   carousel_slider: ^4.0.0  
   
 

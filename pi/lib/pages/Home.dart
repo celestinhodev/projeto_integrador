@@ -11,11 +11,21 @@ import '../components/drawer.dart';
 import '../constantes/cores.dart';
 
 //carrossel (organizar depois)
-//import 'package:carousel_slider/carousel_slider.dart';  // Importe a biblioteca aqui
+import 'package:carousel_slider/carousel_slider.dart'; // Importe a biblioteca aqui
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_state.dart';
+import 'package:carousel_slider/utils.dart';
 
-
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  CarouselController controller = CarouselController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +40,34 @@ class Home extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //Carrossel -----------------------------------------------------------------------
+            CarouselSlider(
+              options: CarouselOptions(
+                  //Configurações do carrossel
+                  height: 200,
+                  enlargeCenterPage: true,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  pauseAutoPlayOnTouch: true,
+                  enableInfiniteScroll: true,
+                  onPageChanged: (index, reason) {
+                  setState(() {
+                   _current = index;
+                  });
+                }),
+                  ),
+              carouselController: controller,
+              items: [
+                //Itens do carrossel
+                Image.asset('images/livros/livro.png'),
+                //...adicionar mais itens conforme necessário
+              ],
+            ),
+            
+
+            //Fim do Carrossel ----------------------------------------------------------------
+
             const Padding(
               padding: EdgeInsets.only(left: 20),
               child: Text(
@@ -41,30 +79,6 @@ class Home extends StatelessWidget {
               ),
             ),
 
-            //Carrossel -----------------------------------------------------------------------
-    /*CarouselSlider(
-        options: CarouselOptions(
-          // Configurações do carrossel
-          height: 200,
-          enlargeCenterPage: true,
-          autoPlay: true,
-          autoPlayInterval: Duration(seconds: 3),
-          autoPlayCurve: Curves.fastOutSlowIn,
-          pauseAutoPlayOnTouch: true,
-        ),
-        items: [
-          // Itens do carrossel
-          _buildBookTemplate('Título 1'),
-          _buildBookTemplate('Título 2'),
-          _buildBookTemplate('Título 3'),
-          // ...adicionar mais itens conforme necessário
-        ],
-      ),
-    ],*/
-
-
-            //Fim do Carrossel ----------------------------------------------------------------
-
             const SizedBox(height: 20),
 
             //Linha 1 -----------------------------------------------------------------------
@@ -75,23 +89,19 @@ class Home extends StatelessWidget {
                 children: [
                   BookTemplate(
                       caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro: 'O Gato que Amava Livros'
-                  ),
+                      nomeLivro: 'O Gato que Amava Livros'),
                   BookTemplate(
                       caminhoImagem: 'images/livros/livro.png',
                       nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
-                  ),
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
                   BookTemplate(
                       caminhoImagem: 'images/livros/livro.png',
                       nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
-                  ),
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
                   BookTemplate(
                       caminhoImagem: 'images/livros/livro.png',
                       nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
-                  ),
+                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
                 ],
               ),
             ),
@@ -230,7 +240,6 @@ class Home extends StatelessWidget {
                 ],
               ),
             ),
-
           ],
         ),
       ),
@@ -240,14 +249,18 @@ class Home extends StatelessWidget {
         home: MyIconButtonNavigator(
             route: const Home(), icon: const Icon(Icons.home), current: true),
         search: MyIconButtonNavigator(
-            route: const Home(), icon: const Icon(Icons.search), current: false),
+            route: const Home(),
+            icon: const Icon(Icons.search),
+            current: false),
         cart: MyIconButtonNavigator(
-            route: const Home(), icon: const Icon(Icons.shopping_cart), current: false),
+            route: const Home(),
+            icon: const Icon(Icons.shopping_cart),
+            current: false),
         user: MyIconButtonNavigator(
-            route: const Home(), icon: const Icon(Icons.person), current: false),
+            route: const Home(),
+            icon: const Icon(Icons.person),
+            current: false),
       ),
     );
   }
 }
-
-
