@@ -24,7 +24,7 @@ class BookTemplate extends StatelessWidget {
           ),
         );
       },
-      
+
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
