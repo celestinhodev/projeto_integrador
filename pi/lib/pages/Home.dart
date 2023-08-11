@@ -50,23 +50,11 @@ class Home extends StatelessWidget {
                   BookTemplate(
                       caminhoImagem: 'images/livros/livro.png',
                       nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                          'O Gato que Amava Livros 2'),
                   BookTemplate(
                       caminhoImagem: 'images/livros/livro.png',
                       nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
+                          'O Gato que Amava Livros, O Retorno do Gato'),
                 ],
               ),
             ),
