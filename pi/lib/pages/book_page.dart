@@ -38,9 +38,15 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 300,
+          Container(
+            alignment: Alignment.center,
+            child: Hero(
+              tag: nomeLivro, 
+              child: Image.asset('images/livros/livro.png'),
+            ),
           ),
+
+
           Padding(
             padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
             child: Column(
