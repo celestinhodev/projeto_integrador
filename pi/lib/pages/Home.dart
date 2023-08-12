@@ -61,7 +61,45 @@ class _HomeState extends State<Home> {
               carouselController: controller,
               items: [
                 //Itens do carrossel
-                Image.asset('images/livros/livro.png'),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Home()
+                      )
+                      );
+                  },
+                  child: Image.asset(
+                    'images/logo-appbar.png',
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Home()
+                      )
+                    );
+                  },
+                  child: Image.asset(
+                    'images/livros/livro.png',
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Home()
+                      )
+                    );
+                  },
+                  child: Image.asset(
+                    'images/livros/livro.png',
+                  ),
+                ),
                 //...adicionar mais itens conforme necessário
               ],
             ),
@@ -148,15 +186,18 @@ class _HomeState extends State<Home> {
         search: MyIconButtonNavigator(
             route: const Home(),
             icon: const Icon(Icons.search),
-            current: false),
+            current: false
+          ),
         cart: MyIconButtonNavigator(
             route: const Home(),
             icon: const Icon(Icons.shopping_cart),
-            current: false),
+            current: false
+          ),
         user: MyIconButtonNavigator(
             route: const Home(),
             icon: const Icon(Icons.person),
-            current: false),
+            current: false
+        ),
       ),
     );
   }
