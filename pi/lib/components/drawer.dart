@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pi/pages/carrinho.dart';
+import 'package:pi/pages/home.dart';
 import '../constantes/cores.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -28,11 +30,9 @@ class _MyDrawerState extends State<MyDrawer> {
         children: [
           SizedBox(
             height: 56,
-            
             child: DrawerHeader(
               padding: EdgeInsets.zero,
               margin: EdgeInsets.zero,
-
               decoration: BoxDecoration(
                 color: paletteBlack,
               ),
@@ -44,9 +44,9 @@ class _MyDrawerState extends State<MyDrawer> {
                     'images/logo-transparent.png',
                     height: 40,
                   ),
-
-                  SizedBox(width: 15,),
-                  
+                  SizedBox(
+                    width: 15,
+                  ),
                   Text(
                     'Bem vindo Leitor!',
                     style: TextStyle(
@@ -62,14 +62,25 @@ class _MyDrawerState extends State<MyDrawer> {
           ListTile(
             title: Text('Home', style: textStylePages),
             contentPadding: EdgeInsets.only(left: 35),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(),
+                ),
+              );
+            },
           ),
           ListTile(
             title: Text('Meus Pedidos', style: textStylePages),
             contentPadding: EdgeInsets.only(left: 35),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Carrinho(),
+                ),
+              );
             },
           ),
           ListTile(
@@ -80,21 +91,20 @@ class _MyDrawerState extends State<MyDrawer> {
               // ...
             },
           ),
-
           SizedBox(
             height: 5,
           ),
-
           MySeparator(
             color: Colors.grey,
             height: 3,
           ),
-
           Padding(
             padding: EdgeInsets.fromLTRB(35, 20, 35, 5),
-            child: Text('Categorias', style: textStylePages,),
+            child: Text(
+              'Categorias',
+              style: textStylePages,
+            ),
           ),
-
           ListTile(
             title: Text('> Terror', style: textStyleCategories),
             contentPadding: EdgeInsets.only(left: 45),
@@ -103,7 +113,6 @@ class _MyDrawerState extends State<MyDrawer> {
               // ...
             },
           ),
-
           ListTile(
             title: Text('> Romance', style: textStyleCategories),
             contentPadding: EdgeInsets.only(left: 45),
@@ -112,7 +121,6 @@ class _MyDrawerState extends State<MyDrawer> {
               // ...
             },
           ),
-
           ListTile(
             title: Text('> Fantasia', style: textStyleCategories),
             contentPadding: EdgeInsets.only(left: 45),
@@ -121,7 +129,6 @@ class _MyDrawerState extends State<MyDrawer> {
               // ...
             },
           ),
-
           ListTile(
             title: Text('> Infantil', style: textStyleCategories),
             contentPadding: EdgeInsets.only(left: 45),
@@ -135,8 +142,6 @@ class _MyDrawerState extends State<MyDrawer> {
     );
   }
 }
-
-
 
 class MySeparator extends StatelessWidget {
   const MySeparator({Key? key, this.height = 1, this.color = Colors.black})

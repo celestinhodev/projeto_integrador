@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/components/navigation_bar.dart';
+import 'package:pi/pages/carrinho.dart';
 
 // Constantes
 import '../components/drawer.dart';
+import '../components/radio_button.dart';
 import '../constantes/cores.dart';
 
 //carrossel (organizar depois)
@@ -17,7 +19,6 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_state.dart';
 import 'package:carousel_slider/utils.dart';
 
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -26,8 +27,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  CarouselController controller = CarouselController();
-  int? _current;
+  CarouselController carouselController = CarouselController();
+  int _value = 0;
+
+  List<Widget> carouselBannerItens = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    carouselBannerItens = [
+      Image.asset('images/livros/livro.png'),
+      Image.asset('images/logo-appbar.png'),
+      Image.asset('images/livros/livro.png'),
+      Image.asset('images/livros/livro.png'),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,73 +57,68 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Carrossel -----------------------------------------------------------------------
-            CarouselSlider(
-              options: CarouselOptions(
-                  //Configurações do carrossel
-                  height: 200,
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 3),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  pauseAutoPlayOnTouch: true,
-                  enableInfiniteScroll: true,
-                  onPageChanged: (index, reason) {
-                  setState(() {
-                  _current = index;
-                  });
-                }),
-                  
-              carouselController: controller,
-              items: [
-                //Itens do carrossel
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home()
-                      )
-                      );
-                  },
-                  child: Image.asset(
-                    'images/logo-appbar.png',
+            Container(
+              color: paletteBrown,
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 45),
+                    child: CarouselSlider(
+                      items: carouselBannerItens,
+                      carouselController: carouselController,
+                      options: CarouselOptions(
+                        //Configurações do carrossel
+                        height: 250,
+                        enlargeCenterPage: true,
+                        scrollDirection: Axis.horizontal,
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _value = index;
+                          });
+                        },
+                      ),
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home()
-                      )
-                    );
-                  },
-                  child: Image.asset(
-                    'images/livros/livro.png',
+                  SizedBox(
+                    height: 150,
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home()
-                      )
-                    );
-                  },
-                  child: Image.asset(
-                    'images/livros/livro.png',
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          carouselBannerItens.length,
+                          (index) => MyRadioOption(
+                            label: '',
+                            groupValue: _value,
+                            unselectedColor: paletteWhite,
+                            selectedColor: paletteBlack,
+                            value: index,
+                            size: 14,
+                            onChanged: (value) {
+                              setState(() {
+                                _value = value!;
+                                carouselController.animateToPage(value);
+                              });
+                            },
+                            text: '',
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                //...adicionar mais itens conforme necessário
-              ],
+                ],
+              ),
             ),
-            
 
             //Fim do Carrossel ----------------------------------------------------------------
 
+            // Titulo lançamento
             const Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: EdgeInsets.fromLTRB(10, 20, 0, 0),
               child: Text(
                 'Lançamentos',
                 style: TextStyle(
@@ -122,59 +131,22 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
 
             //Linha 1 -----------------------------------------------------------------------
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro: 'O Gato que Amava Livros'),
-                  BookTemplate(
-                      caminhoImagem: 'images/livros/livro.png',
-                      nomeLivro:
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'),
-                ],
-              ),
-            ),
+            GridView(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, mainAxisExtent: 220),
+              shrinkWrap: true,
 
-            //Linha 2 -------------------------------------------------------------------------------------------------
-
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [],
-              ),
-            ),
-
-            //Linha 3 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [],
-              ),
-            ),
-
-            //Linha 4 ----------------------------------------------------------------------------------------------------------------------------------------------
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [],
-              ),
-            ),
-
-            //Linha 5 ---------------------------------------------------------------------------------------------------------------------------------------------
-
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [],
-              ),
+              children: [
+                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'A Menina que Navegou ao Reino Encantado no Barco que ela Mesma Fez',),
+                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'A Fantastica fabrica de mamadores',),
+                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '3',),
+                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '4',),
+                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '5',),
+                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '6',),
+                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '7',),
+                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '8',),
+                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '9',),
+                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '10',),
+              ],
             ),
           ],
         ),
@@ -187,18 +159,15 @@ class _HomeState extends State<Home> {
         search: MyIconButtonNavigator(
             route: const Home(),
             icon: const Icon(Icons.search),
-            current: false
-          ),
+            current: false),
         cart: MyIconButtonNavigator(
-            route: const Home(),
+            route: const Carrinho(),
             icon: const Icon(Icons.shopping_cart),
-            current: false
-          ),
+            current: false),
         user: MyIconButtonNavigator(
             route: const Home(),
             icon: const Icon(Icons.person),
-            current: false
-        ),
+            current: false),
       ),
     );
   }

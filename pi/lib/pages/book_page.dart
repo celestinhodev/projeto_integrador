@@ -96,6 +96,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                             unselectedColor: paletteWhite,
                             selectedColor: paletteBlack,
                             value: index,
+                            size: 18,
                             onChanged: (value) {
                               setState(() {
                                 _value = value!;
