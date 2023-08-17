@@ -6,6 +6,7 @@ import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/pages/carrinho.dart';
+import 'package:pi/pages/search.dart';
 
 // Constantes
 import '../components/drawer.dart';
@@ -80,7 +81,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 150,
                   ),
                   Positioned(
@@ -157,7 +158,7 @@ class _HomeState extends State<Home> {
         home: MyIconButtonNavigator(
             route: const Home(), icon: const Icon(Icons.home), current: true),
         search: MyIconButtonNavigator(
-            route: const Home(),
+            route: const SearchScreen(),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
