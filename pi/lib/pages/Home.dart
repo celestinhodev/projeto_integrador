@@ -69,10 +69,14 @@ class _HomeState extends State<Home> {
                       carouselController: carouselController,
                       options: CarouselOptions(
                         //Configurações do carrossel
+                        initialPage: 1,  //escolhe a imagem q vai começar (estetic)
                         height: 250,
                         enlargeCenterPage: true,
                         scrollDirection: Axis.horizontal,
                         viewportFraction: 1,
+                        pauseAutoPlayOnTouch: true, //pausa a rolagem do carrossel quando clicado (não está funcionando :/)
+                        autoPlayInterval: const Duration(seconds: 5),
+                        autoPlay: true,
                         onPageChanged: (index, reason) {
                           setState(() {
                             _value = index;
@@ -86,6 +90,7 @@ class _HomeState extends State<Home> {
                   ),
                   Positioned(
                     bottom: 0,
+                    // ignore: sized_box_for_whitespace
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: Row(
@@ -133,7 +138,7 @@ class _HomeState extends State<Home> {
 
             //Linha 1 -----------------------------------------------------------------------
             GridView(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, mainAxisExtent: 220),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, mainAxisExtent: 220),
               shrinkWrap: true,
 
               children: [

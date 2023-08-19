@@ -26,7 +26,7 @@ class MyRadioOption<T> extends StatelessWidget {
     final bool isSelected = value == groupValue;
 
     return AnimatedContainer(
-      duration: Duration(milliseconds: 150),
+      duration: const Duration(milliseconds: 150),
       width: size,
       height: size,
       decoration: BoxDecoration(

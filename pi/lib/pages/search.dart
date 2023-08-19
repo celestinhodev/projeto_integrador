@@ -1,7 +1,14 @@
+//Packages
 import 'package:flutter/material.dart';
+
+//Constantes (corrigir a separação aqui)
 import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/cores.dart';
+
+//Componentes
+import 'package:pi/pages/Home.dart';
+import 'package:pi/pages/carrinho.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -16,13 +23,12 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: BookTokAppBar, 
       body: Container(
-        padding: const EdgeInsets.all(20.0),
+        color: paletteBlack,
         child: Column(
           children: [
             // Área da pesquisa
             Container(
-              width: double.infinity, // Ocupa toda a largura da tela (num consegui) 
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.all(2),
               decoration: const BoxDecoration(
                 color: paletteGrey, 
               ),
@@ -37,16 +43,38 @@ class _SearchScreenState extends State<SearchScreen> {
                   const Expanded(
                     child: TextField(
                       decoration: InputDecoration(
-                        hintText: '',
-                        border: InputBorder.none, // Remove a borda do TextField
+                        hintText: 'Buscar por título, autor',
+                        border: InputBorder.none, 
                       ),
                     ),
                   ),
                 ],
-              ),
+              ),     
             ),
             const SizedBox(height: 16),
           ],
+        ),
+      ),
+      //Barra de navegação ----------------------------------------------------------------
+      bottomNavigationBar: BookTokNavigation(
+        home: MyIconButtonNavigator(
+        route: const Home(), icon: const Icon(Icons.home),
+        current: false,
+        ),
+        search: MyIconButtonNavigator(
+          route: const SearchScreen(),
+          icon: const Icon(Icons.search),
+          current: false,
+        ),
+        cart: MyIconButtonNavigator(
+          route: const Carrinho(),
+          icon: const Icon(Icons.shopping_cart),
+          current: true,
+          ),
+        user: MyIconButtonNavigator(
+          route: const Home(),
+          icon: const Icon(Icons.person),
+          current: false,
         ),
       ),
     );
