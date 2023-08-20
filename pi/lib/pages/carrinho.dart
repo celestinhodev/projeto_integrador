@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/cores.dart';
 
+import '../components/cardTileTemplate.dart';
 import 'home.dart';
 
 class Carrinho extends StatefulWidget {
@@ -30,8 +31,18 @@ class _CarrinhoState extends State<Carrinho> {
       backgroundColor: paletteWhite,
       body: Column(
         children: [
-          SingleChildScrollView(
-            child: Column(),
+          Padding(
+            padding: const EdgeInsets.only(top: 20,),
+            child: SingleChildScrollView(
+              child: Flex(
+                direction: Axis.vertical,
+                children: [
+          
+                  cartTileTemplate(titleBook: 'NOME DE LIVRO MUITO GRANDE PRA PODER TESTAR SE ELE TA PEGANDO CERTIN',),
+          
+                ],
+              ),
+            ),
           ),
           Spacer(),
           Divider(
@@ -60,20 +71,20 @@ class _CarrinhoState extends State<Carrinho> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 30),
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: paletteYellow
               ),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+                padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
                 child: Text(
                   'FINALIZAR COMPRA',
                   style: TextStyle(
                       color: paletteBlack,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20),
+                      fontSize: 18),
                 ),
               ),
             ),
