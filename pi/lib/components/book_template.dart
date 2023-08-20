@@ -50,7 +50,7 @@ class BookTemplate extends StatelessWidget {
                   nomeLivro,
                   style: const TextStyle(
                     color: paletteWhite,
-                    fontSize: 11,
+                    fontSize: 12,
                   ),
                   softWrap: false,
                   maxLines: 4,

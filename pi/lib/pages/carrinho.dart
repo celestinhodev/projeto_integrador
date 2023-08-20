@@ -32,66 +32,89 @@ class _CarrinhoState extends State<Carrinho> {
       backgroundColor: paletteWhite,
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20,),
+          Container(
+            padding: EdgeInsets.only(top: 10),
+            height: 408,
             child: SingleChildScrollView(
-              child: Flex(
-                direction: Axis.vertical,
+              child: Column(
                 children: [
-          
-                  cartTileTemplate(titleBook: 'NOME DE LIVRO MUITO GRANDE PRA PODER TESTAR SE ELE TA PEGANDO CERTIN',),
-          
+                  cartTileTemplate(
+                    titleBook:
+                        'NOME DE LIVRO MUITO GRANDE PRA PODER TESTAR SE ELE TA PEGANDO CERTIN',
+                    amount: 2,
+                    price: 65.35,
+                  ),
+                  cartTileTemplate(
+                    titleBook: 'Nome de livro 2 pra testar se ta tudo certinho',
+                    amount: 9,
+                    price: 35.10,
+                  ),
+                  cartTileTemplate(
+                    titleBook: 'Nome de livro 3 pra testar se ta tudo certinho',
+                    amount: 2,
+                    price: 35.10,
+                  ),
+                  cartTileTemplate(
+                    titleBook: 'Nome de livro 4 pra testar se ta tudo certinho',
+                    amount: 3,
+                    price: 35.10,
+                  ),
                 ],
               ),
             ),
           ),
-          const Spacer(),
-          const Divider(
-            color: paletteBlack,
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'SUBTOTAL',
-                  style: TextStyle(
-                      color: paletteBlack,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-                Text(
-                  'R\$${subtotalPrice.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                      color: paletteBlack,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: paletteYellow
-              ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
-                child: Text(
-                  'FINALIZAR COMPRA',
-                  style: TextStyle(
-                      color: paletteBlack,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-              ),
-            ),
-          )
         ],
       ),
+      bottomSheet: Container(
+        height: 118,
+        child: Column(
+          children: [
+            const Divider(
+              color: paletteBlack,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30, 0, 30, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'SUBTOTAL',
+                    style: TextStyle(
+                        color: paletteBlack,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                  Text(
+                    'R\$${subtotalPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                        color: paletteBlack,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(backgroundColor: paletteYellow),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
+                  child: Text(
+                    'FINALIZAR COMPRA',
+                    style: TextStyle(
+                        color: paletteBlack,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
             route: const Home(), icon: const Icon(Icons.home), current: false),

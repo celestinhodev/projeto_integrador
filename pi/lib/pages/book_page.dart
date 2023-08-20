@@ -72,7 +72,8 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     carouselController: bookCarouselController,
                     options: CarouselOptions(
                       //Configurações do carrossel
-                      height: 350,
+                      initialPage: 0,
+                      height: 300,
                       enlargeCenterPage: true,
                       scrollDirection: Axis.vertical,
                       viewportFraction: 1,
@@ -86,7 +87,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   Positioned(
                     right: 30,
                     child: Container(
-                      height: 350,
+                      height: 300,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(
@@ -97,7 +98,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                             unselectedColor: paletteWhite,
                             selectedColor: paletteBlack,
                             value: index,
-                            size: 18,
+                            size: 16,
                             onChanged: (value) {
                               setState(() {
                                 _value = value!;
@@ -123,7 +124,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     nomeLivro,
                     style: const TextStyle(
                       color: paletteWhite,
-                      fontSize: 20,
+                      fontSize: 18,
                     ),
                   ),
 
@@ -143,7 +144,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         'R\$${precoLivro}',
                         style: const TextStyle(
                           color: paletteWhite,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
 
@@ -160,7 +161,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         generoLivro,
                         style: const TextStyle(
                           color: paletteWhite,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                     ],
@@ -182,7 +183,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     'DESCRIÇÃO',
                     style: TextStyle(
                       color: paletteWhite,
-                      fontSize: 20,
+                      fontSize: 18,
                     ),
                   ),
 
@@ -197,11 +198,15 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: paletteWhite,
-                      fontSize: 16,
+                      fontSize: 14,
                     ),
                   ),
                 ],
               ),
+            ),
+
+            SizedBox(
+              height: 50,
             ),
           ],
         ),

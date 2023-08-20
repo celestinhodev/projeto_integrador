@@ -69,12 +69,14 @@ class _HomeState extends State<Home> {
                       carouselController: carouselController,
                       options: CarouselOptions(
                         //Configurações do carrossel
-                        initialPage: 1,  //escolhe a imagem q vai começar (estetic)
-                        height: 250,
+                        initialPage:
+                            1, //escolhe a imagem q vai começar (estetic)
+                        height: 220,
                         enlargeCenterPage: true,
                         scrollDirection: Axis.horizontal,
                         viewportFraction: 1,
-                        pauseAutoPlayOnTouch: true, //pausa a rolagem do carrossel quando clicado (não está funcionando :/)
+                        pauseAutoPlayOnTouch:
+                            true, //pausa a rolagem do carrossel quando clicado (não está funcionando :/)
                         autoPlayInterval: const Duration(seconds: 5),
                         autoPlay: true,
                         onPageChanged: (index, reason) {
@@ -124,7 +126,7 @@ class _HomeState extends State<Home> {
 
             // Titulo lançamento
             const Padding(
-              padding: EdgeInsets.fromLTRB(10, 20, 0, 0),
+              padding: EdgeInsets.fromLTRB(22, 20, 0, 0),
               child: Text(
                 'Lançamentos',
                 style: TextStyle(
@@ -137,22 +139,58 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
 
             //Linha 1 -----------------------------------------------------------------------
-            GridView(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, mainAxisExtent: 220),
-              shrinkWrap: true,
-
-              children: [
-                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'A Menina que Navegou ao Reino Encantado no Barco que ela Mesma Fez',),
-                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'A Fantastica fabrica de mamadores',),
-                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '3',),
-                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '4',),
-                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '5',),
-                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '6',),
-                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '7',),
-                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '8',),
-                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '9',),
-                BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: '10',),
-              ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+              child: GridView(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4, 
+                  mainAxisExtent: 225,
+                ),
+                shrinkWrap: true,
+                children: [
+                  BookTemplate(
+                    caminhoImagem: 'images/livros/livro.png',
+                    nomeLivro:
+                        'A Menina que Navegou ao Reino Encantado no Barco que ela Mesma Fez',
+                  ),
+                  BookTemplate(
+                    caminhoImagem: 'images/livros/livro.png',
+                    nomeLivro: 'A Fantastica fabrica de mamadores',
+                  ),
+                  BookTemplate(
+                    caminhoImagem: 'images/livros/livro.png',
+                    nomeLivro: '3',
+                  ),
+                  BookTemplate(
+                    caminhoImagem: 'images/livros/livro.png',
+                    nomeLivro: '4',
+                  ),
+                  BookTemplate(
+                    caminhoImagem: 'images/livros/livro.png',
+                    nomeLivro: '5',
+                  ),
+                  BookTemplate(
+                    caminhoImagem: 'images/livros/livro.png',
+                    nomeLivro: '6',
+                  ),
+                  BookTemplate(
+                    caminhoImagem: 'images/livros/livro.png',
+                    nomeLivro: '7',
+                  ),
+                  BookTemplate(
+                    caminhoImagem: 'images/livros/livro.png',
+                    nomeLivro: '8',
+                  ),
+                  BookTemplate(
+                    caminhoImagem: 'images/livros/livro.png',
+                    nomeLivro: '9',
+                  ),
+                  BookTemplate(
+                    caminhoImagem: 'images/livros/livro.png',
+                    nomeLivro: '10',
+                  ),
+                ],
+              ),
             ),
           ],
         ),
