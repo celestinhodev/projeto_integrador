@@ -11,13 +11,13 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  TextStyle? textStylePages = TextStyle(
+  TextStyle? textStylePages = const TextStyle(
     color: paletteBlack,
     fontSize: 16,
     fontWeight: FontWeight.bold,
   );
 
-  TextStyle? textStyleCategories = TextStyle(
+  TextStyle? textStyleCategories = const TextStyle(
     color: paletteBlack,
     fontSize: 16,
   );
@@ -33,7 +33,7 @@ class _MyDrawerState extends State<MyDrawer> {
             child: DrawerHeader(
               padding: EdgeInsets.zero,
               margin: EdgeInsets.zero,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: paletteBlack,
               ),
               child: Row(
@@ -44,10 +44,10 @@ class _MyDrawerState extends State<MyDrawer> {
                     'images/logo-transparent.png',
                     height: 40,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
-                  Text(
+                  const Text(
                     'Bem vindo Leitor!',
                     style: TextStyle(
                       color: paletteYellow,
@@ -61,45 +61,45 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             title: Text('Home', style: textStylePages),
-            contentPadding: EdgeInsets.only(left: 35),
+            contentPadding: const EdgeInsets.only(left: 35),
             onTap: () {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Home(),
+                  builder: (context) => const Home(),
                 ),
               );
             },
           ),
           ListTile(
             title: Text('Meus Pedidos', style: textStylePages),
-            contentPadding: EdgeInsets.only(left: 35),
+            contentPadding: const EdgeInsets.only(left: 35),
             onTap: () {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Carrinho(),
+                  builder: (context) => const Carrinho(),
                 ),
               );
             },
           ),
           ListTile(
             title: Text('Meu perfil', style: textStylePages),
-            contentPadding: EdgeInsets.only(left: 35),
+            contentPadding: const EdgeInsets.only(left: 35),
             onTap: () {
               // Update the state of the app.
               // ...
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          MySeparator(
+          const MySeparator(
             color: Colors.grey,
             height: 3,
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(35, 20, 35, 5),
+            padding: const EdgeInsets.fromLTRB(35, 20, 35, 5),
             child: Text(
               'Categorias',
               style: textStylePages,
@@ -107,7 +107,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             title: Text('> Terror', style: textStyleCategories),
-            contentPadding: EdgeInsets.only(left: 45),
+            contentPadding: const EdgeInsets.only(left: 45),
             onTap: () {
               // Update the state of the app.
               // ...
@@ -115,7 +115,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             title: Text('> Romance', style: textStyleCategories),
-            contentPadding: EdgeInsets.only(left: 45),
+            contentPadding: const EdgeInsets.only(left: 45),
             onTap: () {
               // Update the state of the app.
               // ...
@@ -123,7 +123,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             title: Text('> Fantasia', style: textStyleCategories),
-            contentPadding: EdgeInsets.only(left: 45),
+            contentPadding: const EdgeInsets.only(left: 45),
             onTap: () {
               // Update the state of the app.
               // ...
@@ -131,7 +131,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             title: Text('> Infantil', style: textStyleCategories),
-            contentPadding: EdgeInsets.only(left: 45),
+            contentPadding: const EdgeInsets.only(left: 45),
             onTap: () {
               // Update the state of the app.
               // ...

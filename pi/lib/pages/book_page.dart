@@ -40,6 +40,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     carouselItens = [
       Hero(
@@ -120,13 +121,13 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   // Nome Livro
                   Text(
                     nomeLivro,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: paletteWhite,
                       fontSize: 20,
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
 
@@ -134,30 +135,30 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   Row(
                     children: [
                       // Preço
-                      Icon(
+                      const Icon(
                         Icons.shopping_cart,
                         color: paletteWhite,
                       ),
                       Text(
                         'R\$${precoLivro}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: paletteWhite,
                           fontSize: 20,
                         ),
                       ),
 
-                      SizedBox(
+                      const SizedBox(
                         width: 50,
                       ),
 
                       // Genero
-                      Icon(
+                      const Icon(
                         Icons.art_track,
                         color: paletteWhite,
                       ),
                       Text(
                         generoLivro,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: paletteWhite,
                           fontSize: 20,
                         ),
@@ -165,19 +166,19 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     ],
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
 
-                  Divider(
+                  const Divider(
                     color: paletteWhite,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
 
-                  Text(
+                  const Text(
                     'DESCRIÇÃO',
                     style: TextStyle(
                       color: paletteWhite,
@@ -185,7 +186,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
 
@@ -194,7 +195,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     maxLines: 99999,
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: paletteWhite,
                       fontSize: 16,
                     ),
@@ -215,7 +216,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 style: TextButton.styleFrom(
                   backgroundColor: paletteYellow,
                 ),
-                child: Text(
+                child: const Text(
                   'COMPRAR',
                   style: TextStyle(
                     color: paletteBlack,
@@ -233,7 +234,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 style: TextButton.styleFrom(
                   backgroundColor: paletteBrown,
                 ),
-                child: Text(
+                child: const Text(
                   'ADICIONAR AO CARRINHO',
                   style: TextStyle(
                     color: paletteWhite,
@@ -246,13 +247,13 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-            route: Home(), icon: Icon(Icons.home), current: false),
+            route: const Home(), icon: const Icon(Icons.home), current: false),
         search: MyIconButtonNavigator(
-            route: Home(), icon: Icon(Icons.search), current: false),
+            route: const Home(), icon: const Icon(Icons.search), current: false),
         cart: MyIconButtonNavigator(
-            route: Home(), icon: Icon(Icons.shopping_cart), current: false),
+            route: const Home(), icon: const Icon(Icons.shopping_cart), current: false),
         user: MyIconButtonNavigator(
-            route: Home(), icon: Icon(Icons.person), current: false),
+            route: const Home(), icon: const Icon(Icons.person), current: false),
       ),
     );
   }

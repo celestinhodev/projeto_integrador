@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/cores.dart';
+import 'package:pi/pages/search.dart';
 
 import '../components/cardTileTemplate.dart';
 import 'home.dart';
@@ -20,7 +21,7 @@ class _CarrinhoState extends State<Carrinho> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'CARRINHO',
           style: TextStyle(color: paletteBlack, fontWeight: FontWeight.bold),
         ),
@@ -44,8 +45,8 @@ class _CarrinhoState extends State<Carrinho> {
               ),
             ),
           ),
-          Spacer(),
-          Divider(
+          const Spacer(),
+          const Divider(
             color: paletteBlack,
           ),
           Padding(
@@ -53,7 +54,7 @@ class _CarrinhoState extends State<Carrinho> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'SUBTOTAL',
                   style: TextStyle(
                       color: paletteBlack,
@@ -62,7 +63,7 @@ class _CarrinhoState extends State<Carrinho> {
                 ),
                 Text(
                   'R\$${subtotalPrice.toStringAsFixed(2)}',
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: paletteBlack,
                       fontWeight: FontWeight.bold,
                       fontSize: 18),
@@ -95,11 +96,11 @@ class _CarrinhoState extends State<Carrinho> {
         home: MyIconButtonNavigator(
             route: const Home(), icon: const Icon(Icons.home), current: false),
         search: MyIconButtonNavigator(
-            route: const Home(),
+            route: const SearchScreen(),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: const Home(),
+            route: const Carrinho(),
             icon: const Icon(Icons.shopping_cart),
             current: true),
         user: MyIconButtonNavigator(
