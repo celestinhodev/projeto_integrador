@@ -37,7 +37,7 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
   Widget build(BuildContext context) {
     return Container(
       height: 160,
-      padding: EdgeInsets.only(bottom: 5),
+      padding: const EdgeInsets.only(bottom: 5),
       child: GridTile(
         child: Row(
           children: [
@@ -51,10 +51,10 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    constraints: BoxConstraints(
+                    constraints: const BoxConstraints(
                       maxWidth: 260,
                     ),
-                    child: Text(
+                    child: const Text(
                       'Titulo aqui muito grande pra eu testar se ta quebrando e descendo pra outra linha',
                       style: TextStyle(
                         fontSize: 17,
@@ -65,7 +65,7 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                       maxLines: 4,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: [
                       IconButton(
@@ -74,13 +74,13 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                             amount--;
                           });
                         },
-                        icon: Icon(Icons.remove),
+                        icon: const Icon(Icons.remove),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: paletteBlack,
@@ -90,14 +90,14 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                         child: Center(
                           child: Text(
                             amount.toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       IconButton(
@@ -106,14 +106,14 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                             amount++;
                           });
                         },
-                        icon: Icon(Icons.add),
+                        icon: const Icon(Icons.add),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
                       Text(
                         'x R\$${(amount * price).toStringAsFixed(2)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -123,7 +123,7 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 55,
             ),
           ],

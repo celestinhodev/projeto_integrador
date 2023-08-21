@@ -4,7 +4,7 @@ import 'package:pi/pages/home.dart';
 import '../constantes/cores.dart';
 
 class MyDrawer extends StatefulWidget {
-  MyDrawer({super.key});
+  const MyDrawer({super.key});
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();

@@ -39,11 +39,11 @@ class MyRadioOption<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(6),
+      margin: const EdgeInsets.all(6),
       child: InkWell(
         onTap: () => onChanged(value),
         child: Padding(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: Row(
             children: [
               _buildLabel(),

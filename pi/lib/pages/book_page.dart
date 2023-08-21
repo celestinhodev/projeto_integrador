@@ -205,7 +205,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
               ),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
           ],

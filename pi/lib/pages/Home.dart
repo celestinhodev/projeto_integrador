@@ -31,6 +31,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     carouselBannerItens = [
       Image.asset('images/livros/livro.png'),
@@ -46,7 +47,7 @@ class _HomeState extends State<Home> {
       // Comum Component App Bar
       appBar: BookTokAppBar,
 
-      drawer: MyDrawer(),
+      drawer: const MyDrawer(),
 
       backgroundColor: paletteBlack,
       body: SingleChildScrollView(
@@ -88,7 +89,6 @@ class _HomeState extends State<Home> {
                   ),
                   Positioned(
                     bottom: 0,
-                    // ignore: sized_box_for_whitespace
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: Row(

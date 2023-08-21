@@ -33,7 +33,7 @@ class _CarrinhoState extends State<Carrinho> {
       body: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10),
             height: 408,
             child: SingleChildScrollView(
               child: Column(
@@ -99,8 +99,8 @@ class _CarrinhoState extends State<Carrinho> {
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(backgroundColor: paletteYellow),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(35, 10, 35, 10),
+                child: const Padding(
+                  padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
                   child: Text(
                     'FINALIZAR COMPRA',
                     style: TextStyle(
