@@ -15,10 +15,6 @@ import '../constantes/cores.dart';
 
 //carrossel (organizar depois)
 import 'package:carousel_slider/carousel_slider.dart'; // Importe a biblioteca aqui
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_controller.dart';
-import 'package:carousel_slider/carousel_state.dart';
-import 'package:carousel_slider/utils.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
