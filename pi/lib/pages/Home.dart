@@ -1,5 +1,6 @@
 // Packages
 import 'package:flutter/material.dart';
+import 'package:appwrite/appwrite.dart';
 
 // Components
 import 'package:pi/components/book_template.dart';
