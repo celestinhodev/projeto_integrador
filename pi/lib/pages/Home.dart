@@ -9,6 +9,7 @@ import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/pages/carrinho.dart';
 import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
+import 'package:pi/system/appwrite_module.dart';
 
 // Constantes
 import '../components/drawer.dart';
@@ -30,6 +31,8 @@ class _HomeState extends State<Home> {
   int _value = 0;
 
   List<Widget> carouselBannerItens = [];
+
+  AppwriteModule appwriteModule = new AppwriteModule();
 
   @override
   void initState() {
@@ -119,7 +122,12 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-
+            TextButton(
+              onPressed: () {
+                appwriteModule.uploadImage();
+              },
+              child: Text('Tentativa'),
+            ),
             //Fim do Carrossel ----------------------------------------------------------------
 
             // Titulo lançamento
@@ -141,7 +149,7 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4, 
+                  crossAxisCount: 4,
                   mainAxisExtent: 225,
                 ),
                 shrinkWrap: true,

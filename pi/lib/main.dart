@@ -4,5 +4,5 @@ import 'package:pi/pages/login.dart';
 
 void main() => runApp(const MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: Login(),
+  home: Home(),
 ));
