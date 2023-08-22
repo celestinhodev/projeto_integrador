@@ -3,6 +3,9 @@ import 'dart:html';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:pi/pages/carrinho.dart';
+import 'package:pi/pages/profile.dart';
+import 'package:pi/pages/search.dart';
 
 // Components
 import '../components/booktok_appbar.dart';
@@ -254,11 +257,11 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
         home: MyIconButtonNavigator(
             route: const Home(), icon: const Icon(Icons.home), current: false),
         search: MyIconButtonNavigator(
-            route: const Home(), icon: const Icon(Icons.search), current: false),
+            route: const SearchScreen(), icon: const Icon(Icons.search), current: false),
         cart: MyIconButtonNavigator(
-            route: const Home(), icon: const Icon(Icons.shopping_cart), current: false),
+            route: const Carrinho(), icon: const Icon(Icons.shopping_cart), current: false),
         user: MyIconButtonNavigator(
-            route: const Home(), icon: const Icon(Icons.person), current: false),
+            route: const Profile(), icon: const Icon(Icons.person), current: false),
       ),
     );
   }
