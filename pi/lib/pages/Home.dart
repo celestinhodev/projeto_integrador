@@ -7,6 +7,7 @@ import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/pages/carrinho.dart';
+import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
 
 // Constantes
@@ -206,7 +207,7 @@ class _HomeState extends State<Home> {
             icon: const Icon(Icons.shopping_cart),
             current: false),
         user: MyIconButtonNavigator(
-            route: const Home(),
+            route: const Profile(),
             icon: const Icon(Icons.person),
             current: false),
       ),

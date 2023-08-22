@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/cores.dart';
+import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
 
 import '../components/cardTileTemplate.dart';
@@ -127,7 +128,7 @@ class _CarrinhoState extends State<Carrinho> {
             icon: const Icon(Icons.shopping_cart),
             current: true),
         user: MyIconButtonNavigator(
-            route: const Home(),
+            route: const Profile(),
             icon: const Icon(Icons.person),
             current: false),
       ),

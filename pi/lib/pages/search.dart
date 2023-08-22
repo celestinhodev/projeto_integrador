@@ -9,6 +9,7 @@ import 'package:pi/constantes/cores.dart';
 //Componentes
 import 'package:pi/pages/Home.dart';
 import 'package:pi/pages/carrinho.dart';
+import 'package:pi/pages/profile.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -72,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
           current: true,
           ),
         user: MyIconButtonNavigator(
-          route: const Home(),
+          route: const Profile(),
           icon: const Icon(Icons.person),
           current: false,
         ),
