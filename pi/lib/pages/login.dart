@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
                 decoration: InputDecoration(
                   hintText: 'Email',
                   hintStyle: TextStyle(color: paletteWhite),
-                  fillColor: paletteGrey,
+                  fillColor: paletteDarkGrey,
                   filled: true,
                 ),
               ),
@@ -43,7 +43,7 @@ class _LoginState extends State<Login> {
                 decoration: InputDecoration(
                   hintText: 'Senha',
                   hintStyle: const TextStyle(color: paletteWhite),
-                  fillColor: paletteGrey,
+                  fillColor: paletteDarkGrey,
                   filled: true,
                   suffixIcon: GestureDetector(
                     onTap: () {
@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
                 ),
 
               onPressed: () {
-              print('Executando...');
+              //logica aqui
               },
                 child: const Text(
                   'Esqueceu a senha?',
@@ -81,13 +81,13 @@ class _LoginState extends State<Login> {
               ),
             ),
             const SizedBox(height: 50),
-            /////////////Botão login////////////////
+            ///////////////Botão login////////////////
             TextButton(
               style: TextButton.styleFrom(
               //cor do foregroud
                 foregroundColor: paletteBlack,
                 //cor do background
-                backgroundColor: paletteYellow,
+                backgroundColor: paletteYellow2,
                 //Espaçamento dentro do botão
                 padding: 
                 const EdgeInsets.symmetric(
@@ -96,7 +96,7 @@ class _LoginState extends State<Login> {
                   ) 
               ),
               onPressed: () {
-                print('Executando...');
+                //logica aqui
               },
               child: const Text(
                 'Login',
@@ -112,7 +112,7 @@ class _LoginState extends State<Login> {
                 color: paletteWhite,
                 fontSize: 25
               ),
-              )
+            )
           ],  
         ),
       ),
