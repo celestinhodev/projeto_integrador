@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/components/navigation_bar.dart';
-import 'package:pi/constantes/appwrite_constants.dart';
 import 'package:pi/pages/carrinho.dart';
 import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
@@ -34,6 +33,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    super.initState();
     // ignore: todo
     // TODO: implement initState
     carouselBannerItens = [

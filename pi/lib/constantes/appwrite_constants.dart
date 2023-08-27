@@ -94,7 +94,8 @@ class AppwriteConstants {
         await uploadImages(listImages: listPreparedImages);
 
     try {
-      var response = database.createDocument(
+      // ignore: unused_local_variable
+      var response = await database.createDocument(
           databaseId: databaseId,
           collectionId: bookCollectionId,
           documentId: ID.unique(),

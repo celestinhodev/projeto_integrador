@@ -18,6 +18,7 @@ class TextFieldAdmin extends StatefulWidget {
   });
 
   @override
+  // ignore: no_logic_in_create_state
   State<TextFieldAdmin> createState() => _MyTextFieldState(
       hintText: hintText,
       controller: controller,
@@ -48,6 +49,7 @@ class _MyTextFieldState extends State<TextFieldAdmin> {
     if (text.isEmpty) {
       return 'O campo precisa ser preenchido.';
     }
+    return null;
   }
 
   @override
@@ -72,11 +74,11 @@ class _MyTextFieldState extends State<TextFieldAdmin> {
         // Borders
         border: OutlineInputBorder(),
         enabledBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: paletteWhite)),
+            const OutlineInputBorder(borderSide: BorderSide(color: paletteWhite)),
         disabledBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: paletteWhite)),
+            const OutlineInputBorder(borderSide: BorderSide(color: paletteWhite)),
             focusedBorder: 
-            OutlineInputBorder(borderSide: BorderSide(color: paletteYellow)),
+            const OutlineInputBorder(borderSide: BorderSide(color: paletteYellow)),
         suffixIcon: suffixIcon,
 
         // Background Color,
