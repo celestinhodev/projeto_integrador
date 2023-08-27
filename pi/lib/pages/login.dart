@@ -10,7 +10,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool _senhaVisivel = false;
+  bool _senhaLogin = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _LoginState extends State<Login> {
             Padding(
               padding: const EdgeInsets.fromLTRB(60, 0, 60, 5),
               child: TextField(
-                obscureText: !_senhaVisivel,
+                obscureText: !_senhaLogin,
                 decoration: InputDecoration(
                   hintText: 'Senha',
                   hintStyle: const TextStyle(color: paletteWhite),
@@ -48,13 +48,11 @@ class _LoginState extends State<Login> {
                   suffixIcon: GestureDetector(
                     onTap: () {
                       setState(() {
-                        _senhaVisivel = !_senhaVisivel;
+                        _senhaLogin = !_senhaLogin;
                       });
                     },
                     child: Icon(
-                      _senhaVisivel
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                      _senhaLogin ? Icons.visibility : Icons.visibility_off,
                       color: paletteBlack,
                     ),
                   ),
@@ -62,46 +60,44 @@ class _LoginState extends State<Login> {
               ),
             ),
             //////////////Esqueceu a senha///////////////////////////
-            Padding(padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
               child: TextButton(
                 style: TextButton.styleFrom(
-                //cor do foregroud
-                foregroundColor: paletteWhite,
+                  //cor do foregroud
+                  foregroundColor: paletteWhite,
                 ),
-
-              onPressed: () {
-              //logica aqui
-              },
+                onPressed: () {
+                  //logica aqui
+                },
                 child: const Text(
                   'Esqueceu a senha?',
                   style: TextStyle(
-                    fontSize: 20
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 50),
             ///////////////Botão login////////////////
-            TextButton(
-              style: TextButton.styleFrom(
-              //cor do foregroud
-                foregroundColor: paletteBlack,
-                //cor do background
-                backgroundColor: paletteYellow2,
-                //Espaçamento dentro do botão
-                padding: 
-                const EdgeInsets.symmetric(
-                  horizontal: 165,
-                  vertical: 20
-                  ) 
-              ),
-              onPressed: () {
-                //logica aqui
-              },
-              child: const Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 20
+            Container(
+              width: 200,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: paletteBlack,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 20,
+                  ),
+                ),
+                onPressed: () {
+                  //logica aqui
+                },
+                child: const Text(
+                  'Login',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
@@ -110,10 +106,21 @@ class _LoginState extends State<Login> {
               'Ou, entre com',
               style: TextStyle(
                 color: paletteWhite,
-                fontSize: 25
+                fontSize: 25,
               ),
-            )
-          ],  
+            ),
+            Row(
+              children: const [
+                Text(
+                  'Não tem uma conta?',
+                  style: TextStyle(
+                    color: paletteWhite,
+                    fontSize: 25,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
