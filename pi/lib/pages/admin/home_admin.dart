@@ -1,4 +1,7 @@
 // Packages
+import 'package:appwrite/models.dart' as models;
+
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 
 // Components
@@ -7,13 +10,9 @@ import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/appwrite_constants.dart';
 import 'package:pi/pages/admin/book_page_admin.dart';
-import 'package:pi/pages/carrinho.dart';
-import 'package:pi/pages/profile.dart';
-import 'package:pi/pages/search.dart';
+
 
 // Constantes
-import '../../components/drawer.dart';
-import '../../components/radio_button.dart';
 import '../../constantes/cores.dart';
 
 //carrossel (organizar depois)
@@ -51,12 +50,16 @@ class _HomeAdminState extends State<HomeAdmin> {
         for (var element in response!.documents) {
 
           String title = element.data['title'];
+          String fileId = element.data['listImages'].toString().replaceAll('[', '').replaceAll(']', '').split(',')[0];
 
           bookResponse.add(BookTemplate(
               caminhoImagem: 'images/livros/livro.png',
               nomeLivro: title,
               admin: true));
+          
+          await getImage(fileId);
         }
+      
       
       setState(() {
         books = bookResponse;
@@ -65,6 +68,12 @@ class _HomeAdminState extends State<HomeAdmin> {
     } catch (e) {
       print('Erro getBooks(): ' + e.toString());
     }
+  }
+
+  getImage(fileId) async {
+    var response = await appwrite_constants.storage.getFile(bucketId: appwrite_constants.bucketId, fileId: fileId);
+    print(response.);
+
   }
 
   @override

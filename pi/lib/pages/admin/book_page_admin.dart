@@ -1,5 +1,4 @@
 // Packages
-import 'dart:js_interop';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +55,7 @@ class _CreateBookPageState extends State<CreateBookPage> {
   void addImage() async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (!image.isNull) {
+    if (image != null) {
       if (containsPlaceHolder == true) {
         carouselItens.clear();
         containsPlaceHolder = false;
@@ -340,7 +339,7 @@ class _CreateBookPageState extends State<CreateBookPage> {
                     description = bookDescriptionController.text;
                   });
 
-                  if (listPath.isNotEmpty && !listPath.isNull) {
+                  if (listPath.isNotEmpty && listPath != null) {
                     listPath.forEach((path) {
                       listXFilesImages.add(XFile(path));
                     });
