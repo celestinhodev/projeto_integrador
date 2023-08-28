@@ -104,43 +104,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 shrinkWrap: true,
                 children: [
-                  BookTemplate(
-                    caminhoImagem: 'images/livros/livro.png',
-                    nomeLivro:
-                        'A Menina que Navegou ao Reino Encantado no Barco que ela Mesma Fez',
-                  ),
-                  BookTemplate(
-                    caminhoImagem: 'images/livros/livro.png',
-                    nomeLivro: 'A Fantastica fabrica de mamadores',
-                  ),
-                  BookTemplate(
-                    caminhoImagem: 'images/livros/livro.png',
-                    nomeLivro: '3',
-                  ),
-                  BookTemplate(
-                    caminhoImagem: 'images/livros/livro.png',
-                    nomeLivro: '4',
-                  ),
-                  BookTemplate(
-                    caminhoImagem: 'images/livros/livro.png',
-                    nomeLivro: '5',
-                  ),
-                  BookTemplate(
-                    caminhoImagem: 'images/livros/livro.png',
-                    nomeLivro: '6',
-                  ),
-                  BookTemplate(
-                    caminhoImagem: 'images/livros/livro.png',
-                    nomeLivro: '7',
-                  ),
-                  BookTemplate(
-                    caminhoImagem: 'images/livros/livro.png',
-                    nomeLivro: '8',
-                  ),
-                  BookTemplate(
-                    caminhoImagem: 'images/livros/livro.png',
-                    nomeLivro: '9',
-                  ),
+                  
                 ],
               ),
             ),

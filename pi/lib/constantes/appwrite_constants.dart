@@ -24,7 +24,7 @@ class AppwriteConstants {
 
   Future<DocumentList?> getDocuments() async {
     try {
-      final DocumentList response = await database.listDocuments(
+      DocumentList response = await database.listDocuments(
           databaseId: databaseId, collectionId: bookCollectionId);
 
       return response;
@@ -69,7 +69,7 @@ class AppwriteConstants {
     }
   }
 
-  void createDocument(
+  dynamic createDocument(
       {required String title,
       required String author,
       required String price,

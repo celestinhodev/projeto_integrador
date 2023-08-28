@@ -6,26 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 // Components
-import '../components/booktok_appbar.dart';
-import '../components/radio_button.dart';
-import '../components/textInputAdmin.dart';
-import '../constantes/cores.dart';
+import '../../components/booktok_appbar.dart';
+import '../../components/radio_button.dart';
+import '../../components/textInputAdmin.dart';
+import '../../constantes/cores.dart';
 
 // Constants
-import '../constantes/appwrite_constants.dart';
+import '../../constantes/appwrite_constants.dart';
+import 'home_admin.dart';
 
 // BookDetail Page
 class CreateBookPage extends StatefulWidget {
-  CreateBookPage({super.key});
+  String? nomeLivro;
+  CreateBookPage({super.key, this.nomeLivro = 'Insira o titulo aqui...'});
 
   @override
-  State<CreateBookPage> createState() => _CreateBookPageState();
+  // ignore: no_logic_in_create_state
+  State<CreateBookPage> createState() => _CreateBookPageState(nomeLivro: nomeLivro);
 }
 
 class _CreateBookPageState extends State<CreateBookPage> {
+  _CreateBookPageState({this.nomeLivro = 'Insira o titulo aqui...'});
+
   AppwriteConstants appwrite_constants = AppwriteConstants();
 
-  String nomeLivro = 'Titulo do livro aqui...';
+  String? nomeLivro;
   String descricaoLivro = 'Insira a descrição do livro aqui...';
   String autorLivro = 'Author do livro aqui...';
   String precoLivro = 'Preço aqui..';
@@ -200,7 +205,7 @@ class _CreateBookPageState extends State<CreateBookPage> {
                   // Nome Livro
                   TextFieldAdmin(
                     controller: bookTitleController,
-                    hintText: nomeLivro,
+                    hintText: nomeLivro!,
                     keyboardType: TextInputType.text,
                     obscureText: false,
                   ),
@@ -320,7 +325,7 @@ class _CreateBookPageState extends State<CreateBookPage> {
             child: Container(
               color: paletteYellow,
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
                   String title = '';
                   String author = 'a';
                   String price = '';
@@ -349,7 +354,7 @@ class _CreateBookPageState extends State<CreateBookPage> {
                       category != '' &&
                       description != '' &&
                       listXFilesImages.isNotEmpty) {
-                    appwrite_constants.createDocument(
+                    var response = await appwrite_constants.createDocument(
                         title: title,
                         author: author,
                         price: price,
@@ -359,6 +364,8 @@ class _CreateBookPageState extends State<CreateBookPage> {
                   } else {
                     print('Um dos itens está faltante');
                   }
+
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeAdmin(),));
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: paletteYellow,
