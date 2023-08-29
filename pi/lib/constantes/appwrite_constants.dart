@@ -112,4 +112,49 @@ class AppwriteConstants {
       print('Falha ao criar o documento.');
     }
   }
+
+  dynamic updateDocument(
+      {required String title,
+      required String author,
+      required String price,
+      required String category,
+      required String description,
+      required List<XFile> listXFiles,
+      required String? idDocument}) async {
+    List<InputFile> listPreparedImages = [];
+
+    print('Title: ${title.toString()}');
+    print('Author: ${author.toString()}');
+    print('Price: ${price.toString()}');
+    print('Category: ${category.toString()}');
+    print('Description: ${description.toString()}');
+
+    for (var element in listXFiles) {
+      listPreparedImages.add(await prepareImage(image: element, title: title,));
+    }
+
+    print('Images: $listPreparedImages');
+
+    List<String?>? listIdImages =
+        await uploadImages(listImages: listPreparedImages);
+
+    try {
+      // ignore: unused_local_variable
+      var response = await database.updateDocument(
+          databaseId: databaseId,
+          collectionId: bookCollectionId,
+          documentId: ID.unique(),
+          data: {
+            "title": title,
+            "price": price,
+            "category": category,
+            "author": author,
+            "description": description,
+            "listImages": listIdImages.toString(),
+          });
+      print('Documento criado com sucesso!!');
+    } catch (e) {
+      print('Falha ao criar o documento.');
+    }
+  }
 }

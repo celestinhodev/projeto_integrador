@@ -46,10 +46,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     // ignore: todo
     // TODO: implement initState
     carouselItens = [
-      Hero(
-        tag: nomeLivro,
-        child: Image.asset('images/livros/livro.png'),
-      ),
+      Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
