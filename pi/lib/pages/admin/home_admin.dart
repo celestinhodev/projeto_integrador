@@ -72,7 +72,7 @@ class _HomeAdminState extends State<HomeAdmin> {
 
   getImage(fileId) async {
     var response = await appwrite_constants.storage.getFile(bucketId: appwrite_constants.bucketId, fileId: fileId);
-    print(response.);
+    print('');
 
   }
 
@@ -90,7 +90,7 @@ class _HomeAdminState extends State<HomeAdmin> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //Carrossel -----------------------------------------------------------------------
-              Text(
+              const Text(
                 'Livros',
                 style: TextStyle(
                   fontSize: 20,
