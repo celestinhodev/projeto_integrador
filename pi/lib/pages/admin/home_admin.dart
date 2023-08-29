@@ -26,22 +26,22 @@ class HomeAdmin extends StatefulWidget {
 }
 
 class _HomeAdminState extends State<HomeAdmin> {
+  // Declaration's
+  // Appwrite
   AppwriteConstants appwrite_constants = AppwriteConstants();
 
+  // Carousel
   CarouselController carouselController = CarouselController();
   int _value = 0;
 
+  // Books
   List<Widget> books = [];
 
-  @override
-  void initState() {
-    super.initState();
-    // ignore: todo
-    // TODO: implement initState
 
-    getBooks();
-  }
+  // Constructor
 
+
+  // Methods
   void getBooks() async {
     List<Widget> bookResponse = [];
     try {
@@ -52,12 +52,13 @@ class _HomeAdminState extends State<HomeAdmin> {
           String title = element.data['title'];
           String fileId = element.data['listImages'].toString().replaceAll('[', '').replaceAll(']', '').split(',')[0];
 
+          models.File image = await getImage(fileId);
+
           bookResponse.add(BookTemplate(
-              caminhoImagem: 'images/livros/livro.png',
+              caminhoImagem: 'https://cloud.appwrite.io/v1/storage/buckets/${appwrite_constants.bucketId}/files/${image.$id}/view?project=${appwrite_constants.projectId}',
               nomeLivro: title,
+              idDocument: element.$id,
               admin: true));
-          
-          await getImage(fileId);
         }
       
       
@@ -70,12 +71,23 @@ class _HomeAdminState extends State<HomeAdmin> {
     }
   }
 
-  getImage(fileId) async {
-    var response = await appwrite_constants.storage.getFile(bucketId: appwrite_constants.bucketId, fileId: fileId);
-    print('');
+  Future<models.File> getImage(fileId) async {
+    models.File response = await appwrite_constants.storage.getFile(bucketId: appwrite_constants.bucketId, fileId: fileId);
 
+    return response;
   }
 
+  @override
+  void initState() {
+    super.initState();
+    // ignore: todo
+    // TODO: implement initState
+
+    getBooks();
+  }
+
+
+  // Layout
   @override
   Widget build(BuildContext context) {
     return Scaffold(
