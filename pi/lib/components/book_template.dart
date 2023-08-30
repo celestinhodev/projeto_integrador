@@ -52,8 +52,8 @@ class _BookTemplateState extends State<BookTemplate> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CreateBookPage(
-                  idDocument: widget.idDocument,
+                builder: (context) => BookCreationPage(
+                  documentId: widget.idDocument,
                 ),
               ),
             );

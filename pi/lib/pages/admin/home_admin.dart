@@ -47,7 +47,7 @@ class _HomeAdminState extends State<HomeAdmin> {
     if (listDocuments!.total != 0) {
       for (var element in listDocuments.documents) {
         String nomeLivro = element.data['title'];
-        List<String> listImagesUrl = appwrite_constants.imageUrlList(
+        List<String> listImagesUrl = appwrite_constants.getImageUrlList(
             listImages: appwrite_constants.prepareList(
                 listImagesString: element.data['listImages']));
 
@@ -126,7 +126,7 @@ class _HomeAdminState extends State<HomeAdmin> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CreateBookPage(),
+              builder: (context) => BookCreationPage(documentId: null,),
             ),
           );
         },

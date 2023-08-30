@@ -35,7 +35,6 @@ class AppwriteConstants {
     try {
       InputFile readyImage = InputFile.fromBytes(
           bytes: await image.readAsBytes(), filename: filename);
-      print('Imagem pronta.');
       return readyImage;
     } catch (e) {
       print('Error to prepareImage(): ${e}');
@@ -46,7 +45,7 @@ class AppwriteConstants {
   Future<List<String?>?> uploadImages(
       {required List<InputFile> listImages}) async {
 
-    List<String?>? listPath = [];
+    List<String?>? listImagesId = [];
 
     if (listImages.isNotEmpty) {
       for (var image in listImages) {
@@ -54,20 +53,18 @@ class AppwriteConstants {
           var response = await storage.createFile(
               bucketId: bucketId, fileId: ID.unique(), file: image);
 
-          listPath.add(response.$id.toString());
+          listImagesId.add(response.$id.toString());
         } catch (e) {
           print('Error on uploadFile(): ${e}');
         }
       }
-
-      print('Upload feito');
-      return listPath;
+      return listImagesId;
     } else {
       return null;
     }
   }
 
-  List<String> imageUrlList({required List<String>listImages}) {
+  List<String> getImageUrlList({required List<String>listImages}) {
     List<String> imageUrlList = [];
 
     for (var element in listImages) {
