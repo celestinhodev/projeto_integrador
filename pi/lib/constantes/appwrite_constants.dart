@@ -3,38 +3,34 @@ import 'package:appwrite/models.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AppwriteConstants {
-  String endPoint;
-  String projectId;
-  String databaseId;
-  String bookCollectionId;
-  String bucketId;
-
-  AppwriteConstants([
-    this.endPoint = 'https://cloud.appwrite.io/v1',
-    this.projectId = '64e4007617e6f144bc02',
-    this.databaseId = '64e4023ae7be07f9d20c',
-    this.bookCollectionId = '64e402567c80fa1abfcb',
-    this.bucketId = '64e403ad974f334b94c1',
-  ]);
+  // Declaration's
+  String endPoint = 'https://cloud.appwrite.io/v1';
+  String projectId = '64e4007617e6f144bc02';
+  String databaseId = '64e4023ae7be07f9d20c';
+  String bookCollectionId = '64e402567c80fa1abfcb';
+  String bucketId = '64e403ad974f334b94c1';
 
   late Client client = Client().setEndpoint(endPoint).setProject(projectId);
-
   late Databases database = Databases(client);
   late Storage storage = Storage(client);
 
-  Future<DocumentList?> getDocuments() async {
+
+  // Methods
+  // Process Methods
+  Future<Document?> getDocument({required String documentId}) async {
     try {
-      DocumentList response = await database.listDocuments(
-          databaseId: databaseId, collectionId: bookCollectionId);
+      return await database.getDocument(databaseId: databaseId, collectionId: bookCollectionId, documentId: documentId);
+    } catch (e) {}
 
-      return response;
-    } catch (e) {
-      return null;
-    }
+    return null;
   }
-
-  Future prepareImage({required XFile image, required String title}) async {
-    var filename = title.replaceAll(' ', '_');
+  
+  List<String> prepareList({required listImagesString}) {
+    return listImagesString.toString().replaceFirst('[', '').replaceFirst(']', '').split(', ');
+  }
+  
+  Future<InputFile?> prepareImage({required XFile image, required String title}) async {
+    String filename = title.replaceAll(' ', '_');
 
     try {
       InputFile readyImage = InputFile.fromBytes(
@@ -49,6 +45,7 @@ class AppwriteConstants {
 
   Future<List<String?>?> uploadImages(
       {required List<InputFile> listImages}) async {
+
     List<String?>? listPath = [];
 
     if (listImages.isNotEmpty) {
@@ -62,6 +59,7 @@ class AppwriteConstants {
           print('Error on uploadFile(): ${e}');
         }
       }
+
       print('Upload feito');
       return listPath;
     } else {
@@ -69,7 +67,29 @@ class AppwriteConstants {
     }
   }
 
-  dynamic createDocument(
+  List<String> imageUrlList({required List<String>listImages}) {
+    List<String> imageUrlList = [];
+
+    for (var element in listImages) {
+      imageUrlList.add('https://cloud.appwrite.io/v1/storage/buckets/$bucketId/files/$element/view?project=$projectId');
+    }
+
+    return imageUrlList;
+  }
+
+  // Final Methods
+  Future<DocumentList?> listDocuments() async {
+    try {
+      DocumentList response = await database.listDocuments(
+          databaseId: databaseId, collectionId: bookCollectionId);
+
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  void createDocument(
       {required String title,
       required String author,
       required String price,
@@ -78,17 +98,10 @@ class AppwriteConstants {
       required List<XFile> listXFiles}) async {
     List<InputFile> listPreparedImages = [];
 
-    print('Title: ${title.toString()}');
-    print('Author: ${author.toString()}');
-    print('Price: ${price.toString()}');
-    print('Category: ${category.toString()}');
-    print('Description: ${description.toString()}');
-
     for (var element in listXFiles) {
-      listPreparedImages.add(await prepareImage(image: element, title: title,));
+      InputFile? preparedImage = await prepareImage(image: element, title: title,);
+      listPreparedImages.add(preparedImage!);
     }
-
-    print('Images: $listPreparedImages');
 
     List<String?>? listIdImages =
         await uploadImages(listImages: listPreparedImages);
@@ -113,7 +126,7 @@ class AppwriteConstants {
     }
   }
 
-  dynamic updateDocument(
+  void updateDocument(
       {required String title,
       required String author,
       required String price,
@@ -121,26 +134,20 @@ class AppwriteConstants {
       required String description,
       required List<XFile> listXFiles,
       required String? idDocument}) async {
+    print('chegou no upload');
     List<InputFile> listPreparedImages = [];
 
-    print('Title: ${title.toString()}');
-    print('Author: ${author.toString()}');
-    print('Price: ${price.toString()}');
-    print('Category: ${category.toString()}');
-    print('Description: ${description.toString()}');
-
     for (var element in listXFiles) {
-      listPreparedImages.add(await prepareImage(image: element, title: title,));
+      InputFile? preparedImage = await prepareImage(image: element, title: title,);
+      listPreparedImages.add(preparedImage!);
     }
-
-    print('Images: $listPreparedImages');
 
     List<String?>? listIdImages =
         await uploadImages(listImages: listPreparedImages);
 
     try {
       // ignore: unused_local_variable
-      var response = await database.updateDocument(
+      Document response = await database.updateDocument(
           databaseId: databaseId,
           collectionId: bookCollectionId,
           documentId: ID.unique(),
@@ -156,5 +163,20 @@ class AppwriteConstants {
     } catch (e) {
       print('Falha ao criar o documento.');
     }
+  }
+
+  void deleteImage({required List<String> listImages}) async {
+    for (var element in listImages) {
+      await storage.deleteFile(bucketId: bucketId, fileId: element);
+    }
+  }
+
+  void deleteDocument(String documentId) async {
+    Document? document = await getDocument(documentId: documentId);
+    List<String> listImages = prepareList(listImagesString: document!.data['listImages']);
+
+    deleteImage(listImages: listImages);
+
+    var response = database.deleteDocument(databaseId: databaseId, collectionId: bookCollectionId, documentId: documentId);
   }
 }
