@@ -92,7 +92,7 @@ class _HomeAdminState extends State<HomeAdmin> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Titulo
+              //Carrossel -----------------------------------------------------------------------
               const Text(
                 'Livros',
                 style: TextStyle(

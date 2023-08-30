@@ -5,7 +5,7 @@ import 'package:pi/pages/login.dart';
 
 import 'pages/admin/home_admin.dart';
 
-void main() => runApp(MaterialApp(
+void main() => runApp(const MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: HomeAdmin(),
+  home: Login(),
 ));

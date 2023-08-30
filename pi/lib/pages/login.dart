@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi/components/register_template.dart';
 import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/Home.dart';
 
@@ -97,6 +98,7 @@ class _LoginState extends State<Login> {
                   'Login',
                   style: TextStyle(
                     fontSize: 20,
+                    color: paletteYellow2
                   ),
                 ),
               ),
@@ -109,15 +111,31 @@ class _LoginState extends State<Login> {
                 fontSize: 25,
               ),
             ),
+            const SizedBox(height: 10),
             Row(
-              children: const [
-                Text(
+              children: [
+                const Text(
                   'Não tem uma conta?',
                   style: TextStyle(
                     color: paletteWhite,
                     fontSize: 25,
                   ),
                 ),
+                TextButton(
+                style: TextButton.styleFrom(
+                  //cor do foregroud
+                  foregroundColor: paletteWhite,
+                ),
+                onPressed: () {
+                  //logica aqui
+                },
+                child: const Text(
+                  'Registre-se',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+              ),
               ],
             ),
           ],
