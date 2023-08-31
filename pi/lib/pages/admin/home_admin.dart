@@ -134,7 +134,8 @@ class _HomeAdminState extends State<HomeAdmin> {
       ),
 
       // Barra de Navegação
-      bottomNavigationBar: BookTokNavigation(
+      /*
+              bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
             route: const HomeAdmin(),
             icon: const Icon(Icons.home),
@@ -146,6 +147,7 @@ class _HomeAdminState extends State<HomeAdmin> {
         user: MyIconButtonNavigator(
             route: null, icon: const Icon(Icons.person), current: false),
       ),
+      */
     );
   }
 }

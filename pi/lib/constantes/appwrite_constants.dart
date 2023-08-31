@@ -42,10 +42,10 @@ class AppwriteConstants {
     }
   }
 
-  Future<List<String?>?> uploadImages(
+  Future<List<String>> uploadImages(
       {required List<InputFile> listImages}) async {
 
-    List<String?>? listImagesId = [];
+    List<String> listImagesId = [];
 
     if (listImages.isNotEmpty) {
       for (var image in listImages) {
@@ -60,7 +60,7 @@ class AppwriteConstants {
       }
       return listImagesId;
     } else {
-      return null;
+      return [];
     }
   }
 
@@ -72,6 +72,18 @@ class AppwriteConstants {
     }
 
     return imageUrlList;
+  }
+
+  List<String> getImagesIdFromUrl(listImagesUrl) {
+    List<String> imagesIdList = [];
+
+    for (String element in listImagesUrl) {
+      imagesIdList.add(element.split('/')[8]);
+    }
+
+    print(imagesIdList);
+
+    return imagesIdList;
   }
 
   // Final Methods
@@ -100,8 +112,10 @@ class AppwriteConstants {
       listPreparedImages.add(preparedImage!);
     }
 
-    List<String?>? listIdImages =
+    List<String> listIdImages =
         await uploadImages(listImages: listPreparedImages);
+
+    List<String> finalImages = getImageUrlList(listImages: listIdImages);
 
     try {
       // ignore: unused_local_variable
@@ -115,7 +129,7 @@ class AppwriteConstants {
             "category": category,
             "author": author,
             "description": description,
-            "listImages": listIdImages.toString(),
+            "listImages": finalImages.toString(),
           });
       print('Documento criado com sucesso!!');
     } catch (e) {
@@ -139,8 +153,11 @@ class AppwriteConstants {
       listPreparedImages.add(preparedImage!);
     }
 
-    List<String?>? listIdImages =
+    List<String> listIdImages =
         await uploadImages(listImages: listPreparedImages);
+
+    List<String> finalImages = getImageUrlList(listImages: listIdImages);
+
 
     try {
       // ignore: unused_local_variable
@@ -154,7 +171,7 @@ class AppwriteConstants {
             "category": category,
             "author": author,
             "description": description,
-            "listImages": listIdImages.toString(),
+            "listImages": finalImages,
           });
       print('Documento criado com sucesso!!');
     } catch (e) {
@@ -172,7 +189,9 @@ class AppwriteConstants {
     Document? document = await getDocument(documentId: documentId);
     List<String> listImages = prepareList(listImagesString: document!.data['listImages']);
 
-    deleteImage(listImages: listImages);
+    List<String> listImagesUrl = getImagesIdFromUrl(listImages);
+
+    deleteImage(listImages: listImagesUrl);
 
     var response = database.deleteDocument(databaseId: databaseId, collectionId: bookCollectionId, documentId: documentId);
   }

@@ -7,5 +7,5 @@ import 'pages/admin/home_admin.dart';
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: BookCreationPage(documentId: '64ed2aea823ca09bef19',),
+  home: HomeAdmin(),
 ));
