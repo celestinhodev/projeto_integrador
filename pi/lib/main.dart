@@ -7,5 +7,5 @@ import 'pages/admin/home_admin.dart';
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: HomeAdmin(),
+  home: Home(),
 ));

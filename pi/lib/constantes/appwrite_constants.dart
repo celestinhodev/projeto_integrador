@@ -104,10 +104,10 @@ class AppwriteConstants {
       required String price,
       required String category,
       required String description,
-      required List<XFile> listXFiles}) async {
+      required List<XFile> listXFileImages}) async {
     List<InputFile> listPreparedImages = [];
 
-    for (var element in listXFiles) {
+    for (var element in listXFileImages) {
       InputFile? preparedImage = await prepareImage(image: element, title: title,);
       listPreparedImages.add(preparedImage!);
     }
@@ -143,12 +143,19 @@ class AppwriteConstants {
       required String price,
       required String category,
       required String description,
-      required List<XFile> listXFiles,
+      required List<XFile> listXFileImages,
+      required List<String> listCurrentImages,
+      required List<String> deletedImages,
       required String? idDocument}) async {
-    print('chegou no upload');
     List<InputFile> listPreparedImages = [];
 
-    for (var element in listXFiles) {
+    List<String> listDeletedImagesId = getImagesIdFromUrl(deletedImages);
+
+    for (var element in listDeletedImagesId) {
+      await storage.deleteFile(bucketId: bucketId, fileId: element);
+    }
+
+    for (var element in listXFileImages) {
       InputFile? preparedImage = await prepareImage(image: element, title: title,);
       listPreparedImages.add(preparedImage!);
     }
@@ -158,24 +165,31 @@ class AppwriteConstants {
 
     List<String> finalImages = getImageUrlList(listImages: listIdImages);
 
+    for (var i = 0; i < listCurrentImages.length; i++) {
+      listCurrentImages.remove('');
+    }
+
+    for (var element in finalImages) {
+      listCurrentImages.add(element);
+    }
 
     try {
       // ignore: unused_local_variable
       Document response = await database.updateDocument(
           databaseId: databaseId,
           collectionId: bookCollectionId,
-          documentId: ID.unique(),
+          documentId: idDocument!,
           data: {
             "title": title,
             "price": price,
             "category": category,
             "author": author,
             "description": description,
-            "listImages": finalImages,
+            "listImages": listCurrentImages.toString(),
           });
-      print('Documento criado com sucesso!!');
+      print('Upload feito com sucesso!!');
     } catch (e) {
-      print('Falha ao criar o documento.');
+      print(e);
     }
   }
 
