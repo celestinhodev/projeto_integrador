@@ -25,80 +25,50 @@ class _LoginState extends State<Login> {
               width: 500,
               height: 200,
             ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(60, 0, 60, 5),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                  hintStyle: TextStyle(color: paletteWhite),
-                  fillColor: paletteDarkGrey,
-                  filled: true,
-                ),
-              ),
-            ),
+            registerTemplate(hintText: 'Email', isPassword: false),
             const SizedBox(height: 30),
+            registerTemplate(hintText: 'Senha', isPassword: true),
+            //////////////Esqueceu a senha///////////////////////////
             Padding(
-              padding: const EdgeInsets.fromLTRB(60, 0, 60, 5),
-              child: TextField(
-                obscureText: !_senhaLogin,
-                decoration: InputDecoration(
-                  hintText: 'Senha',
-                  hintStyle: const TextStyle(color: paletteWhite),
-                  fillColor: paletteDarkGrey,
-                  filled: true,
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _senhaLogin = !_senhaLogin;
-                      });
-                    },
-                    child: Icon(
-                      _senhaLogin ? Icons.visibility : Icons.visibility_off,
-                      color: paletteBlack,
+              padding: const EdgeInsets.fromLTRB(40, 20, 40,
+                  20), // Ajuste o padding horizontal conforme necessário
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                    minWidth: double.infinity), // Define largura máxima
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: paletteWhite,
+                  ),
+                  onPressed: () {
+                    // Lógica aqui
+                  },
+                  child: const Text(
+                    'Esqueceu a senha?',
+                    style: TextStyle(
+                      fontSize: 20,
                     ),
                   ),
                 ),
               ),
             ),
-            //////////////Esqueceu a senha///////////////////////////
-            Padding(
-              padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  //cor do foregroud
-                  foregroundColor: paletteWhite,
-                ),
-                onPressed: () {
-                  //logica aqui
-                },
-                child: const Text(
-                  'Esqueceu a senha?',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 50),
+
             ///////////////Botão login////////////////
-            Container(
-              width: 200,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: paletteBlack,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 20,
-                  ),
-                ),
-                onPressed: () {
-                  //logica aqui
-                },
-                child: const Text(
-                  'Login',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: paletteYellow2
+            TextButton(      
+              onPressed: () {
+
+              },
+              child: Container(
+                width: 379, 
+                height: 50,
+                color: paletteYellow2, // Cor de fundo do botão
+                padding: const EdgeInsets.symmetric(horizontal: 50), // Ajuste o padding conforme necessário
+                child: const Center(
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: paletteBlack, // Cor do texto
+                    ),
                   ),
                 ),
               ),
@@ -122,20 +92,18 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 TextButton(
-                style: TextButton.styleFrom(
-                  //cor do foregroud
-                  foregroundColor: paletteWhite,
-                ),
-                onPressed: () {
-                  //logica aqui
-                },
-                child: const Text(
-                  'Registre-se',
-                  style: TextStyle(
-                    fontSize: 25,
+                  style: TextButton.styleFrom(
+                    //cor do foregroud
+                    foregroundColor: paletteWhite,
+                  ),
+                  onPressed: () {
+                    //logica aqui
+                  },
+                  child: const Text(
+                    'Registre-se',
+                    style: TextStyle(fontSize: 25, color: Colors.blue),
                   ),
                 ),
-              ),
               ],
             ),
           ],
