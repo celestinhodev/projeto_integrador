@@ -11,7 +11,6 @@ import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/appwrite_constants.dart';
 import 'package:pi/pages/admin/book_page_admin.dart';
 
-
 // Constantes
 import '../../constantes/cores.dart';
 
@@ -37,44 +36,34 @@ class _HomeAdminState extends State<HomeAdmin> {
   // Books
   List<Widget> books = [];
 
-
   // Constructor
-
 
   // Methods
   void getBooks() async {
-    List<Widget> bookResponse = [];
-    try {
-      var response = await appwrite_constants.getDocuments();
+    List<Widget> booksPrepare = [];
+    var finalWidget;
+    var listDocuments = await appwrite_constants.listDocuments();
 
-        for (var element in response!.documents) {
+    if (listDocuments!.total != 0) {
+      for (var element in listDocuments.documents) {
+        String nomeLivro = element.data['title'];
+        List<String> listImagesUrl = appwrite_constants.getImageUrlList(
+            listImages: appwrite_constants.prepareList(
+                listImagesString: element.data['listImages']));
 
-          String title = element.data['title'];
-          String fileId = element.data['listImages'].toString().replaceAll('[', '').replaceAll(']', '').split(',')[0];
-
-          models.File image = await getImage(fileId);
-
-          bookResponse.add(BookTemplate(
-              caminhoImagem: 'https://cloud.appwrite.io/v1/storage/buckets/${appwrite_constants.bucketId}/files/${image.$id}/view?project=${appwrite_constants.projectId}',
-              nomeLivro: title,
-              idDocument: element.$id,
-              admin: true));
-        }
-      
-      
-      setState(() {
-        books = bookResponse;
-      });
-      print('getBooks() executado!!');
-    } catch (e) {
-      print('Erro getBooks(): ' + e.toString());
+        finalWidget = BookTemplate(
+          caminhoImagem: listImagesUrl[0],
+          nomeLivro: nomeLivro,
+          idDocument: element.$id,
+          admin: true,
+        );
+        booksPrepare.add(finalWidget);
+      }
     }
-  }
 
-  Future<models.File> getImage(fileId) async {
-    models.File response = await appwrite_constants.storage.getFile(bucketId: appwrite_constants.bucketId, fileId: fileId);
-
-    return response;
+    setState(() {
+      books = booksPrepare;
+    });
   }
 
   @override
@@ -86,15 +75,17 @@ class _HomeAdminState extends State<HomeAdmin> {
     getBooks();
   }
 
-
   // Layout
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Comum Component App Bar
+      // App Bar
       appBar: BookTokAppBar,
 
+      // Background Color
       backgroundColor: paletteBlack,
+
+      // Body
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -112,7 +103,7 @@ class _HomeAdminState extends State<HomeAdmin> {
 
               const SizedBox(height: 20),
 
-              //Linha 1 -----------------------------------------------------------------------
+              // Grid Itens
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                 child: GridView(
@@ -129,20 +120,22 @@ class _HomeAdminState extends State<HomeAdmin> {
         ),
       ),
 
+      // Add Book Button
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CreateBookPage(),
+              builder: (context) => BookCreationPage(documentId: null,),
             ),
           );
         },
         child: Icon(Icons.add_box),
       ),
 
-      //Barra de navegação ------------------------------------------------------
-      bottomNavigationBar: BookTokNavigation(
+      // Barra de Navegação
+      /*
+              bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
             route: const HomeAdmin(),
             icon: const Icon(Icons.home),
@@ -154,6 +147,7 @@ class _HomeAdminState extends State<HomeAdmin> {
         user: MyIconButtonNavigator(
             route: null, icon: const Icon(Icons.person), current: false),
       ),
+      */
     );
   }
 }

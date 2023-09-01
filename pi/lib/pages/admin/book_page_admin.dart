@@ -3,478 +3,374 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pi/constantes/appwrite_constants.dart';
 
 // Components
 import '../../components/booktok_appbar.dart';
-import '../../components/radio_button.dart';
-import '../../components/textInputAdmin.dart';
-import '../../constantes/cores.dart';
 
 // Constants
-import '../../constantes/appwrite_constants.dart';
-import 'home_admin.dart';
+import '../../components/radio_button.dart';
+import '../../constantes/book_class.dart';
+import '../../constantes/cores.dart';
 
 // BookDetail Page
-class CreateBookPage extends StatefulWidget {
-  // Declatarion's
-  String? nomeLivro;
-  String? idDocument;
+class BookCreationPage extends StatefulWidget {
+  String? documentId;
 
-
-  // Constructor
-  CreateBookPage(
-      {super.key, this.nomeLivro = 'Insira o titulo aqui...', this.idDocument});
+  BookCreationPage({super.key, required this.documentId});
 
   @override
-  // ignore: no_logic_in_create_state
-  State<CreateBookPage> createState() =>
-      _CreateBookPageState(nomeLivro: nomeLivro, idDocument: idDocument);
+  State<BookCreationPage> createState() => _BookCreationPageState();
 }
 
-class _CreateBookPageState extends State<CreateBookPage> {
+class _BookCreationPageState extends State<BookCreationPage> {
   // Declaration's
-  // Book Information
-  String? idDocument;
-  String? nomeLivro;
-  String? descricaoLivro;
-  String? autorLivro;
-  String? precoLivro;
-  String? categoriaLivro;
-
   // Appwrite
   AppwriteConstants appwrite_constants = AppwriteConstants();
 
+  Map book_data = {
+    'title': 'Titulo',
+    'price': 'Preço',
+    'category': 'Categoria',
+    'author': 'Autor',
+    'description': 'Descrição',
+  };
+
   // Carousel
-  int _currentIndex = 0;
   CarouselController bookCarouselController = CarouselController();
   List<Widget> carouselItens = [];
+  int _groupValue = 0;
 
-  // TextEditingController's
-  TextEditingController bookTitleController = TextEditingController();
-  TextEditingController bookPriceController = TextEditingController();
-  TextEditingController bookCategoryController = TextEditingController();
-  TextEditingController bookAuthorController = TextEditingController();
-  TextEditingController bookDescriptionController = TextEditingController();
+  List<XFile> listXFiles = [];
 
-  // Bools
-  bool? deleteButtonShow;
-  bool? containsPlaceHolder;
+  // Control Flag
+  bool showDeleteImageButton = false;
+  bool containPlaceholderImage = false;
 
-  // Lists
-  List<XFile> listXFilesImages = [];
-  List<String> listPath = [];
-  List<String> listImages = [];
-
-  // Colors
-  Color textColor = Colors.grey;
-
-  // appLayout
-  Widget appLayout = Scaffold(
-    backgroundColor: paletteBlack,
-
-    body: Center(
-      child: Image.asset('images/loading.gif'),
-    ),
-  );
-
-
-  // Constructor
-  _CreateBookPageState({
-    this.nomeLivro = 'Insira o titulo aqui...',
-    this.idDocument,
-  });
-
-  
   // Methods
-  void addImage() async {
-    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  void setCarouselToPlaceholder() {
+    setState(() {
+      carouselItens = [
+        Image.asset('images/livros/book_placeholder.png'),
+      ];
+      containPlaceholderImage == true;
+    });
+  }
 
-    if (image != null) {
-      if (containsPlaceHolder == true) {
-        carouselItens.clear();
-        containsPlaceHolder = false;
-      }
+  void changeCarouselItem(value) {
+    setState(() {
+      _groupValue = value!;
+      print(_groupValue);
+      bookCarouselController.animateToPage(value);
+    });
+  }
 
-      setState(() {
-        listPath.add(image.path);
-        print(listPath);
-        carouselItens.add(Image.network(listPath.last));
+  void getBookDataFromDB({required String documentId}) async {
+    try {
+      var document =
+          await appwrite_constants.getDocument(documentId: documentId);
 
-        if (carouselItens.length > 1) {
-          bookCarouselController.nextPage();
-          _currentIndex++;
-        }
-        deleteButtonShow = true;
-      });
+      Map database_book_info = {};
+
+      database_book_info['title'] = document!.data['title'];
+      database_book_info['price'] = document.data['price'];
+      database_book_info['category'] = document.data['category'];
+      database_book_info['author'] = document.data['author'];
+      database_book_info['description'] = document.data['description'];
+      database_book_info['listImagesURL'] = appwrite_constants.getImageUrlList(
+          listImages: appwrite_constants.prepareList(
+              listImagesString: document.data['listImages']));
+
+      setBookData(databaseBookInfo: database_book_info);
+    } catch (e) {
+      print('Error in getBookDataFromDB');
     }
   }
 
-  void deleteImage() {
+  void setBookData({required databaseBookInfo}) async {
+    book_data = databaseBookInfo;
+
+    List<Widget> new_carousel_itens = [];
+
+    for (var element in book_data['listImagesURL']) {
+      var image = Image.network(element);
+      new_carousel_itens.add(image);
+    }
+
     setState(() {
-      if (carouselItens.isNotEmpty) {
-        carouselItens.removeAt(_currentIndex);
-        if (listPath.isNotEmpty) {
-          listPath.removeAt(_currentIndex);
-        } else {
-          listImages[_currentIndex];
-        }
-        print(listPath);
-        if (_currentIndex != 0) {
-          _currentIndex--;
-        }
+      carouselItens = new_carousel_itens;
+    });
+  }
+
+  void deleteImageFromCarousel() {
+    setState(() {
+      // ignore: prefer_is_empty
+      if (carouselItens.length == 1 && containPlaceholderImage == false) {
+        setCarouselToPlaceholder();
+        showDeleteImageButton = false;
+      } else if (carouselItens.length > 1) {
+        carouselItens.removeAt(_groupValue);
       }
 
-      if (carouselItens.isEmpty) {
-        deleteButtonShow = false;
-        carouselItens.add(Image.asset('images/livros/book_placeholder.png'));
-        containsPlaceHolder = true;
+      if (_groupValue != 0) {
+        _groupValue--;
       }
     });
   }
 
-  getBookData(String idDocument) async {
-    var response = await appwrite_constants.database.getDocument(
-        databaseId: appwrite_constants.databaseId,
-        collectionId: appwrite_constants.bookCollectionId,
-        documentId: idDocument);
+  void addImageToCarousel() async {
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
     setState(() {
-      nomeLivro = response.data['title'];
-      precoLivro = response.data['price'];
-      categoriaLivro = response.data['category']; 
-      autorLivro = response.data['author'];
-      descricaoLivro = response.data['description'];
-
-      listImages = response.data['listImages']
-          .toString()
-          .replaceFirst('[', '')
-          .replaceFirst(']', '')
-          .split(', ');
-
-      for (var element in listImages) {
-        print(element);
-        carouselItens.add(Image.network(
-            'https://cloud.appwrite.io/v1/storage/buckets/${appwrite_constants.bucketId}/files/${element}/view?project=${appwrite_constants.projectId}'));
+      if (containPlaceholderImage == true) {
+        carouselItens.clear();
+        carouselItens.add(Image.network(image!.path));
+        showDeleteImageButton = true;
+        containPlaceholderImage = false;
+      } else {
+        carouselItens.add(Image.network(image!.path));
       }
-
-      deleteButtonShow = true;
-      containsPlaceHolder = false;
-
-      appLayout = Scaffold(
-        appBar: BookTokAppBar,
-        backgroundColor: paletteBlack,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                color: Colors.grey.shade700,
-                alignment: Alignment.center,
-                child: Stack(
-                  children: [
-                    CarouselSlider(
-                      items: carouselItens,
-                      carouselController: bookCarouselController,
-                      options: CarouselOptions(
-                        //Configurações do carrossel
-                        initialPage: 0,
-                        height: 300,
-                        enlargeCenterPage: true,
-                        scrollDirection: Axis.vertical,
-                        viewportFraction: 1,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currentIndex = index;
-                          });
-                        },
-                      ),
-                    ),
-                    Positioned(
-                      right: 30,
-                      child: Container(
-                        height: 300,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(
-                            carouselItens.length,
-                            (index) => MyRadioOption(
-                              label: '',
-                              groupValue: _currentIndex,
-                              unselectedColor: paletteWhite,
-                              selectedColor: paletteBlack,
-                              value: index,
-                              size: 16,
-                              onChanged: (value) {
-                                setState(() {
-                                  _currentIndex = value!;
-                                  bookCarouselController.animateToPage(value);
-                                });
-                              },
-                              text: '',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 20,
-                      left: 20,
-                      child: FloatingActionButton(
-                        onPressed: addImage,
-                        backgroundColor: paletteYellow,
-                        child: Icon(
-                          Icons.add_to_photos,
-                          color: paletteBlack,
-                        ),
-                      ),
-                    ),
-                    deleteButtonShow == true
-                        ? Positioned(
-                            bottom: 20,
-                            right: 20,
-                            child: FloatingActionButton(
-                              onPressed: deleteImage,
-                              backgroundColor: paletteBlack,
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              ),
-                            ),
-                          )
-                        : SizedBox(),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Nome Livro
-                    TextFieldAdmin(
-                      controller: bookTitleController,
-                      hintText: nomeLivro!,
-                      keyboardType: TextInputType.text,
-                      obscureText: false,
-                    ),
-
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-                    // Linha com Preço e Genero,
-                    Row(
-                      children: [
-                        // Preço
-                        const Icon(
-                          Icons.shopping_cart,
-                          color: paletteWhite,
-                        ),
-                        Text(
-                          'R\$',
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                        Container(
-                          constraints: BoxConstraints(
-                            maxWidth: 150,
-                          ),
-                          child: TextFieldAdmin(
-                            controller: bookPriceController,
-                            hintText: precoLivro!,
-                            keyboardType: TextInputType.number,
-                            obscureText: false,
-                          ),
-                        ),
-
-                        const SizedBox(
-                          width: 20,
-                        ),
-
-                        // Genero
-                        const Icon(
-                          Icons.art_track,
-                          color: paletteWhite,
-                        ),
-                        Container(
-                          constraints: BoxConstraints(
-                            maxWidth: 200,
-                          ),
-                          child: TextFieldAdmin(
-                            controller: bookCategoryController,
-                            hintText: categoriaLivro!,
-                            keyboardType: TextInputType.text,
-                            obscureText: false,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(
-                      height: 10,
-                    ),
-
-                    Container(
-                      constraints: BoxConstraints(
-                        maxWidth: 150,
-                      ),
-                      child: TextFieldAdmin(
-                        controller: bookAuthorController,
-                        hintText: autorLivro!,
-                        keyboardType: TextInputType.text,
-                        obscureText: false,
-                      ),
-                    ),
-
-                    const SizedBox(
-                      height: 10,
-                    ),
-
-                    const Divider(
-                      color: paletteWhite,
-                    ),
-
-                    const SizedBox(
-                      height: 10,
-                    ),
-
-                    const Text(
-                      'DESCRIÇÃO',
-                      style: TextStyle(
-                        color: paletteWhite,
-                        fontSize: 18,
-                      ),
-                    ),
-
-                    const SizedBox(
-                      height: 15,
-                    ),
-
-                    TextFieldAdmin(
-                      controller: bookDescriptionController,
-                      hintText: descricaoLivro!,
-                      keyboardType: TextInputType.text,
-                      obscureText: false,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-            ],
-          ),
-        ),
-        bottomSheet: Row(
-          children: [
-            Expanded(
-              child: Container(
-                color: paletteYellow,
-                child: TextButton(
-                  onPressed: () async {
-                    String title = '';
-                    String author = 'a';
-                    String price = '';
-                    String category = '';
-                    String description = '';
-
-                    setState(() {
-                      title = bookTitleController.text;
-                      author = bookAuthorController.text;
-                      price = bookPriceController.text;
-                      category = bookCategoryController.text;
-                      description = bookDescriptionController.text;
-                    });
-
-                    if (listPath.isNotEmpty && listPath != null) {
-                      listPath.forEach((path) {
-                        listXFilesImages.add(XFile(path));
-                      });
-                    } else {
-                      print('Você não fez upload nas imagens');
-                    }
-
-                    if (title != '' &&
-                        author != '' &&
-                        price != '' &&
-                        category != '' &&
-                        description != '' &&
-                        listXFilesImages.isNotEmpty &&
-                        idDocument == null) {
-                      var response = await appwrite_constants.createDocument(
-                          title: title,
-                          author: author,
-                          price: price,
-                          category: category,
-                          description: description,
-                          listXFiles: listXFilesImages);
-                    } else if (title != '' &&
-                        author != '' &&
-                        price != '' &&
-                        category != '' &&
-                        description != '' &&
-                        listXFilesImages.isNotEmpty &&
-                        idDocument != null) {
-                      var response = await appwrite_constants.updateDocument(
-                          title: title,
-                          author: author,
-                          price: price,
-                          category: category,
-                          description: description,
-                          listXFiles: listXFilesImages,
-                          idDocument: idDocument);
-                    } else {
-                      print('Um dos itens está faltante');
-                    }
-
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeAdmin(),
-                        ));
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: paletteYellow,
-                  ),
-                  child: const Text(
-                    'UPLOAD',
-                    style: TextStyle(
-                      color: paletteBlack,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
     });
   }
 
   @override
   void initState() {
     super.initState();
-    // ignore: todo
-    // TODO: implement initState
 
-    if (idDocument == null) {
-      setState(() {
-        carouselItens = [
-          Image.asset('images/livros/book_placeholder.png'),
-        ];
-        deleteButtonShow = false;
-        containsPlaceHolder = true;
-      });
+    if (widget.documentId != null) {
+      getBookDataFromDB(documentId: widget.documentId!);
+      showDeleteImageButton = true;
+      containPlaceholderImage = false;
     } else {
-      getBookData(idDocument!);
+      setCarouselToPlaceholder();
+      showDeleteImageButton = false;
+      containPlaceholderImage = true;
     }
   }
 
-  // Layout
   @override
   Widget build(BuildContext context) {
-    return appLayout;
+    return Scaffold(
+      appBar: BookTokAppBar,
+      backgroundColor: paletteBlack,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: Colors.grey.shade700,
+              alignment: Alignment.center,
+              child: Stack(
+                children: [
+                  CarouselSlider(
+                    items: carouselItens,
+                    carouselController: bookCarouselController,
+                    options: CarouselOptions(
+                      //Configurações do carrossel
+                      initialPage: 0,
+                      height: 300,
+                      enlargeCenterPage: true,
+                      scrollDirection: Axis.vertical,
+                      viewportFraction: 0.9,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _groupValue = index;
+                        });
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    right: 30,
+                    child: Container(
+                      height: 300,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          carouselItens.length,
+                          (index) => MyRadioOption(
+                            label: '',
+                            groupValue: _groupValue,
+                            unselectedColor: paletteWhite,
+                            selectedColor: paletteBlack,
+                            value: index,
+                            size: 16,
+                            onChanged: (value) {
+                              setState(() {
+                                _groupValue = value!;
+                                bookCarouselController.animateToPage(value);
+                              });
+                            },
+                            text: '',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    left: 10,
+                    child: Container(
+                      padding: EdgeInsets.all(7),
+                      decoration: BoxDecoration(
+                        color: paletteYellow,
+                        borderRadius: BorderRadius.circular(99),
+                      ),
+                      child: IconButton(
+                        onPressed: addImageToCarousel,
+                        icon: Icon(
+                          Icons.add,
+                          color: paletteBlack,
+                        ),
+                      ),
+                    ),
+                  ),
+                  showDeleteImageButton == true
+                      ? Positioned(
+                          bottom: 10,
+                          right: 10,
+                          child: Container(
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: paletteBlack,
+                              borderRadius: BorderRadius.circular(99),
+                            ),
+                            child: IconButton(
+                              onPressed: deleteImageFromCarousel,
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Nome Livro
+                  Text(
+                    book_data['title'],
+                    style: const TextStyle(
+                      color: paletteWhite,
+                      fontSize: 18,
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  // Linha com Preço e Genero,
+                  Row(
+                    children: [
+                      // Preço
+                      const Icon(
+                        Icons.shopping_cart,
+                        color: paletteWhite,
+                      ),
+                      Text(
+                        'R\$${book_data['price']}',
+                        style: const TextStyle(
+                          color: paletteWhite,
+                          fontSize: 18,
+                        ),
+                      ),
+
+                      Spacer(),
+
+                      // Genero
+                      const Icon(
+                        Icons.art_track,
+                        color: paletteWhite,
+                      ),
+                      Text(
+                        book_data['category'],
+                        style: const TextStyle(
+                          color: paletteWhite,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  const Divider(
+                    color: paletteWhite,
+                  ),
+
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  const Text(
+                    'DESCRIÇÃO',
+                    style: TextStyle(
+                      color: paletteWhite,
+                      fontSize: 18,
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+
+                  Text(
+                    book_data['description'],
+                    maxLines: 99999,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: paletteWhite,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+          ],
+        ),
+      ),
+      bottomSheet: Row(
+        children: [
+          Expanded(
+            child: Container(
+              color: paletteYellow,
+              child: TextButton(
+                onPressed: () {
+                  appwrite_constants.createDocument(
+                    title: book_data['title'],
+                    author: book_data['author'],
+                    price: book_data['price'],
+                    category: book_data['category'],
+                    description: book_data['description'],
+                    listXFiles: listXFiles,
+                  );
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: paletteYellow,
+                ),
+                child: const Text(
+                  'Create Book',
+                  style: TextStyle(
+                    color: paletteBlack,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

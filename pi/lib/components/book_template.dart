@@ -4,7 +4,7 @@ import '../constantes/cores.dart';
 import '../pages/admin/book_page_admin.dart';
 import '../pages/book_page.dart';
 
-class BookTemplate extends StatelessWidget {
+class BookTemplate extends StatefulWidget {
   // Declaration's
   String nomeLivro;
   String? idDocument;
@@ -21,22 +21,30 @@ class BookTemplate extends StatelessWidget {
     this.idDocument,
   });
 
+  @override
+  State<BookTemplate> createState() => _BookTemplateState();
+}
 
+class _BookTemplateState extends State<BookTemplate> {
   // Methods
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+  }
 
-
-  // Layout
   @override
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
         onTap: () {
-          if (admin == false) {
+          if (widget.admin == false) {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => BookDetailsPage(
-                  nomeLivro: nomeLivro,
+                  nomeLivro: widget.nomeLivro,
                 ),
               ),
             );
@@ -44,9 +52,8 @@ class BookTemplate extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CreateBookPage(
-                  nomeLivro: nomeLivro,
-                  idDocument: idDocument,
+                builder: (context) => BookCreationPage(
+                  documentId: widget.idDocument,
                 ),
               ),
             );
@@ -56,16 +63,16 @@ class BookTemplate extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              caminhoImagem.contains('https://')
+              widget.caminhoImagem.contains('https://')
                   ? Image.network(
-                      caminhoImagem,
+                      widget.caminhoImagem,
                       height: 140,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     )
                   : Image.asset(
-                      caminhoImagem,
+                      widget.caminhoImagem,
                       height: 140,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
               const SizedBox(
                 height: 10,
@@ -75,7 +82,7 @@ class BookTemplate extends StatelessWidget {
                   maxWidth: 135,
                 ),
                 child: Text(
-                  nomeLivro,
+                  widget.nomeLivro,
                   style: const TextStyle(
                     color: paletteWhite,
                     fontSize: 12,
