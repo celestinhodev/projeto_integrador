@@ -1,11 +1,13 @@
 // Packages
-import 'package:flutter/material.dart';
+import 'dart:html';
 
+import 'package:flutter/material.dart';
 
 // Components
 import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/components/navigation_bar.dart';
+import 'package:pi/constantes/appwrite_constants.dart';
 import 'package:pi/pages/carrinho.dart';
 import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
@@ -26,10 +28,54 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // Declarations
+  // Appwrite
+  AppwriteConstants appwrite_constants = AppwriteConstants();
+
+  // Carousel
   CarouselController carouselController = CarouselController();
   int _value = 0;
-
   List<Widget> carouselBannerItens = [];
+
+  // Page
+  // Lançamentos
+  List<Widget> listaLivrosLancamentos = [];
+
+  // Methods
+  Widget setBookTemplateWidget(
+      {required String title, required String imagePath}) {
+    return BookTemplate(
+        caminhoImagem: imagePath, nomeLivro: title, admin: false);
+  }
+
+  void getBooksFromDB() async {
+    var listDocuments = await appwrite_constants.listDocuments();
+    List<Widget> preparedBooks = [];
+
+    for (var element in listDocuments!.documents) {
+      var title = element.data['title'];
+      var imagePath = appwrite_constants.prepareList(
+          listImagesString: element.data['listImages'])[0];
+      var documentId = element.$id;
+
+      print(title);
+      print(imagePath);
+      print(documentId);
+
+      preparedBooks.add(
+        BookTemplate(
+          nomeLivro: title,
+          caminhoImagem: imagePath,
+          documentId: documentId,
+          admin: false,
+        ),
+      );
+    }
+
+    setState(() {
+      listaLivrosLancamentos = preparedBooks;
+    });
+  }
 
   @override
   void initState() {
@@ -42,6 +88,8 @@ class _HomeState extends State<Home> {
       Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
     ];
+
+    getBooksFromDB();
   }
 
   @override
@@ -145,14 +193,7 @@ class _HomeState extends State<Home> {
                   mainAxisExtent: 225,
                 ),
                 shrinkWrap: true,
-                children: [
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false, documentId: '64f27e5e0599a6e1eb2c'),
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
-                ],
+                children: listaLivrosLancamentos,
               ),
             ),
           ],

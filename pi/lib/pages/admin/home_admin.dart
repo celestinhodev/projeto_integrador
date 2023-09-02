@@ -1,7 +1,6 @@
 // Packages
 import 'package:appwrite/models.dart' as models;
 
-import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 
 // Components
