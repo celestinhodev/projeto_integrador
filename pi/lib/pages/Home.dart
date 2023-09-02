@@ -58,10 +58,6 @@ class _HomeState extends State<Home> {
           listImagesString: element.data['listImages'])[0];
       var documentId = element.$id;
 
-      print(title);
-      print(imagePath);
-      print(documentId);
-
       preparedBooks.add(
         BookTemplate(
           nomeLivro: title,

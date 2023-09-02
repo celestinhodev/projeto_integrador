@@ -155,12 +155,12 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     book_data['title']!,
                     style: const TextStyle(
                       color: paletteWhite,
-                      fontSize: 18,
+                      fontSize: 22,
                     ),
                   ),
 
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
 
                   // Linha com Preço e Genero,
