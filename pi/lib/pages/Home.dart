@@ -146,12 +146,7 @@ class _HomeState extends State<Home> {
                 ),
                 shrinkWrap: true,
                 children: [
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
-                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
+                  BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false, documentId: '64f27e5e0599a6e1eb2c'),
                   BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
                   BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),
                   BookTemplate(caminhoImagem: 'images/livros/livro.png', nomeLivro: 'teste', admin: false),

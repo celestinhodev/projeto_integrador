@@ -98,12 +98,13 @@ class AppwriteConstants {
     }
   }
 
-  void createDocument(
+  Future<bool> createDocument(
       {required String title,
       required String author,
       required String price,
       required String category,
       required String description,
+      required String year,
       required List<XFile> listXFileImages}) async {
     List<InputFile> listPreparedImages = [];
 
@@ -129,20 +130,25 @@ class AppwriteConstants {
             "category": category,
             "author": author,
             "description": description,
+            "year": year,
             "listImages": finalImages.toString(),
           });
+      
       print('Documento criado com sucesso!!');
+      return true;
     } catch (e) {
       print('Falha ao criar o documento.');
     }
+    return false;
   }
 
-  void updateDocument(
+  Future<bool> updateDocument(
       {required String title,
       required String author,
       required String price,
       required String category,
       required String description,
+      required String year,
       required List<XFile> listXFileImages,
       required List<String> listCurrentImages,
       required List<String> deletedImages,
@@ -185,12 +191,15 @@ class AppwriteConstants {
             "category": category,
             "author": author,
             "description": description,
+            "year": year,
             "listImages": listCurrentImages.toString(),
           });
       print('Upload feito com sucesso!!');
+      return true;
     } catch (e) {
       print(e);
     }
+    return false;
   }
 
   void deleteImage({required List<String> listImages}) async {
@@ -199,14 +208,32 @@ class AppwriteConstants {
     }
   }
 
-  void deleteDocument(String documentId) async {
+  Future<bool> deleteDocument(String documentId) async {
     Document? document = await getDocument(documentId: documentId);
-    List<String> listImages = prepareList(listImagesString: document!.data['listImages']);
+    List<String> listImages = [];
 
-    List<String> listImagesUrl = getImagesIdFromUrl(listImages);
+    if(document!.data['listImages'].toString().contains(',')) {
+      listImages = prepareList(listImagesString: document.data['listImages']);
+    } else {
+      listImages = [document.data['listImages'].toString().replaceAll('[', '').replaceAll(']', '')];
+    }
 
-    deleteImage(listImages: listImagesUrl);
+    List<String> listImagesId = getImagesIdFromUrl(listImages);
 
-    var response = database.deleteDocument(databaseId: databaseId, collectionId: bookCollectionId, documentId: documentId);
+    for (var element in listImagesId) {
+      try {
+        await storage.deleteFile(bucketId: bucketId, fileId: element);
+      } catch (e) {
+        return false;
+      }
+    }
+
+    try {
+      await database.deleteDocument(databaseId: databaseId, collectionId: bookCollectionId, documentId: documentId);
+
+      return true;
+    } catch (e) {}
+
+    return false;
   }
 }

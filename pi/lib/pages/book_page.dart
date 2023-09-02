@@ -1,6 +1,7 @@
 // Packages
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:pi/constantes/appwrite_constants.dart';
 import 'package:pi/pages/carrinho.dart';
 import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
@@ -16,39 +17,71 @@ import 'home.dart';
 
 // BookDetail Page
 class BookDetailsPage extends StatefulWidget {
-  String nomeLivro;
+  String? documentId;
 
-  BookDetailsPage({super.key, required this.nomeLivro});
+  BookDetailsPage({super.key, required this.documentId});
 
   @override
-  State<BookDetailsPage> createState() =>
-      _BookDetailsPageState(nomeLivro: nomeLivro);
+  State<BookDetailsPage> createState() => _BookDetailsPageState();
 }
 
 class _BookDetailsPageState extends State<BookDetailsPage> {
-  String nomeLivro;
+  // Declarations
+  // Appwrite
+  AppwriteConstants appwrite_constants = AppwriteConstants();
 
-  _BookDetailsPageState({required this.nomeLivro});
-
-  String descricaoLivro =
-      'bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ';
-  String precoLivro = '99,99';
-  String generoLivro = 'TERROR';
+  Map<String, String> book_data = {
+    'title': '',
+    'price': '',
+    'description': '',
+    'category': '',
+    'author': '',
+    'year': '',
+  };
 
   int _value = 0;
   CarouselController bookCarouselController = CarouselController();
   List<Widget> carouselItens = [];
 
+  // Methods
+  void getBookDataFromDB() async {
+    var document =
+        await appwrite_constants.getDocument(documentId: widget.documentId!);
+
+    List<String> listImages = appwrite_constants.prepareList(
+        listImagesString: document!.data['listImages']);
+
+    setState(() {
+      book_data['title'] = document.data['title'];
+      book_data['price'] = document.data['price'];
+      book_data['description'] = document.data['description'];
+      book_data['category'] = document.data['category'];
+      book_data['author'] = document.data['author'];
+      book_data['year'] = document.data['year'];
+
+      for (var element in listImages) {
+        carouselItens.add(Container(
+          child: Image.network(element),
+        ));
+      }
+    });
+  }
+
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
-    carouselItens = [
-      Image.asset('images/livros/livro.png'),
-      Image.asset('images/livros/livro.png'),
-      Image.asset('images/livros/livro.png'),
-      Image.asset('images/livros/livro.png'),
-    ];
+
+    if (widget.documentId != null) {
+      getBookDataFromDB();
+    } else {
+      carouselItens = [
+        Image.asset('images/livros/livro.png'),
+        Image.asset('images/livros/livro.png'),
+        Image.asset('images/livros/livro.png'),
+        Image.asset('images/livros/livro.png'),
+      ];
+    }
   }
 
   @override
@@ -74,7 +107,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                       height: 300,
                       enlargeCenterPage: true,
                       scrollDirection: Axis.vertical,
-                      viewportFraction: 1,
+                      viewportFraction: 0.8,
                       onPageChanged: (index, reason) {
                         setState(() {
                           _value = index;
@@ -119,7 +152,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 children: [
                   // Nome Livro
                   Text(
-                    nomeLivro,
+                    book_data['title']!,
                     style: const TextStyle(
                       color: paletteWhite,
                       fontSize: 18,
@@ -139,7 +172,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         color: paletteWhite,
                       ),
                       Text(
-                        'R\$${precoLivro}',
+                        'R\$ ${book_data['price']}',
                         style: const TextStyle(
                           color: paletteWhite,
                           fontSize: 18,
@@ -148,19 +181,6 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
 
                       const SizedBox(
                         width: 50,
-                      ),
-
-                      // Genero
-                      const Icon(
-                        Icons.art_track,
-                        color: paletteWhite,
-                      ),
-                      Text(
-                        generoLivro,
-                        style: const TextStyle(
-                          color: paletteWhite,
-                          fontSize: 18,
-                        ),
                       ),
                     ],
                   ),
@@ -182,6 +202,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     style: TextStyle(
                       color: paletteWhite,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
 
@@ -190,14 +211,107 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   ),
 
                   Text(
-                    descricaoLivro,
+                    book_data['description']!,
                     maxLines: 99999,
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: paletteWhite,
-                      fontSize: 14,
+                      fontSize: 15,
                     ),
+                  ),
+
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  const Divider(
+                    color: paletteWhite,
+                  ),
+
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  const Text(
+                    'ESPECIFICAÇÕES',
+                    style: TextStyle(
+                      color: paletteWhite,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  Row(
+                    children: [
+                      const Text(
+                        'Categoria: ',
+                        style: TextStyle(
+                          color: paletteWhite,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        book_data['category']!,
+                        style: const TextStyle(
+                          color: paletteWhite,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+
+                  Row(
+                    children: [
+                      const Text(
+                        'Autor: ',
+                        style: TextStyle(
+                          color: paletteWhite,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        book_data['author']!,
+                        style: const TextStyle(
+                          color: paletteWhite,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+
+                  Row(
+                    children: [
+                      const Text(
+                        'Ano de lançamento: ',
+                        style: TextStyle(
+                          color: paletteWhite,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        book_data['year']!,
+                        style: const TextStyle(
+                          color: paletteWhite,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

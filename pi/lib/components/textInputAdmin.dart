@@ -7,12 +7,14 @@ class TextFieldAdmin extends StatefulWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final IconButton? suffixIcon;
+  final bool hasToBeFilled;
 
   TextFieldAdmin({
     required this.hintText,
     required this.controller,
     required this.obscureText,
     required this.keyboardType,
+    required this.hasToBeFilled,
     this.suffixIcon,
     super.key,
   });
@@ -23,7 +25,9 @@ class TextFieldAdmin extends StatefulWidget {
       hintText: hintText,
       controller: controller,
       obscureText: false,
-      keyboardType: keyboardType);
+      keyboardType: keyboardType,
+      hasToBeFilled: hasToBeFilled,
+      );
 }
 
 class _MyTextFieldState extends State<TextFieldAdmin> {
@@ -32,12 +36,14 @@ class _MyTextFieldState extends State<TextFieldAdmin> {
   final bool obscureText;
   final TextInputType keyboardType;
   final IconButton? suffixIcon;
+  final bool hasToBeFilled;
 
   _MyTextFieldState({
     required this.hintText,
     required this.controller,
     required this.obscureText,
     required this.keyboardType,
+    required this.hasToBeFilled,
     this.suffixIcon,
   });
 
@@ -46,7 +52,7 @@ class _MyTextFieldState extends State<TextFieldAdmin> {
   String? get _errorText {
     final text = widget.controller.value.text;
 
-    if (text.isEmpty) {
+    if (text.isEmpty && hasToBeFilled) {
       return 'O campo precisa ser preenchido.';
     }
     return null;
