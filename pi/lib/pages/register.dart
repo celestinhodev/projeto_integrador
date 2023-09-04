@@ -26,28 +26,27 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: paletteBlack,
-      body: Column(
-        children: [
-          Image.asset(
-            'Images/logo-login.png',
-            width: 500,
-            height: 200,
-          ),
-          registerTemplate(hintText: 'Nome Completo', isPassword: false),
-          const SizedBox(height: 25),
-          registerTemplate(hintText: 'Email', isPassword: false),
-          const SizedBox(height: 25),
-          registerTemplate(hintText: 'Senha', isPassword: true),
-          const SizedBox(height: 25),
-          registerTemplate(hintText: 'Repita a Senha', isPassword: true),
-          const SizedBox(height: 20),
-          
-          Padding(
-            padding: const EdgeInsets.fromLTRB(62, 0, 0, 0),
-            child: Row(
-              children: [
-                Transform.scale(
-                  scale: 2.0,
+      body: Column(children: [
+        Image.asset(
+          'Images/logo-login.png',
+          width: 500,
+          height: 200,
+        ),
+        registerTemplate(hintText: 'Nome Completo', isPassword: false),
+        const SizedBox(height: 25),
+        registerTemplate(hintText: 'Email', isPassword: false),
+        const SizedBox(height: 25),
+        registerTemplate(hintText: 'Senha', isPassword: true),
+        const SizedBox(height: 25),
+        registerTemplate(hintText: 'Repita a Senha', isPassword: true),
+        const SizedBox(height: 20),
+
+        Padding(
+          padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
+          child: Row(
+            children: [
+              Transform.scale(
+                scale: 1.5,
                 child: Checkbox(
                   checkColor: paletteBlack,
                   fillColor: MaterialStateProperty.resolveWith(getColor),
@@ -57,33 +56,63 @@ class _RegisterState extends State<Register> {
                       isChecked = value!;
                     });
                   },
-                )
                 ),
-                const SizedBox(width: 20),
-                RichText(
-                  text: TextSpan(
-                    text: 'Ao criar uma conta, você concorda com os' 
-                  'TERMOS DE USO do aplicativo. Por favor'
-                  'verifique a NOTIFICAÇÃO DE PRIVACIDADE,'
-                  'NOTIFICAÇÃO DE COOKIES, e a NOTIFICAÇÃO' 
-                  'DE ANÚNCIOS BASEADOS EM INTERESSE.',
-                  style: DefaultTextStyle.of(context).style,
-                  children: const <TextSpan>[
+              ),
+              const SizedBox(width: 10),
+              RichText(
+                text: const TextSpan(
+                  text:
+                      'Ao criar uma conta, você concorda com os\n',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: paletteWhite,
+                  ),
+                  children: <TextSpan>[
                     TextSpan(
-                      text: 'termos de uso',
+                      text: 'Termos de uso ',
                       style: TextStyle(
                         color: Colors.blue,
-                      )
-                    )
-                    
-                  ]
-                  ),
-                )
-              ],
-            ),
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'do aplicativo. Por favor,\n'
+                      'verifique a ',
+                      style: TextStyle(
+                        color: paletteWhite,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Notificação de privacidade\n',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Notificação de cookies ',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'e a ',
+                      style: TextStyle(
+                        color: paletteWhite,
+                      ),
+                    ),
+                    TextSpan(
+                      text:'Notificação de\nanúncios baseados em interesse',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            sub
+            ],
           ),
-          ]
         ),
-      );
+      ]),
+    );
   }
 }
