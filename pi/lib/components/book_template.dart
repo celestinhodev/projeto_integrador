@@ -66,12 +66,12 @@ class _BookTemplateState extends State<BookTemplate> {
               widget.caminhoImagem.contains('https://')
                   ? Image.network(
                       widget.caminhoImagem,
-                      height: 140,
+                      height: 130,
                       fit: BoxFit.contain,
                     )
                   : Image.asset(
                       widget.caminhoImagem,
-                      height: 140,
+                      height: 130,
                       fit: BoxFit.contain,
                     ),
               const SizedBox(
@@ -85,7 +85,7 @@ class _BookTemplateState extends State<BookTemplate> {
                   widget.nomeLivro,
                   style: const TextStyle(
                     color: paletteWhite,
-                    fontSize: 12,
+                    fontSize: 13,
                   ),
                   softWrap: false,
                   maxLines: 4,

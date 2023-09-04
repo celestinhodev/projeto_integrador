@@ -1,5 +1,5 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:appwrite/models.dart';
+import 'package:appwrite/models.dart' as models;
 import 'package:image_picker/image_picker.dart';
 
 class AppwriteConstants {
@@ -8,28 +8,38 @@ class AppwriteConstants {
   String projectId = '64e4007617e6f144bc02';
   String databaseId = '64e4023ae7be07f9d20c';
   String bookCollectionId = '64e402567c80fa1abfcb';
+  String UserInfoCollectionId = '64f56f4ecd5d55db5f34';
   String bucketId = '64e403ad974f334b94c1';
 
   late Client client = Client().setEndpoint(endPoint).setProject(projectId);
   late Databases database = Databases(client);
   late Storage storage = Storage(client);
-
+  late Account account = Account(client);
 
   // Methods
   // Process Methods
-  Future<Document?> getDocument({required String documentId}) async {
+  // Book's Processing
+  Future<models.Document?> getDocument({required String documentId}) async {
     try {
-      return await database.getDocument(databaseId: databaseId, collectionId: bookCollectionId, documentId: documentId);
+      return await database.getDocument(
+          databaseId: databaseId,
+          collectionId: bookCollectionId,
+          documentId: documentId);
     } catch (e) {}
 
     return null;
   }
-  
+
   List<String> prepareList({required listImagesString}) {
-    return listImagesString.toString().replaceFirst('[', '').replaceFirst(']', '').split(', ');
+    return listImagesString
+        .toString()
+        .replaceFirst('[', '')
+        .replaceFirst(']', '')
+        .split(', ');
   }
-  
-  Future<InputFile?> prepareImage({required XFile image, required String title}) async {
+
+  Future<InputFile?> prepareImage(
+      {required XFile image, required String title}) async {
     String filename = title.replaceAll(' ', '_');
 
     try {
@@ -44,7 +54,6 @@ class AppwriteConstants {
 
   Future<List<String>> uploadImages(
       {required List<InputFile> listImages}) async {
-
     List<String> listImagesId = [];
 
     if (listImages.isNotEmpty) {
@@ -64,11 +73,12 @@ class AppwriteConstants {
     }
   }
 
-  List<String> getImageUrlList({required List<String>listImages}) {
+  List<String> getImageUrlList({required List<String> listImages}) {
     List<String> imageUrlList = [];
 
     for (var element in listImages) {
-      imageUrlList.add('https://cloud.appwrite.io/v1/storage/buckets/$bucketId/files/$element/view?project=$projectId');
+      imageUrlList.add(
+          'https://cloud.appwrite.io/v1/storage/buckets/$bucketId/files/$element/view?project=$projectId');
     }
 
     return imageUrlList;
@@ -87,9 +97,9 @@ class AppwriteConstants {
   }
 
   // Final Methods
-  Future<DocumentList?> listDocuments() async {
+  Future<models.DocumentList?> listDocuments() async {
     try {
-      DocumentList response = await database.listDocuments(
+      models.DocumentList response = await database.listDocuments(
           databaseId: databaseId, collectionId: bookCollectionId);
 
       return response;
@@ -109,7 +119,10 @@ class AppwriteConstants {
     List<InputFile> listPreparedImages = [];
 
     for (var element in listXFileImages) {
-      InputFile? preparedImage = await prepareImage(image: element, title: title,);
+      InputFile? preparedImage = await prepareImage(
+        image: element,
+        title: title,
+      );
       listPreparedImages.add(preparedImage!);
     }
 
@@ -133,7 +146,7 @@ class AppwriteConstants {
             "year": year,
             "listImages": finalImages.toString(),
           });
-      
+
       print('Documento criado com sucesso!!');
       return true;
     } catch (e) {
@@ -162,7 +175,10 @@ class AppwriteConstants {
     }
 
     for (var element in listXFileImages) {
-      InputFile? preparedImage = await prepareImage(image: element, title: title,);
+      InputFile? preparedImage = await prepareImage(
+        image: element,
+        title: title,
+      );
       listPreparedImages.add(preparedImage!);
     }
 
@@ -181,7 +197,7 @@ class AppwriteConstants {
 
     try {
       // ignore: unused_local_variable
-      Document response = await database.updateDocument(
+      models.Document response = await database.updateDocument(
           databaseId: databaseId,
           collectionId: bookCollectionId,
           documentId: idDocument!,
@@ -209,13 +225,18 @@ class AppwriteConstants {
   }
 
   Future<bool> deleteDocument(String documentId) async {
-    Document? document = await getDocument(documentId: documentId);
+    models.Document? document = await getDocument(documentId: documentId);
     List<String> listImages = [];
 
-    if(document!.data['listImages'].toString().contains(',')) {
+    if (document!.data['listImages'].toString().contains(',')) {
       listImages = prepareList(listImagesString: document.data['listImages']);
     } else {
-      listImages = [document.data['listImages'].toString().replaceAll('[', '').replaceAll(']', '')];
+      listImages = [
+        document.data['listImages']
+            .toString()
+            .replaceAll('[', '')
+            .replaceAll(']', '')
+      ];
     }
 
     List<String> listImagesId = getImagesIdFromUrl(listImages);
@@ -229,11 +250,72 @@ class AppwriteConstants {
     }
 
     try {
-      await database.deleteDocument(databaseId: databaseId, collectionId: bookCollectionId, documentId: documentId);
+      await database.deleteDocument(
+          databaseId: databaseId,
+          collectionId: bookCollectionId,
+          documentId: documentId);
 
       return true;
     } catch (e) {}
 
     return false;
+  }
+
+  // Account Processing
+  Future<models.Document?> createAccountDocument({required String email}) async {
+    try {
+      var response = await database.createDocument(
+        databaseId: databaseId,
+        collectionId: UserInfoCollectionId,
+        documentId: ID.unique(),
+        data: {
+          'email': email,
+        },
+      );
+
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<bool> accountCreate({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      var response = await account.create(
+        userId: ID.unique(),
+        name: name,
+        email: email,
+        password: password,
+      );
+
+      print('Conta criada com sucesso');
+
+      createAccountDocument(email: email);
+
+      print('Documento criado');
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> accountLogin(
+      {required String email, required String password}) async {
+    try {
+      var response = await account.createEmailSession(
+        email: email,
+        password: password,
+      );
+
+      print('Login feito');
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

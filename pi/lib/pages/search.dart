@@ -7,9 +7,10 @@ import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/cores.dart';
 
 //Componentes
-import 'package:pi/pages/Home.dart';
-import 'package:pi/pages/carrinho.dart';
-import 'package:pi/pages/profile.dart';
+import '../components/search_book_template.dart';
+import '/pages/home.dart';
+import '/pages/carrinho.dart';
+import '/pages/profile.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -22,7 +23,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BookTokAppBar, 
+      appBar: BookTokAppBar,
       body: Container(
         color: paletteBlack,
         child: Column(
@@ -31,7 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Container(
               padding: const EdgeInsets.all(2),
               decoration: const BoxDecoration(
-                color: paletteGrey, 
+                color: paletteGrey,
               ),
               child: Row(
                 children: [
@@ -43,35 +44,44 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   const Expanded(
                     child: TextField(
+                      style: TextStyle(
+                        color: paletteWhite,
+                      ),
                       decoration: InputDecoration(
                         hintText: 'Buscar por título, autor',
-                        border: InputBorder.none, 
+                        hintStyle: TextStyle(color: paletteWhite),
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
                 ],
-              ),     
+              ),
             ),
-            const SizedBox(height: 16),
+            Column(
+              children: [
+                SearchBookTemplate(title: 'O Iluminado', imagePath: '', documentId: '',),
+              ],
+            ),
           ],
         ),
       ),
       //Barra de navegação ----------------------------------------------------------------
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-        route: const Home(), icon: const Icon(Icons.home),
-        current: false,
+          route: Home(),
+          icon: const Icon(Icons.home),
+          current: false,
         ),
         search: MyIconButtonNavigator(
           route: const SearchScreen(),
           icon: const Icon(Icons.search),
-          current: false,
+          current: true,
         ),
         cart: MyIconButtonNavigator(
           route: const Carrinho(),
           icon: const Icon(Icons.shopping_cart),
-          current: true,
-          ),
+          current: false,
+        ),
         user: MyIconButtonNavigator(
           route: const Profile(),
           icon: const Icon(Icons.person),

@@ -37,23 +37,40 @@ class _MyDrawerState extends State<MyDrawer> {
                 color: paletteBlack,
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'images/logo-transparent.png',
-                    height: 40,
-                  ),
                   const SizedBox(
-                    width: 15,
+                    width: 10,
                   ),
-                  const Text(
-                    'Bem vindo Leitor!',
-                    style: TextStyle(
-                      color: paletteYellow,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: paletteWhite,
+                      )),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        'images/logo-transparent.png',
+                        height: 40,
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      const Text(
+                        'Bem vindo Leitor!',
+                        style: TextStyle(
+                          color: paletteYellow,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

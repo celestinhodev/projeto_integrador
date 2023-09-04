@@ -60,9 +60,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       book_data['year'] = document.data['year'];
 
       for (var element in listImages) {
-        carouselItens.add(Container(
-          child: Image.network(element),
-        ));
+        carouselItens.add(Image.network(element));
       }
     });
   }
