@@ -1,9 +1,11 @@
 //Packages
 import 'package:flutter/material.dart';
+import 'package:appwrite/models.dart' as models;
 
 //Constantes (corrigir a separação aqui)
 import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/components/navigation_bar.dart';
+import 'package:pi/constantes/appwrite_constants.dart';
 import 'package:pi/constantes/cores.dart';
 
 //Componentes
@@ -20,6 +22,58 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  // Declaration's
+  AppwriteConstants appwrite_constants = AppwriteConstants();
+
+  TextEditingController searchController = TextEditingController();
+
+  String searchText = '';
+  List<Widget> listResults = [];
+
+  // Methods
+
+  void searchAction(String value) async {
+    setState(() {
+      searchText = value;
+    });
+
+    models.DocumentList? listBooks =
+        await appwrite_constants.searchBooks(searchText: searchText);
+
+    if (listBooks == null || listBooks.total == 0) {
+      setState(() {
+        listResults = [
+          Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Text(
+              'Livro não encontrado',
+              style: TextStyle(
+                color: paletteWhite,
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ];
+      });
+    } else {
+      listResults = [];
+      for (var element in listBooks.documents) {
+        var listImages = appwrite_constants.prepareList(
+            listImagesString: element.data['listImages']);
+
+        setState(() {
+          listResults.add(
+            SearchBookTemplate(
+              documentId: element.$id,
+              title: element.data['title'],
+              imagePath: listImages[0],
+            ),
+          );
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,11 +96,14 @@ class _SearchScreenState extends State<SearchScreen> {
                     },
                     icon: const Icon(Icons.search),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: TextField(
                       style: TextStyle(
                         color: paletteWhite,
                       ),
+                      onChanged: (value) {
+                        searchAction(value);
+                      },
                       decoration: InputDecoration(
                         hintText: 'Buscar por título, autor',
                         hintStyle: TextStyle(color: paletteWhite),
@@ -57,11 +114,22 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            Column(
-              children: [
-                SearchBookTemplate(title: 'O Iluminado', imagePath: '', documentId: '',),
-              ],
-            ),
+            searchText == ''
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(32.0),
+                      child: Text(
+                        'Pesquire alguma coisa',
+                        style: TextStyle(
+                          color: paletteGrey,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  )
+                : Column(
+                    children: listResults,
+                  ),
           ],
         ),
       ),
