@@ -47,9 +47,8 @@ class _HomeAdminState extends State<HomeAdmin> {
     if (listDocuments!.total != 0) {
       for (var element in listDocuments.documents) {
         String nomeLivro = element.data['title'];
-        List<String> listImagesUrl = appwrite_constants.getImageUrlList(
-            listImages: appwrite_constants.prepareList(
-                listImagesString: element.data['listImages']));
+        List<String> listImagesUrl = appwrite_constants.prepareList(
+                listImagesString: element.data['listImages']);
 
         finalWidget = BookTemplate(
           caminhoImagem: listImagesUrl[0],
