@@ -9,5 +9,5 @@ import 'pages/admin/home_admin.dart';
 
 void main() => runApp(const MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: HomeAdmin(),
+  home: Login(),
 ));

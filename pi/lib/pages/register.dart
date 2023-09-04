@@ -40,28 +40,50 @@ class _RegisterState extends State<Register> {
           registerTemplate(hintText: 'Senha', isPassword: true),
           const SizedBox(height: 25),
           registerTemplate(hintText: 'Repita a Senha', isPassword: true),
+          const SizedBox(height: 20),
           
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Transform.scale(
-                scale: 3.0,
-              child: Checkbox(
-                checkColor: paletteBlack,
-                fillColor: MaterialStateProperty.resolveWith(getColor),
-                value: isChecked,
-                onChanged: (bool? value) {
-                  setState(() {
-                    isChecked = value!;
-                  });
-                  const Text('aaaa');
-                },
-              )
-              ),
-            ],
-          )
-        ],
-      ),
-    );
+          Padding(
+            padding: const EdgeInsets.fromLTRB(62, 0, 0, 0),
+            child: Row(
+              children: [
+                Transform.scale(
+                  scale: 2.0,
+                child: Checkbox(
+                  checkColor: paletteBlack,
+                  fillColor: MaterialStateProperty.resolveWith(getColor),
+                  value: isChecked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isChecked = value!;
+                    });
+                  },
+                )
+                ),
+                const SizedBox(width: 20),
+                RichText(
+                  text: TextSpan(
+                    text: 'Ao criar uma conta, você concorda com os' 
+                  'TERMOS DE USO do aplicativo. Por favor'
+                  'verifique a NOTIFICAÇÃO DE PRIVACIDADE,'
+                  'NOTIFICAÇÃO DE COOKIES, e a NOTIFICAÇÃO' 
+                  'DE ANÚNCIOS BASEADOS EM INTERESSE.',
+                  style: DefaultTextStyle.of(context).style,
+                  children: const <TextSpan>[
+                    TextSpan(
+                      text: 'termos de uso',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      )
+                    )
+                    
+                  ]
+                  ),
+                )
+              ],
+            ),
+          ),
+          ]
+        ),
+      );
   }
 }
