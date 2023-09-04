@@ -30,17 +30,18 @@ class _LoginState extends State<Login> {
             registerTemplate(hintText: 'Senha', isPassword: true),
             //////////////Esqueceu a senha///////////////////////////
             Padding(
-              padding: const EdgeInsets.fromLTRB(40, 20, 40,
-                  20), // Ajuste o padding horizontal conforme necessário
+              padding: const EdgeInsets.fromLTRB(200, 0, 0,30),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(
-                    minWidth: double.infinity), // Define largura máxima
+                    minWidth: 17,
+                ), // Define largura máxima
                 child: TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: paletteWhite,
                   ),
                   onPressed: () {
                     // Lógica aqui
+
                   },
                   child: const Text(
                     'Esqueceu a senha?',
@@ -83,13 +84,14 @@ class _LoginState extends State<Login> {
             ),
             const SizedBox(height: 10),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Não tem uma conta?',
-                  style: TextStyle(
-                    color: paletteWhite,
-                    fontSize: 25,
-                  ),
+                'Não tem uma conta?',
+                style: TextStyle(
+                  color: paletteWhite,
+                  fontSize: 25,
+                ),
                 ),
                 TextButton(
                   style: TextButton.styleFrom(

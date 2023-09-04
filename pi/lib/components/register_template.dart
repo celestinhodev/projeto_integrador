@@ -27,6 +27,20 @@ class _registerTemplateState extends State<registerTemplate> {
                   hintStyle: const TextStyle(color: paletteWhite),
                   fillColor: paletteDarkGrey,
                   filled: true,
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: paletteYellow, width: 1),
+
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey, width: 0.4,
+                    ),
+                  ),
+                  errorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                    width: 3333, color: Colors.redAccent
+                    ), 
+                  ),
                 ),
               )
             : TextField(
@@ -37,16 +51,18 @@ class _registerTemplateState extends State<registerTemplate> {
                   hintStyle: const TextStyle(color: paletteWhite),
                   fillColor: paletteDarkGrey,
                   filled: true,
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: paletteYellow),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: paletteYellow, width: 1),
 
                   ),
-                  enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 0.4
+                    ),
                   ),
                   errorBorder: const OutlineInputBorder(
                     borderSide: BorderSide(
-                    width: 3, color: Colors.redAccent), 
+                    width: 3, color: Colors.redAccent
+                    ), 
                   ),
                 
                   suffixIcon: GestureDetector(
