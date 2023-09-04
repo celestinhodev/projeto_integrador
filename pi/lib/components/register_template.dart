@@ -38,8 +38,8 @@ class _registerTemplateState extends State<registerTemplate> {
                   ),
                   errorBorder: const OutlineInputBorder(
                     borderSide: BorderSide(
-                    width: 3333, color: Colors.redAccent
-                    ), 
+                      color: Colors.redAccent, width: 0.4,
+                    ),
                   ),
                 ),
               )
@@ -61,8 +61,8 @@ class _registerTemplateState extends State<registerTemplate> {
                   ),
                   errorBorder: const OutlineInputBorder(
                     borderSide: BorderSide(
-                    width: 3, color: Colors.redAccent
-                    ), 
+                      color: Colors.redAccent, width: 0.4,
+                    ),
                   ),
                 
                   suffixIcon: GestureDetector(
