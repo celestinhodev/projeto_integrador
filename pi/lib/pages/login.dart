@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi/components/register_template.dart';
+import 'package:pi/components/submitt_button.dart';
 import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/Home.dart';
 
@@ -55,28 +56,11 @@ class _LoginState extends State<Login> {
             const SizedBox(height: 15),
 
             ///////////////Botão login////////////////
-            Padding(
-              padding: const EdgeInsets.fromLTRB(54, 0, 54, 0),
-              child: TextButton(
-                onPressed: () {},
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  color: paletteYellow2, // Cor de fundo do botão
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 50), // Ajuste o padding conforme necessário
-                  child: const Center(
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: paletteBlack, // Cor do texto
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            SubmittButton(
+              buttonText: 'Login',
+              onPressed: () {},
             ),
+
             const SizedBox(height: 40),
             const Text(
               'Ou, entre com',
