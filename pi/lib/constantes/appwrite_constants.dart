@@ -261,8 +261,24 @@ class AppwriteConstants {
     return false;
   }
 
+  Future<models.DocumentList?> searchBooks({required String searchText}) async {
+    try {
+      var response = await database.listDocuments(
+        databaseId: databaseId,
+        collectionId: bookCollectionId,
+        queries: [
+          Query.search("title", searchText),
+        ],
+      );
+
+      return response;
+    } catch (e) {}
+  }
+
+
   // Account Processing
-  Future<models.Document?> createAccountDocument({required String email}) async {
+  Future<models.Document?> createAccountDocument(
+      {required String email}) async {
     try {
       var response = await database.createDocument(
         databaseId: databaseId,

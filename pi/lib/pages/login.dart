@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi/components/register_template.dart';
+import 'package:pi/components/submitt_button.dart';
 import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/Home.dart';
 
@@ -26,87 +27,79 @@ class _LoginState extends State<Login> {
               height: 200,
             ),
             registerTemplate(hintText: 'Email', isPassword: false),
-            const SizedBox(height: 30),
+            const SizedBox(height: 25),
             registerTemplate(hintText: 'Senha', isPassword: true),
             //////////////Esqueceu a senha///////////////////////////
-            Padding(
-              padding: const EdgeInsets.fromLTRB(200, 0, 0,30),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                    minWidth: 17,
-                ), // Define largura máxima
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: paletteWhite,
-                  ),
-                  onPressed: () {
-                    // Lógica aqui
-
-                  },
-                  child: const Text(
-                    'Esqueceu a senha?',
-                    style: TextStyle(
-                      fontSize: 20,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 5, 55, 15),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: paletteWhite,
+                    ),
+                    onPressed: () {
+                      // Lógica aqui
+                    },
+                    child: const Text(
+                      'Esqueceu a senha?',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
+
+            const SizedBox(height: 15),
 
             ///////////////Botão login////////////////
-            TextButton(      
-              onPressed: () {
-
-              },
-              child: Container(
-                width: 379, 
-                height: 50,
-                color: paletteYellow2, // Cor de fundo do botão
-                padding: const EdgeInsets.symmetric(horizontal: 50), // Ajuste o padding conforme necessário
-                child: const Center(
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: paletteBlack, // Cor do texto
-                    ),
-                  ),
-                ),
-              ),
+            SubmittButton(
+              buttonText: 'Login',
+              onPressed: () {},
             ),
+
             const SizedBox(height: 40),
             const Text(
               'Ou, entre com',
               style: TextStyle(
                 color: paletteWhite,
-                fontSize: 25,
+                fontSize: 18,
               ),
             ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                'Não tem uma conta?',
-                style: TextStyle(
-                  color: paletteWhite,
-                  fontSize: 25,
-                ),
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    //cor do foregroud
-                    foregroundColor: paletteWhite,
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Não tem uma conta?',
+                    style: TextStyle(
+                      color: paletteWhite,
+                      fontSize: 18,
+                    ),
                   ),
-                  onPressed: () {
-                    //logica aqui
-                  },
-                  child: const Text(
-                    'Registre-se',
-                    style: TextStyle(fontSize: 25, color: Colors.blue),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      //cor do foregroud
+                      foregroundColor: paletteWhite,
+                    ),
+                    onPressed: () {
+                      //logica aqui
+                    },
+                    child: const Text(
+                      'Registre-se',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.blue,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
