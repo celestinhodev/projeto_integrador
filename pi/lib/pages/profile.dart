@@ -124,12 +124,12 @@ class _ProfileState extends State<Profile> {
         cart: MyIconButtonNavigator(
           route: const Carrinho(),
           icon: const Icon(Icons.shopping_cart),
-          current: true,
+          current: false,
           ),
         user: MyIconButtonNavigator(
           route: const Profile(),
           icon: const Icon(Icons.person),
-          current: false,
+          current: true,
         ),
       ),
     );

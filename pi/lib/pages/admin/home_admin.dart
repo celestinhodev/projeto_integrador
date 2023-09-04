@@ -1,7 +1,6 @@
 // Packages
 import 'package:appwrite/models.dart' as models;
 
-import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 
 // Components
@@ -53,7 +52,7 @@ class _HomeAdminState extends State<HomeAdmin> {
         finalWidget = BookTemplate(
           caminhoImagem: listImagesUrl[0],
           nomeLivro: nomeLivro,
-          idDocument: element.$id,
+          documentId: element.$id,
           admin: true,
         );
         booksPrepare.add(finalWidget);

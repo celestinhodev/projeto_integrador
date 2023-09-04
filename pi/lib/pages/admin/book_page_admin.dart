@@ -1,9 +1,9 @@
 // Packages
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pi/constantes/appwrite_constants.dart';
+import 'package:pi/pages/admin/home_admin.dart';
 
 // Components
 import '../../components/booktok_appbar.dart';
@@ -35,6 +35,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
     'category': 'Categoria',
     'author': 'Autor',
     'description': 'Descrição',
+    'year': 'Ano',
   };
 
   List<XFile> listXFileImages = [];
@@ -45,6 +46,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
   TextEditingController categoryEditingController = TextEditingController();
   TextEditingController authorEditingController = TextEditingController();
   TextEditingController descriptionEditingController = TextEditingController();
+  TextEditingController yearEditingController = TextEditingController();
 
   // Carousel
   CarouselController bookCarouselController = CarouselController();
@@ -63,6 +65,15 @@ class _BookCreationPageState extends State<BookCreationPage> {
   bool containPlaceholderImage = false;
 
   // Methods
+  navigateBackHome() {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeAdmin(),
+        ),
+        (route) => false);
+  }
+
   void setCarouselToPlaceholder() {
     carouselItens = [
       Image.asset('images/livros/book_placeholder.png'),
@@ -82,13 +93,12 @@ class _BookCreationPageState extends State<BookCreationPage> {
       var document =
           await appwrite_constants.getDocument(documentId: documentId);
 
-      Map database_book_info = {};
-
       book_data['title'] = document!.data['title'];
       book_data['price'] = document.data['price'];
       book_data['category'] = document.data['category'];
       book_data['author'] = document.data['author'];
       book_data['description'] = document.data['description'];
+      book_data['year'] = document.data['year'];
 
       setState(() {
         book_data['title'] = document.data['title'];
@@ -96,11 +106,24 @@ class _BookCreationPageState extends State<BookCreationPage> {
         book_data['category'] = document.data['category'];
         book_data['author'] = document.data['author'];
         book_data['description'] = document.data['description'];
+        book_data['year'] = document.data['year'];
 
-        imagePath = appwrite_constants.prepareList(
-            listImagesString: document.data['listImages']);
+        print(book_data['year']);
+
+        if (document.data['listImages'].toString().contains(',')) {
+          imagePath = appwrite_constants.prepareList(
+              listImagesString: document.data['listImages']);
+        } else {
+          imagePath = [
+            document.data['listImages']
+                .toString()
+                .replaceAll('[', '')
+                .replaceAll(']', '')
+          ];
+        }
 
         for (var element in imagePath) {
+          print(element);
           carouselItens.add(Image.network(element));
           listXFileImages.add(XFile(''));
         }
@@ -108,7 +131,6 @@ class _BookCreationPageState extends State<BookCreationPage> {
         dataIsLoaded = true;
       });
     } catch (e) {
-      print('Error in getBookDataFromDB');
     }
   }
 
@@ -153,28 +175,30 @@ class _BookCreationPageState extends State<BookCreationPage> {
   }
 
   void addImageToCarousel() async {
-    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    try {
+      XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (containPlaceholderImage == true) {
-        carouselItens = [];
-        carouselItens.add(Image.network(image!.path));
-        imagePath.add('');
+      setState(() {
+        if (containPlaceholderImage == true) {
+          carouselItens = [];
+          carouselItens.add(Image.network(image!.path));
+          imagePath.add('');
 
-        listXFileImages.add(image);
+          listXFileImages.add(image);
 
-        showDeleteImageButton = true;
-        containPlaceholderImage = false;
-      } else if (containPlaceholderImage == false) {
-        carouselItens.add(Image.network(image!.path));
+          showDeleteImageButton = true;
+          containPlaceholderImage = false;
+        } else if (containPlaceholderImage == false) {
+          carouselItens.add(Image.network(image!.path));
 
-        imagePath.add('');
+          imagePath.add('');
 
-        listXFileImages.add(image);
-      }
-    });
-
-    print(listXFileImages);
+          listXFileImages.add(image);
+        }
+      });
+    } catch (e) {
+      print('Falha ao pegar a imagem');
+    }
   }
 
   void getInfoFromTextfield() {
@@ -183,6 +207,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
     book_data['category'] = categoryEditingController.text;
     book_data['author'] = authorEditingController.text;
     book_data['description'] = descriptionEditingController.text;
+    book_data['year'] = yearEditingController.text;
   }
 
   void setImagesToUpload() {
@@ -273,14 +298,14 @@ class _BookCreationPageState extends State<BookCreationPage> {
                     bottom: 10,
                     left: 10,
                     child: Container(
-                      padding: EdgeInsets.all(7),
+                      padding: const EdgeInsets.all(7),
                       decoration: BoxDecoration(
                         color: paletteYellow,
                         borderRadius: BorderRadius.circular(99),
                       ),
                       child: IconButton(
                         onPressed: addImageToCarousel,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add,
                           color: paletteBlack,
                         ),
@@ -301,14 +326,14 @@ class _BookCreationPageState extends State<BookCreationPage> {
                               onPressed: dataIsLoaded
                                   ? deleteImageFromCarousel
                                   : () {},
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.delete,
                                 color: Colors.red,
                               ),
                             ),
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                 ],
               ),
             ),
@@ -324,8 +349,9 @@ class _BookCreationPageState extends State<BookCreationPage> {
                           hintText: book_data['title'],
                           keyboardType: TextInputType.text,
                           obscureText: false,
+                          hasToBeFilled: widget.documentId == null,
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
 
                   const SizedBox(
                     height: 20,
@@ -340,16 +366,16 @@ class _BookCreationPageState extends State<BookCreationPage> {
                         color: paletteWhite,
                       ),
 
-                      Text(
+                      const Text(
                         'R\$',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: paletteWhite,
                           fontSize: 18,
                         ),
                       ),
 
                       Container(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: 80,
                         ),
                         child: dataIsLoaded == true
@@ -358,50 +384,13 @@ class _BookCreationPageState extends State<BookCreationPage> {
                                 hintText: book_data['price'],
                                 keyboardType: TextInputType.text,
                                 obscureText: false,
+                                hasToBeFilled: widget.documentId == null,
                               )
-                            : SizedBox(),
+                            : const SizedBox(),
                       ),
 
-                      Spacer(),
-
-                      // Genero
-                      const Icon(
-                        Icons.art_track,
-                        color: paletteWhite,
-                      ),
-
-                      Container(
-                        constraints: BoxConstraints(
-                          maxWidth: 150,
-                        ),
-                        child: dataIsLoaded == true
-                            ? TextFieldAdmin(
-                                controller: categoryEditingController,
-                                hintText: book_data['category'],
-                                keyboardType: TextInputType.text,
-                                obscureText: false,
-                              )
-                            : SizedBox(),
-                      ),
+                      const Spacer(),
                     ],
-                  ),
-
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  Container(
-                    constraints: BoxConstraints(
-                      maxWidth: 200,
-                    ),
-                    child: dataIsLoaded == true
-                        ? TextFieldAdmin(
-                            controller: authorEditingController,
-                            hintText: book_data['author'],
-                            keyboardType: TextInputType.text,
-                            obscureText: false,
-                          )
-                        : SizedBox(),
                   ),
 
                   const Divider(
@@ -430,13 +419,123 @@ class _BookCreationPageState extends State<BookCreationPage> {
                           hintText: book_data['description'],
                           keyboardType: TextInputType.text,
                           obscureText: false,
+                          hasToBeFilled: widget.documentId == null,
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
+
+                  const Divider(
+                    color: paletteWhite,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'ESPECIFICAÇÕES',
+                    style: TextStyle(
+                      color: paletteWhite,
+                      fontSize: 18,
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Categoria:',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: paletteWhite,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        width: 250,
+                        child: dataIsLoaded == true
+                            ? TextFieldAdmin(
+                                controller: categoryEditingController,
+                                hintText: book_data['category'],
+                                keyboardType: TextInputType.text,
+                                obscureText: false,
+                                hasToBeFilled: widget.documentId == null,
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Autor:',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: paletteWhite,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        width: 250,
+                        child: dataIsLoaded == true
+                            ? TextFieldAdmin(
+                                controller: authorEditingController,
+                                hintText: book_data['author'],
+                                keyboardType: TextInputType.text,
+                                obscureText: false,
+                                hasToBeFilled: widget.documentId == null,
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Ano de lançamento:',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: paletteWhite,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        width: 250,
+                        child: dataIsLoaded == true
+                            ? TextFieldAdmin(
+                                controller: yearEditingController,
+                                hintText: book_data['year'],
+                                keyboardType: TextInputType.text,
+                                obscureText: false,
+                                hasToBeFilled: widget.documentId == null,
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 80,
+                  ),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 50,
             ),
           ],
         ),
@@ -446,52 +545,126 @@ class _BookCreationPageState extends State<BookCreationPage> {
           Expanded(
             child: Container(
               color: paletteYellow,
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
                   setState(() {
                     getInfoFromTextfield();
                   });
 
                   setImagesToUpload();
 
-                  if (widget.documentId == null) {
-                    appwrite_constants.createDocument(
+                  // Create document
+                  if (widget.documentId == null &&
+                      carouselItens.isNotEmpty &&
+                      !containPlaceholderImage &&
+                      book_data['title'] != '' &&
+                      book_data['price'] != '' &&
+                      book_data['category'] != '' &&
+                      book_data['author'] != '' &&
+                      book_data['description'] != '' &&
+                      book_data['year'] != '') {
+                    bool responseSuccess =
+                        await appwrite_constants.createDocument(
                       title: book_data['title'],
                       author: book_data['author'],
                       price: book_data['price'],
                       category: book_data['category'],
                       description: book_data['description'],
+                      year: book_data['year'],
                       listXFileImages: listXFilesForUpload,
                     );
-                  } else {
-                    appwrite_constants.updateDocument(
+
+                    if (responseSuccess) {
+                      navigateBackHome();
+                    }
+                  } else if (widget.documentId != null &&
+                      carouselItens.isNotEmpty &&
+                      !containPlaceholderImage) {
+                    var document = await appwrite_constants.getDocument(
+                        documentId: widget.documentId!);
+
+                    if (book_data['title'] == '') {
+                      book_data['title'] = document!.data['title'];
+                    }
+                    if (book_data['category'] == '') {
+                      book_data['category'] = document!.data['category'];
+                    }
+                    if (book_data['price'] == '') {
+                      book_data['price'] = document!.data['price'];
+                    }
+                    if (book_data['author'] == '') {
+                      book_data['author'] = document!.data['author'];
+                    }
+                    if (book_data['description'] == '') {
+                      book_data['description'] = document!.data['description'];
+                    }
+                    if (book_data['year'] == '') {
+                      book_data['year'] = document!.data['year'];
+                    }
+
+                    bool responseSuccess =
+                        await appwrite_constants.updateDocument(
                       idDocument: widget.documentId,
                       title: book_data['title'],
                       author: book_data['author'],
                       price: book_data['price'],
                       category: book_data['category'],
                       description: book_data['description'],
+                      year: book_data['year'],
                       listXFileImages: listXFilesForUpload,
                       listCurrentImages: imagePath,
                       deletedImages: deletedImages,
                     );
+
+                    if (responseSuccess) {
+                      navigateBackHome();
+                    }
+                  } else {
+                    print('Algum elemento está faltando');
                   }
                 },
                 style: TextButton.styleFrom(
-                    backgroundColor: paletteYellow,
-                    textStyle: TextStyle(
-                      fontSize: 18,
-                    )),
-                child: const Text(
-                  'Create Book',
-                  style: TextStyle(
+                    textStyle: const TextStyle(
+                  fontSize: 18,
+                )),
+                child: Text(
+                  widget.documentId == null ? 'Create Book' : 'Update book',
+                  style: const TextStyle(
                     color: paletteBlack,
                   ),
                 ),
               ),
             ),
           ),
+          widget.documentId != null
+              ? Expanded(
+                  child: Container(
+                    color: Colors.red,
+                    padding: const EdgeInsets.all(8),
+                    child: TextButton(
+                      onPressed: () async {
+                        bool responseSuccess = await appwrite_constants
+                            .deleteDocument(widget.documentId!);
+
+                        if (responseSuccess) {
+                          navigateBackHome();
+                        }
+                      },
+                      style: TextButton.styleFrom(
+                          textStyle: const TextStyle(
+                        fontSize: 18,
+                      )),
+                      child: Text(
+                        'Delete Document',
+                        style: const TextStyle(
+                          color: paletteWhite,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
     );

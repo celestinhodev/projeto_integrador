@@ -7,7 +7,7 @@ import '../pages/book_page.dart';
 class BookTemplate extends StatefulWidget {
   // Declaration's
   String nomeLivro;
-  String? idDocument;
+  String? documentId;
   String caminhoImagem;
   bool admin;
 
@@ -18,7 +18,7 @@ class BookTemplate extends StatefulWidget {
     required this.caminhoImagem,
     required this.nomeLivro,
     required this.admin,
-    this.idDocument,
+    this.documentId,
   });
 
   @override
@@ -44,7 +44,7 @@ class _BookTemplateState extends State<BookTemplate> {
               context,
               MaterialPageRoute(
                 builder: (context) => BookDetailsPage(
-                  nomeLivro: widget.nomeLivro,
+                  documentId: widget.documentId,
                 ),
               ),
             );
@@ -53,7 +53,7 @@ class _BookTemplateState extends State<BookTemplate> {
               context,
               MaterialPageRoute(
                 builder: (context) => BookCreationPage(
-                  documentId: widget.idDocument,
+                  documentId: widget.documentId,
                 ),
               ),
             );
@@ -66,12 +66,12 @@ class _BookTemplateState extends State<BookTemplate> {
               widget.caminhoImagem.contains('https://')
                   ? Image.network(
                       widget.caminhoImagem,
-                      height: 140,
+                      height: 130,
                       fit: BoxFit.contain,
                     )
                   : Image.asset(
                       widget.caminhoImagem,
-                      height: 140,
+                      height: 130,
                       fit: BoxFit.contain,
                     ),
               const SizedBox(
@@ -85,7 +85,7 @@ class _BookTemplateState extends State<BookTemplate> {
                   widget.nomeLivro,
                   style: const TextStyle(
                     color: paletteWhite,
-                    fontSize: 12,
+                    fontSize: 13,
                   ),
                   softWrap: false,
                   maxLines: 4,
