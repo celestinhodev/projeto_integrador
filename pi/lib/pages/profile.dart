@@ -8,6 +8,7 @@ import '../components/drawer.dart';
 import '../components/navigation_bar.dart';
 import 'Home.dart';
 import 'carrinho.dart';
+import 'personal_data.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -28,7 +29,8 @@ class _ProfileState extends State<Profile> {
           children: [
             const SizedBox(height: 16), // Espaçamento entre os botões
             Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Centraliza os botões horizontalmente
+              mainAxisAlignment: MainAxisAlignment
+                  .center, // Centraliza os botões horizontalmente
               children: [
                 TextButton(
                   style: TextButton.styleFrom(
@@ -47,7 +49,11 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   onPressed: () {
-                    // Lógica para o primeiro botão aqui
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PersonalData(),
+                        ));
                   },
                   child: const Text(
                     'Dados Pessoais',
@@ -99,13 +105,11 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.fromLTRB(18, 20, 12, 0),
               child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4, 
+                  crossAxisCount: 4,
                   mainAxisExtent: 225,
                 ),
                 shrinkWrap: true,
-                children: [
-                  
-                ],
+                children: [],
               ),
             ),
           ],
@@ -113,8 +117,9 @@ class _ProfileState extends State<Profile> {
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-        route: const Home(), icon: const Icon(Icons.home),
-        current: false,
+          route: const Home(),
+          icon: const Icon(Icons.home),
+          current: false,
         ),
         search: MyIconButtonNavigator(
           route: const SearchScreen(),
@@ -125,7 +130,7 @@ class _ProfileState extends State<Profile> {
           route: const Carrinho(),
           icon: const Icon(Icons.shopping_cart),
           current: false,
-          ),
+        ),
         user: MyIconButtonNavigator(
           route: const Profile(),
           icon: const Icon(Icons.person),
