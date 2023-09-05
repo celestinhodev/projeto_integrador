@@ -12,6 +12,11 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController nameEditingController = TextEditingController();
+  TextEditingController emailEditingController = TextEditingController();
+  TextEditingController passwordEditingController = TextEditingController();
+  TextEditingController confirmPasswordEditingController = TextEditingController();
+
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -33,13 +38,13 @@ class _RegisterState extends State<Register> {
             width: 500,
             height: 200,
           ),
-          registerTemplate(hintText: 'Nome Completo', isPassword: false),
+          registerTemplate(hintText: 'Nome Completo', isPassword: false, textEditingController: nameEditingController,),
           const SizedBox(height: 25),
-          registerTemplate(hintText: 'Email', isPassword: false),
+          registerTemplate(hintText: 'Email', isPassword: false, textEditingController: emailEditingController,),
           const SizedBox(height: 25),
-          registerTemplate(hintText: 'Senha', isPassword: true),
+          registerTemplate(hintText: 'Senha', isPassword: true, textEditingController: passwordEditingController,),
           const SizedBox(height: 25),
-          registerTemplate(hintText: 'Repita a Senha', isPassword: true),
+          registerTemplate(hintText: 'Repita a Senha', isPassword: true, textEditingController: confirmPasswordEditingController,),
           const SizedBox(height: 20),
           
           Padding(

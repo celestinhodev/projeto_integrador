@@ -320,18 +320,18 @@ class AppwriteConstants {
     }
   }
 
-  Future<bool> accountLogin(
+  Future<models.Session?> accountLogin(
       {required String email, required String password}) async {
+
     try {
       var response = await account.createEmailSession(
         email: email,
         password: password,
       );
 
-      print('Login feito');
-      return true;
+      return response;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 }
