@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../constantes/cores.dart';
 
 class registerTemplate extends StatefulWidget {
   String? hintText;
+  TextEditingController textEditingController = TextEditingController();
   bool isPassword;
 
-  registerTemplate({super.key, required this.hintText, required this.isPassword});
+  registerTemplate(
+      {super.key,
+      required this.hintText,
+      required this.isPassword,
+      required this.textEditingController});
 
   @override
   State<registerTemplate> createState() => _registerTemplateState();
 }
 
 class _registerTemplateState extends State<registerTemplate> {
-  TextEditingController textController = TextEditingController();
   bool _senhaLogin = true;
 
   @override
@@ -23,6 +28,10 @@ class _registerTemplateState extends State<registerTemplate> {
       ),
       child: widget.isPassword == false
           ? TextField(
+              style: TextStyle(
+                color: paletteWhite,
+              ),
+              controller: widget.textEditingController,
               decoration: InputDecoration(
                 hintText: widget.hintText,
                 hintStyle: const TextStyle(color: paletteWhite),
@@ -30,22 +39,26 @@ class _registerTemplateState extends State<registerTemplate> {
                 filled: true,
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: paletteYellow, width: 1),
-    
                 ),
                 enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: Colors.grey, width: 0.4,
+                    color: Colors.grey,
+                    width: 0.4,
                   ),
                 ),
                 errorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: Colors.redAccent, width: 0.4,
+                    color: Colors.redAccent,
+                    width: 0.4,
                   ),
                 ),
               ),
             )
           : TextField(
-              controller: textController,
+              style: TextStyle(
+                color: paletteWhite,
+              ),
+              controller: widget.textEditingController,
               obscureText: _senhaLogin,
               decoration: InputDecoration(
                 hintText: widget.hintText,
@@ -54,18 +67,16 @@ class _registerTemplateState extends State<registerTemplate> {
                 filled: true,
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: paletteYellow, width: 1),
-    
                 ),
                 enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey, width: 0.4
-                  ),
+                  borderSide: BorderSide(color: Colors.grey, width: 0.4),
                 ),
                 errorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: Colors.redAccent, width: 0.4,
+                    color: Colors.redAccent,
+                    width: 0.4,
                   ),
                 ),
-              
                 suffixIcon: GestureDetector(
                   onTap: () {
                     setState(() {

@@ -13,6 +13,11 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController nameEditingController = TextEditingController();
+  TextEditingController emailEditingController = TextEditingController();
+  TextEditingController passwordEditingController = TextEditingController();
+  TextEditingController confirmPasswordEditingController = TextEditingController();
+
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -27,27 +32,28 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: paletteBlack,
-      body: Column(children: [
-        Image.asset(
-          'Images/logo-login.png',
-          width: 500,
-          height: 200,
-        ),
-        registerTemplate(hintText: 'Nome Completo', isPassword: false),
-        const SizedBox(height: 25),
-        registerTemplate(hintText: 'Email', isPassword: false),
-        const SizedBox(height: 25),
-        registerTemplate(hintText: 'Senha', isPassword: true),
-        const SizedBox(height: 25),
-        registerTemplate(hintText: 'Repita a Senha', isPassword: true),
-        const SizedBox(height: 20),
-
-        Padding(
-          padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
-          child: Row(
-            children: [
-              Transform.scale(
-                scale: 1.5,
+      body: Column(
+        children: [
+          Image.asset(
+            'Images/logo-login.png',
+            width: 500,
+            height: 200,
+          ),
+          registerTemplate(hintText: 'Nome Completo', isPassword: false, textEditingController: nameEditingController,),
+          const SizedBox(height: 25),
+          registerTemplate(hintText: 'Email', isPassword: false, textEditingController: emailEditingController,),
+          const SizedBox(height: 25),
+          registerTemplate(hintText: 'Senha', isPassword: true, textEditingController: passwordEditingController,),
+          const SizedBox(height: 25),
+          registerTemplate(hintText: 'Repita a Senha', isPassword: true, textEditingController: confirmPasswordEditingController,),
+          const SizedBox(height: 20),
+          
+          Padding(
+            padding: const EdgeInsets.fromLTRB(62, 0, 0, 0),
+            child: Row(
+              children: [
+                Transform.scale(
+                  scale: 2.0,
                 child: Checkbox(
                   checkColor: paletteBlack,
                   fillColor: MaterialStateProperty.resolveWith(getColor),
