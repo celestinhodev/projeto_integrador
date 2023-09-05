@@ -11,5 +11,5 @@ import 'pages/search.dart';
 
 void main() => runApp(const MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: PersonalData(),
+  home: Register(),
 ));
