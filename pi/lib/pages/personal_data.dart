@@ -70,6 +70,21 @@ class _PersonalDataState extends State<PersonalData> {
     return false;
   }
 
+  void makePrefsUpdate() async {
+    bool updateSuccess = await updatePersonalDataInDB();
+
+    if (updateSuccess) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Profile(),
+        ),
+      );
+    } else {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -108,7 +123,7 @@ class _PersonalDataState extends State<PersonalData> {
               child: Column(
                 children: [
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   PersonalDataTextField(
                     hintText: 'Nome',
@@ -134,33 +149,35 @@ class _PersonalDataState extends State<PersonalData> {
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        constraints: BoxConstraints(
-                          maxWidth: 130,
+                  Container(
+                    constraints: BoxConstraints(
+                      maxWidth: 350,
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          constraints: BoxConstraints(
+                            maxWidth: 130,
+                          ),
+                          child: PersonalDataTextField(
+                            hintText: 'CEP',
+                            isPassword: false,
+                            textEditingController: cepEditingController,
+                          ),
                         ),
-                        child: PersonalDataTextField(
-                          hintText: 'CEP',
-                          isPassword: false,
-                          textEditingController: cepEditingController,
+                        Spacer(),
+                        Container(
+                          constraints: BoxConstraints(
+                            maxWidth: 180,
+                          ),
+                          child: PersonalDataTextField(
+                            hintText: 'Cidade',
+                            isPassword: false,
+                            textEditingController: cityEditingController,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        constraints: BoxConstraints(
-                          maxWidth: 200,
-                        ),
-                        child: PersonalDataTextField(
-                          hintText: 'Cidade',
-                          isPassword: false,
-                          textEditingController: cityEditingController,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 10,
@@ -173,36 +190,37 @@ class _PersonalDataState extends State<PersonalData> {
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        constraints: BoxConstraints(
-                          maxWidth: 130,
+                  Container(
+                    constraints: BoxConstraints(maxWidth: 350),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          constraints: BoxConstraints(
+                            maxWidth: 130,
+                          ),
+                          child: PersonalDataTextField(
+                            hintText: 'Complemento',
+                            isPassword: false,
+                            textEditingController: complementEditingController,
+                          ),
                         ),
-                        child: PersonalDataTextField(
-                          hintText: 'Complemento',
-                          isPassword: false,
-                          textEditingController: complementEditingController,
+                        Spacer(),
+                        Container(
+                          constraints: BoxConstraints(
+                            maxWidth: 180,
+                          ),
+                          child: PersonalDataTextField(
+                            hintText: 'Telefone',
+                            isPassword: false,
+                            textEditingController: telephoneEditingController,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        constraints: BoxConstraints(
-                          maxWidth: 200,
-                        ),
-                        child: PersonalDataTextField(
-                          hintText: 'Telefone',
-                          isPassword: false,
-                          textEditingController: telephoneEditingController,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(
-                    height: 25,
+                    height: 35,
                   ),
                   SubmittButton(
                     buttonText: 'Salvar Alterações',
@@ -210,10 +228,11 @@ class _PersonalDataState extends State<PersonalData> {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: Text(
+                          title: const Text(
                             'Deseja continuar? insira sua senha: ',
                             style: TextStyle(
                               color: paletteWhite,
+                              fontSize: 18,
                             ),
                           ),
                           backgroundColor: paletteBlack,
@@ -224,10 +243,9 @@ class _PersonalDataState extends State<PersonalData> {
                           ),
                           actions: [
                             CupertinoDialogAction(
-                              child: Text('Continuar'),
-                              onPressed: () async {
-                                var updateSuccess =
-                                    await updatePersonalDataInDB();
+                              child: const Text('Continuar'),
+                              onPressed: () {
+                                makePrefsUpdate();
                               },
                             ),
                             CupertinoDialogAction(

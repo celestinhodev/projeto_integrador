@@ -9,6 +9,7 @@ import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/Home.dart';
 
 import 'admin/home_admin.dart';
+import 'register.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -157,7 +158,12 @@ class _LoginState extends State<Login> {
                       foregroundColor: paletteWhite,
                     ),
                     onPressed: () {
-                      //logica aqui
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Register(),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Registre-se',

@@ -340,21 +340,31 @@ class AppwriteConstants {
     required String telephone,
     required String oldPassword
   }) async {
+
     try {
       if(email != '') await account.updateEmail(email: email, password: oldPassword);
       if(name != '') await account.updateName(name: name);
-      if(telephone != '') await account.updatePhone(phone: telephone, password: oldPassword);
-      if(password != '') await account.updatePassword(password: password);
+      
+      if(telephone != '') {
+        telephone = '+' + telephone;
+        
+        await account.updatePhone(phone: telephone, password: oldPassword);
+      }
+
+      if(password != '') await account.updatePassword(password: password, oldPassword: oldPassword);
+
 
       await account.updatePrefs(prefs: {
-        'cep': cep,
-        'city': city,
-        'address': address,
-        'complement': complement,
+        if(cep != '') 'cep': cep,
+        if(city != '') 'city': city,
+        if(address != '') 'address': address,
+        if(complement != '') 'complement': complement,
       });
+
+      print('Foi');
     
       return true;
-    } catch (e) {}
+    } catch (e) {print(e);}
     return false;
   }
 }

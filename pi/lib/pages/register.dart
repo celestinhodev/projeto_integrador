@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:pi/components/register_template.dart';
 import 'package:pi/components/submitt_button.dart';
 import 'package:pi/constantes/cores.dart';
+import 'package:pi/pages/login.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -107,7 +108,7 @@ class _RegisterState extends State<Register> {
                         TextSpan(
                           text: 'Notificação de privacidade\n',
                           style: TextStyle(
-                            color:paletteBlue,
+                            color: paletteBlue,
                           ),
                         ),
                         TextSpan(
@@ -150,7 +151,12 @@ class _RegisterState extends State<Register> {
               foregroundColor: paletteWhite,
             ),
             onPressed: () {
-              // Lógica aqui
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Login(),
+                ),
+              );
             },
             child: const Text(
               'Voltar ao login?',

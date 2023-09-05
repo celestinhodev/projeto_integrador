@@ -12,5 +12,5 @@ import 'pages/search.dart';
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
   //home: PersonalData(),
-  home: PersonalData(),
+  home: Login(),
 ));
