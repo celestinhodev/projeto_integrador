@@ -37,22 +37,17 @@ class _LoginState extends State<Login> {
     });
 
     try {
-      models.Session? loginStatus = await appwrite_constants.accountLogin(
+      bool loginStatus = await appwrite_constants.accountLogin(
         email: email,
         password: password,
       );
 
-      if (loginStatus == null) {
-        return false;
-      } else {
-        return true;
-      }
-    } catch (e) {
-      return false;
-    }
+      return true;
+    } catch (e) {}
+    return false;
   }
 
-  NavigateAfterLogin({required bool loginStatus}) {
+  void navigateAfterLogin({required bool loginStatus}) {
     if (loginStatus == true) {
       switch (email) {
         case 'staffchattube@gmail.com':
@@ -129,9 +124,9 @@ class _LoginState extends State<Login> {
             SubmittButton(
               buttonText: 'Login',
               onPressed: () async {
-                bool login_status = await checkLogin();
+                bool login_info = await checkLogin();
 
-                NavigateAfterLogin(loginStatus: login_status);
+                navigateAfterLogin(loginStatus: login_info);
               },
             ),
 

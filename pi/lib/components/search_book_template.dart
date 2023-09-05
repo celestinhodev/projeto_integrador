@@ -1,7 +1,12 @@
+// Packages
 import 'package:flutter/material.dart';
+import 'package:appwrite/models.dart' as models;
+
+// Constants
+import '../constantes/cores.dart';
 import 'package:pi/constantes/appwrite_constants.dart';
 
-import '../constantes/cores.dart';
+// Pages
 import '../pages/book_page.dart';
 
 class SearchBookTemplate extends StatefulWidget {

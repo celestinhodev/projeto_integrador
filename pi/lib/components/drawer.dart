@@ -1,10 +1,17 @@
+// Packages
 import 'package:flutter/material.dart';
-import 'package:pi/pages/carrinho.dart';
-import 'package:pi/pages/home.dart';
+import 'package:appwrite/models.dart' as models;
+
+// Constants
 import '../constantes/cores.dart';
 
+// Pages
+import '../pages/carrinho.dart';
+import '../pages/Home.dart';
+
+
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({super.key});
+  MyDrawer({super.key});
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -83,7 +90,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Home(),
+                  builder: (context) => Home(),
                 ),
               );
             },
@@ -95,7 +102,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Carrinho(),
+                  builder: (context) => Carrinho(),
                 ),
               );
             },

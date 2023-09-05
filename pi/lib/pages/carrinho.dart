@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:appwrite/models.dart' as models;
 
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/cores.dart';
@@ -6,10 +7,10 @@ import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
 
 import '../components/cardTileTemplate.dart';
-import 'home.dart';
+import 'Home.dart';
 
 class Carrinho extends StatefulWidget {
-  const Carrinho({super.key});
+  Carrinho({super.key});
 
   @override
   State<Carrinho> createState() => _CarrinhoState();
@@ -115,22 +116,25 @@ class _CarrinhoState extends State<Carrinho> {
           ],
         ),
       ),
-
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-            route: const Home(), icon: const Icon(Icons.home), current: false),
+          route: Home(),
+          icon: const Icon(Icons.home),
+          current: false,
+        ),
         search: MyIconButtonNavigator(
-            route: const SearchScreen(),
+            route: SearchScreen(),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: const Carrinho(),
+            route: Carrinho(),
             icon: const Icon(Icons.shopping_cart),
             current: true),
         user: MyIconButtonNavigator(
-            route: const Profile(),
-            icon: const Icon(Icons.person),
-            current: false),
+          route: Profile(),
+          icon: const Icon(Icons.person),
+          current: false,
+        ),
       ),
     );
   }

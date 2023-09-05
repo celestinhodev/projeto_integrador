@@ -1,25 +1,29 @@
 // Packages
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:pi/constantes/appwrite_constants.dart';
-import 'package:pi/pages/carrinho.dart';
-import 'package:pi/pages/profile.dart';
-import 'package:pi/pages/search.dart';
+import 'package:appwrite/models.dart' as models;
+import 'package:carousel_slider/carousel_slider.dart';
 
 // Components
 import '../components/booktok_appbar.dart';
+import '../components/radio_button.dart';
 import '../components/navigation_bar.dart';
 
 // Constants
-import '../components/radio_button.dart';
 import '../constantes/cores.dart';
-import 'home.dart';
+import 'package:pi/constantes/appwrite_constants.dart';
+
+// Pages
+import 'Home.dart';
+import 'carrinho.dart';
+import 'profile.dart';
+import 'search.dart';
 
 // BookDetail Page
 class BookDetailsPage extends StatefulWidget {
   String? documentId;
 
-  BookDetailsPage({super.key, required this.documentId});
+  BookDetailsPage(
+      {super.key, required this.documentId});
 
   @override
   State<BookDetailsPage> createState() => _BookDetailsPageState();
@@ -360,19 +364,23 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-            route: const Home(), icon: const Icon(Icons.home), current: false),
+          route: Home(),
+          icon: const Icon(Icons.home),
+          current: false,
+        ),
         search: MyIconButtonNavigator(
-            route: const SearchScreen(),
+            route: SearchScreen(),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: const Carrinho(),
+            route: Carrinho(),
             icon: const Icon(Icons.shopping_cart),
             current: false),
         user: MyIconButtonNavigator(
-            route: const Profile(),
-            icon: const Icon(Icons.person),
-            current: false),
+          route: Profile(),
+          icon: const Icon(Icons.person),
+          current: false,
+        ),
       ),
     );
   }

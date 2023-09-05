@@ -1,7 +1,6 @@
 // Packages
-import 'dart:html';
-
 import 'package:flutter/material.dart';
+import 'package:appwrite/models.dart' as models;
 
 // Components
 import 'package:pi/components/book_template.dart';
@@ -21,7 +20,7 @@ import '../constantes/cores.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // Importe a biblioteca aqui
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -42,12 +41,6 @@ class _HomeState extends State<Home> {
   List<Widget> listaLivrosLancamentos = [];
 
   // Methods
-  Widget setBookTemplateWidget(
-      {required String title, required String imagePath}) {
-    return BookTemplate(
-        caminhoImagem: imagePath, nomeLivro: title, admin: false);
-  }
-
   void getBooksFromDB() async {
     var listDocuments = await appwrite_constants.listDocuments();
     List<Widget> preparedBooks = [];
@@ -78,6 +71,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+
     // ignore: todo
     // TODO: implement initState
     carouselBannerItens = [
@@ -96,7 +90,7 @@ class _HomeState extends State<Home> {
       // Comum Component App Bar
       appBar: BookTokAppBar,
 
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(),
 
       backgroundColor: paletteBlack,
       body: SingleChildScrollView(
@@ -201,17 +195,19 @@ class _HomeState extends State<Home> {
       //Barra de navegação ------------------------------------------------------
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-            route: const Home(), icon: const Icon(Icons.home), current: true),
+            route: Home(),
+            icon: const Icon(Icons.home),
+            current: true),
         search: MyIconButtonNavigator(
-            route: const SearchScreen(),
+            route: SearchScreen(),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: const Carrinho(),
+            route: Carrinho(),
             icon: const Icon(Icons.shopping_cart),
             current: false),
         user: MyIconButtonNavigator(
-            route: const Profile(),
+            route: Profile(),
             icon: const Icon(Icons.person),
             current: false),
       ),

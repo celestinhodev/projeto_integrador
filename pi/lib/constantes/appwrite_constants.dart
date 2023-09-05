@@ -275,17 +275,16 @@ class AppwriteConstants {
     } catch (e) {}
   }
 
-
   // Account Processing
   Future<models.Document?> createAccountDocument(
-      {required String email}) async {
+      {required String userId}) async {
     try {
       var response = await database.createDocument(
         databaseId: databaseId,
         collectionId: UserInfoCollectionId,
         documentId: ID.unique(),
         data: {
-          'email': email,
+          'userId': userId,
         },
       );
 
@@ -308,11 +307,7 @@ class AppwriteConstants {
         password: password,
       );
 
-      print('Conta criada com sucesso');
-
-      createAccountDocument(email: email);
-
-      print('Documento criado');
+      await createAccountDocument(userId: response.$id);
 
       return true;
     } catch (e) {
@@ -320,18 +315,46 @@ class AppwriteConstants {
     }
   }
 
-  Future<models.Session?> accountLogin(
+  Future<bool> accountLogin(
       {required String email, required String password}) async {
-
     try {
       var response = await account.createEmailSession(
         email: email,
         password: password,
       );
 
-      return response;
+      return true;
     } catch (e) {
-      return null;
+      return false;
     }
+  }
+
+  Future<bool> updatePersonalData({
+    required String name,
+    required String email,
+    required String password,
+    required String cep,
+    required String city,
+    required String address,
+    required String complement,
+    required String telephone,
+    required String oldPassword
+  }) async {
+    try {
+      if(email != '') await account.updateEmail(email: email, password: oldPassword);
+      if(name != '') await account.updateName(name: name);
+      if(telephone != '') await account.updatePhone(phone: telephone, password: oldPassword);
+      if(password != '') await account.updatePassword(password: password);
+
+      await account.updatePrefs(prefs: {
+        'cep': cep,
+        'city': city,
+        'address': address,
+        'complement': complement,
+      });
+    
+      return true;
+    } catch (e) {}
+    return false;
   }
 }

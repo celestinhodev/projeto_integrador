@@ -9,7 +9,8 @@ import 'pages/admin/home_admin.dart';
 import 'pages/personal_data.dart';
 import 'pages/search.dart';
 
-void main() => runApp(const MaterialApp(
+void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: Register(),
+  //home: PersonalData(),
+  home: PersonalData(),
 ));

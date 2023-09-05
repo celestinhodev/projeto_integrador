@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:appwrite/models.dart' as models;
+
 import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/search.dart';
@@ -11,7 +13,8 @@ import 'carrinho.dart';
 import 'personal_data.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+
+  Profile({Key? key}) : super(key: key);
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -19,10 +22,16 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BookTokAppBar,
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(),
       body: Container(
         color: paletteBlack,
         child: Column(
@@ -117,22 +126,22 @@ class _ProfileState extends State<Profile> {
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-          route: const Home(),
+          route: Home(),
           icon: const Icon(Icons.home),
           current: false,
         ),
         search: MyIconButtonNavigator(
-          route: const SearchScreen(),
+          route: SearchScreen(),
           icon: const Icon(Icons.search),
           current: false,
         ),
         cart: MyIconButtonNavigator(
-          route: const Carrinho(),
+          route: Carrinho(),
           icon: const Icon(Icons.shopping_cart),
           current: false,
         ),
         user: MyIconButtonNavigator(
-          route: const Profile(),
+          route: Profile(),
           icon: const Icon(Icons.person),
           current: true,
         ),

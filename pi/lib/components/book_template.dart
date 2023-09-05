@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:appwrite/models.dart' as models;
 
 import '../constantes/cores.dart';
 import '../pages/admin/book_page_admin.dart';
@@ -10,7 +11,6 @@ class BookTemplate extends StatefulWidget {
   String? documentId;
   String caminhoImagem;
   bool admin;
-
 
   // Constructor
   BookTemplate({

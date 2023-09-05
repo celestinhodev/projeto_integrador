@@ -10,12 +10,12 @@ import 'package:pi/constantes/cores.dart';
 
 //Componentes
 import '../components/search_book_template.dart';
-import '/pages/home.dart';
+import '/pages/Home.dart';
 import '/pages/carrinho.dart';
 import '/pages/profile.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -31,7 +31,6 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Widget> listResults = [];
 
   // Methods
-
   void searchAction(String value) async {
     setState(() {
       searchText = value;
@@ -72,6 +71,12 @@ class _SearchScreenState extends State<SearchScreen> {
         });
       }
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -141,17 +146,17 @@ class _SearchScreenState extends State<SearchScreen> {
           current: false,
         ),
         search: MyIconButtonNavigator(
-          route: const SearchScreen(),
+          route: SearchScreen(),
           icon: const Icon(Icons.search),
           current: true,
         ),
         cart: MyIconButtonNavigator(
-          route: const Carrinho(),
+          route: Carrinho(),
           icon: const Icon(Icons.shopping_cart),
           current: false,
         ),
         user: MyIconButtonNavigator(
-          route: const Profile(),
+          route: Profile(),
           icon: const Icon(Icons.person),
           current: false,
         ),
