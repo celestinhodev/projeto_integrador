@@ -8,9 +8,7 @@ import 'package:pi/pages/register.dart';
 import 'pages/admin/home_admin.dart';
 import 'pages/search.dart';
 
-void main() => runApp(
-      MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Login(),
-      ),
-    );
+void main() => runApp(const MaterialApp(
+  debugShowCheckedModeBanner: false,
+  home: Register(),
+));
