@@ -6,9 +6,10 @@ import 'package:pi/pages/register.dart';
 
 
 import 'pages/admin/home_admin.dart';
+import 'pages/personal_data.dart';
 import 'pages/search.dart';
 
 void main() => runApp(const MaterialApp(
   debugShowCheckedModeBanner: false,
-  home: Register(),
+  home: PersonalData(),
 ));

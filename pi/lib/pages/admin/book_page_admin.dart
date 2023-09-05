@@ -11,7 +11,6 @@ import '../../components/booktok_appbar.dart';
 // Constants
 import '../../components/radio_button.dart';
 import '../../components/textInputAdmin.dart';
-import '../../constantes/book_class.dart';
 import '../../constantes/cores.dart';
 
 // BookDetail Page
