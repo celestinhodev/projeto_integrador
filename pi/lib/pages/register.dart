@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:pi/components/register_template.dart';
+import 'package:pi/components/submitt_button.dart';
 import 'package:pi/constantes/cores.dart';
 
 class Register extends StatefulWidget {
@@ -58,7 +59,7 @@ class _RegisterState extends State<Register> {
                   },
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 80),
               RichText(
                 text: const TextSpan(
                   text:
@@ -107,6 +108,10 @@ class _RegisterState extends State<Register> {
                     ),
                   ],
                 ),
+              ),
+              SubmittButton(
+                buttonText: 'aaaa', 
+                onPressed: print(''),
               ),
             ],
           ),

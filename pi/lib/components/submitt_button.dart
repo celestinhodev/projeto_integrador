@@ -20,7 +20,7 @@ class _SubmittButtonState extends State<SubmittButton> {
         width: double.infinity,
         height: 50,
 
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
           maxWidth: 350,
         ),
 
@@ -30,7 +30,7 @@ class _SubmittButtonState extends State<SubmittButton> {
         child: Center(
           child: Text(
             widget.buttonText,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               color: paletteBlack, // Cor do texto
             ),
