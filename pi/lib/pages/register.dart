@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:pi/components/register_template.dart';
 import 'package:pi/components/submitt_button.dart';
+import 'package:pi/constantes/appwrite_constants.dart';
 import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/login.dart';
 
@@ -14,11 +15,15 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  // Declaration's
+  // Appwrite
+  AppwriteConstants appwrite_constants = AppwriteConstants();
+
+  // Texting editing controller
   TextEditingController nameEditingController = TextEditingController();
   TextEditingController emailEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
-  TextEditingController confirmPasswordEditingController =
-      TextEditingController();
+  TextEditingController confirmPasswordEditingController = TextEditingController();
 
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -30,6 +35,17 @@ class _RegisterState extends State<Register> {
   }
 
   bool isChecked = false;
+
+  Future<bool> userRegisterStart({required String name, required String email, required String password,}) async {
+    try {
+      bool response = await appwrite_constants.accountCreate(name: name, email: email, password: password);
+
+      return response;
+    } catch (e) {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,7 +157,22 @@ class _RegisterState extends State<Register> {
         const SizedBox(height: 50),
         SubmittButton(
           buttonText: 'Cadastrar',
-          onPressed: () {},
+          onPressed: () async {
+            String name = nameEditingController.text;
+            String email = emailEditingController.text;
+            String password = passwordEditingController.text;
+
+            bool registerSuccess = await userRegisterStart(name: name, email: email, password: password); 
+          
+            if(registerSuccess == true) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Login(),
+                ),
+              );
+            }
+          },
         ),
         Spacer(),
         Padding(

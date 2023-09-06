@@ -276,24 +276,6 @@ class AppwriteConstants {
   }
 
   // Account Processing
-  Future<models.Document?> createAccountDocument(
-      {required String userId}) async {
-    try {
-      var response = await database.createDocument(
-        databaseId: databaseId,
-        collectionId: UserInfoCollectionId,
-        documentId: ID.unique(),
-        data: {
-          'userId': userId,
-        },
-      );
-
-      return response;
-    } catch (e) {
-      return null;
-    }
-  }
-
   Future<bool> accountCreate({
     required String name,
     required String email,
@@ -306,8 +288,6 @@ class AppwriteConstants {
         email: email,
         password: password,
       );
-
-      await createAccountDocument(userId: response.$id);
 
       return true;
     } catch (e) {
