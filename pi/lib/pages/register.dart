@@ -36,9 +36,14 @@ class _RegisterState extends State<Register> {
 
   bool isChecked = false;
 
-  Future<bool> userRegisterStart({required String name, required String email, required String password,}) async {
+  Future<bool> userRegisterStart({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
     try {
-      bool response = await appwrite_constants.accountCreate(name: name, email: email, password: password);
+      bool response = await appwrite_constants.accountCreate(
+          name: name, email: email, password: password);
 
       return response;
     } catch (e) {
@@ -60,24 +65,28 @@ class _RegisterState extends State<Register> {
           hintText: 'Nome Completo',
           isPassword: false,
           textEditingController: nameEditingController,
+          needErrorVerification: true,
         ),
         const SizedBox(height: 25),
         registerTemplate(
           hintText: 'Email',
           isPassword: false,
           textEditingController: emailEditingController,
+          needErrorVerification: true,
         ),
         const SizedBox(height: 25),
         registerTemplate(
           hintText: 'Senha',
           isPassword: true,
           textEditingController: passwordEditingController,
+          needErrorVerification: true,
         ),
         const SizedBox(height: 25),
         registerTemplate(
           hintText: 'Repita a Senha',
           isPassword: true,
           textEditingController: confirmPasswordEditingController,
+          needErrorVerification: true,
         ),
         const SizedBox(height: 40),
         Padding(
@@ -161,10 +170,20 @@ class _RegisterState extends State<Register> {
             String name = nameEditingController.text;
             String email = emailEditingController.text;
             String password = passwordEditingController.text;
+            String confirmPassword = confirmPasswordEditingController.text;
+            bool registerSuccess = false;
 
-            bool registerSuccess = await userRegisterStart(name: name, email: email, password: password); 
-          
-            if(registerSuccess == true) {
+            if (name != '' &&
+                email != '' &&
+                password != '' &&
+                confirmPassword != '' &&
+                password == confirmPassword &&
+                isChecked) {
+              registerSuccess = await userRegisterStart(
+                  name: name, email: email, password: password);
+            }
+
+            if (registerSuccess == true) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

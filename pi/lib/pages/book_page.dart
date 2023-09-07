@@ -347,7 +347,9 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
             child: Container(
               color: paletteBrown,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await appwrite_constants.cartAddItem(documentId: widget.documentId!);
+                },
                 style: TextButton.styleFrom(
                   backgroundColor: paletteBrown,
                 ),

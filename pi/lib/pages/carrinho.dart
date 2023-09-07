@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
 
 import 'package:pi/components/navigation_bar.dart';
+import 'package:pi/constantes/appwrite_constants.dart';
 import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
@@ -17,7 +18,27 @@ class Carrinho extends StatefulWidget {
 }
 
 class _CarrinhoState extends State<Carrinho> {
+  AppwriteConstants appwrite_constants = AppwriteConstants();
+
   double subtotalPrice = 0.0;
+  List<Widget> listCartItens = [];
+
+  void getCartItens() async   {
+    List<String> listCartItensDB = await appwrite_constants.getCartItens();
+
+    for (var element in listCartItensDB) {
+      appwrite_constants.database.getBook(documentId: documentId);
+
+      cartTileTemplate(titleBook: titleBook, amount: 1, price: price);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getCartItens();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,29 +60,7 @@ class _CarrinhoState extends State<Carrinho> {
             height: 408,
             child: SingleChildScrollView(
               child: Column(
-                children: [
-                  cartTileTemplate(
-                    titleBook:
-                        'NOME DE LIVRO MUITO GRANDE PRA PODER TESTAR SE ELE TA PEGANDO CERTIN',
-                    amount: 2,
-                    price: 65.35,
-                  ),
-                  cartTileTemplate(
-                    titleBook: 'Nome de livro 2 pra testar se ta tudo certinho',
-                    amount: 9,
-                    price: 35.10,
-                  ),
-                  cartTileTemplate(
-                    titleBook: 'Nome de livro 3 pra testar se ta tudo certinho',
-                    amount: 2,
-                    price: 35.10,
-                  ),
-                  cartTileTemplate(
-                    titleBook: 'Nome de livro 4 pra testar se ta tudo certinho',
-                    amount: 3,
-                    price: 35.10,
-                  ),
-                ],
+                children: listCartItens,
               ),
             ),
           ),

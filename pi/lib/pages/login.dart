@@ -88,12 +88,14 @@ class _LoginState extends State<Login> {
               hintText: 'Email',
               isPassword: false,
               textEditingController: emailEditingController,
+              needErrorVerification: true,
             ),
             const SizedBox(height: 25),
             registerTemplate(
               hintText: 'Senha',
               isPassword: true,
               textEditingController: passwordEditingController,
+              needErrorVerification: true,
             ),
             //////////////Esqueceu a senha///////////////////////////
             Row(
@@ -127,7 +129,10 @@ class _LoginState extends State<Login> {
               onPressed: () async {
                 bool login_info = await checkLogin();
 
-                navigateAfterLogin(loginStatus: login_info);
+                if (emailEditingController.text != '' &&
+                    passwordEditingController.text != '') {
+                  navigateAfterLogin(loginStatus: login_info);
+                } else {}
               },
             ),
 

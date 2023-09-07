@@ -347,4 +347,63 @@ class AppwriteConstants {
     } catch (e) {print(e);}
     return false;
   }
+
+  Future<bool> cartAddItem({required String documentId}) async {
+    List<String> currentCart = [];
+
+    try {
+      String? currentCartString = (await account.getPrefs()).data['shoppingCart'];
+
+      if (currentCartString != '' && currentCartString != null) currentCart = prepareList(listImagesString: currentCartString);
+  
+      currentCart.add(documentId);
+
+      var response = account.updatePrefs(prefs: {
+        'shoppingCart': currentCart.toString(),
+      });
+
+      return true;
+
+    } catch (e) {
+      
+    }
+    
+    return false;
+  }
+
+  Future<bool> cartRemoveItem({required String documentId}) async {
+    List<String> currentCart = [];
+
+    try {
+      String? currentCartString = (await account.getPrefs()).data['shoppingCart'];
+
+      if (currentCartString != '' && currentCartString != null) currentCart = prepareList(listImagesString: currentCartString);
+  
+      currentCart.remove(documentId);
+
+      var response = account.updatePrefs(prefs: {
+        'shoppingCart': currentCart.toString(),
+      });
+
+      return true;
+    } catch (e) {
+      
+    }
+    
+    return false;
+  }
+
+  Future<List<String>> getCartItens() async {
+    try {
+      var response = await account.getPrefs();
+      var cartString = response.data['shoppingCart'];
+      var listItens = prepareList(listImagesString: cartString);
+
+      return listItens;
+    } catch (e) {
+      
+    }
+
+    return [];
+  }
 }

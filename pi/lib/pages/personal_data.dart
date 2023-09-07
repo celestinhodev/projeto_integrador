@@ -240,6 +240,7 @@ class _PersonalDataState extends State<PersonalData> {
                             hintText: 'Senha Atual',
                             isPassword: true,
                             textEditingController: oldPasswordEditingController,
+                            needErrorVerification: true,
                           ),
                           actions: [
                             CupertinoDialogAction(
