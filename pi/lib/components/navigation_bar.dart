@@ -10,7 +10,7 @@ class BookTokNavigation extends StatelessWidget {
   final MyIconButtonNavigator cart;
   final MyIconButtonNavigator user;
 
-  const BookTokNavigation({
+  BookTokNavigation({
     super.key,
     required this.home,
     required this.search,

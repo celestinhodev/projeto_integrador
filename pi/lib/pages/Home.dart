@@ -6,7 +6,7 @@ import 'package:appwrite/models.dart' as models;
 import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/components/navigation_bar.dart';
-import 'package:pi/constantes/appwrite_constants.dart';
+import 'package:pi/constantes/appwrite_system.dart';
 import 'package:pi/pages/carrinho.dart';
 import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
@@ -20,7 +20,8 @@ import '../constantes/cores.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // Importe a biblioteca aqui
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  Map? userPrefs;
+  Home({Key? key, this.userPrefs}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -29,7 +30,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Declarations
   // Appwrite
-  AppwriteConstants appwrite_constants = AppwriteConstants();
+  AppwriteSystem appwriteSystem = AppwriteSystem();
+  late models.Account account;
+  Map userPrefs = {};
 
   // Carousel
   CarouselController carouselController = CarouselController();
@@ -40,23 +43,32 @@ class _HomeState extends State<Home> {
   // Lançamentos
   List<Widget> listaLivrosLancamentos = [];
 
+
   // Methods
+  void getUserPrefs() async {
+    if(widget.userPrefs != null && widget.userPrefs!.isNotEmpty) {
+      userPrefs = widget.userPrefs!;
+    } else {
+      userPrefs = (await appwriteSystem.getUserPreferences())!.toMap();
+    }
+  }
+
   void getBooksFromDB() async {
-    var listDocuments = await appwrite_constants.listDocuments();
+
+    var listDocuments = await appwriteSystem.listDocuments(searchText: '');
     List<Widget> preparedBooks = [];
 
-    for (var element in listDocuments!.documents) {
-      var title = element.data['title'];
-      var imagePath = appwrite_constants.prepareList(
-          listImagesString: element.data['listImages'])[0];
-      var documentId = element.$id;
+    for (models.Document documentInstance in listDocuments!.documents) {
+      String title = documentInstance.data['title'];
+      String imagePath = (appwriteSystem.prepareUrlListFromString(
+          listImageUrlString: documentInstance.data['listImages']))[0];
 
       setState(() {
         preparedBooks.add(
           BookTemplate(
             nomeLivro: title,
             caminhoImagem: imagePath,
-            documentId: documentId,
+            documentInstance: documentInstance,
             admin: false,
           ),
         );
@@ -71,6 +83,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    getUserPrefs();
 
     // ignore: todo
     // TODO: implement initState
@@ -195,19 +208,19 @@ class _HomeState extends State<Home> {
       //Barra de navegação ------------------------------------------------------
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-            route: Home(),
+            route: null,
             icon: const Icon(Icons.home),
             current: true),
         search: MyIconButtonNavigator(
-            route: SearchScreen(),
+            route: SearchScreen(userPrefs: userPrefs,),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: Carrinho(),
+            route: Carrinho(userPrefs: userPrefs,),
             icon: const Icon(Icons.shopping_cart),
             current: false),
         user: MyIconButtonNavigator(
-            route: Profile(),
+            route: Profile(userPrefs: userPrefs,),
             icon: const Icon(Icons.person),
             current: false),
       ),

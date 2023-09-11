@@ -8,13 +8,14 @@ import 'package:pi/pages/search.dart';
 import '../components/book_template.dart';
 import '../components/drawer.dart';
 import '../components/navigation_bar.dart';
-import 'Home.dart';
+import 'home.dart';
 import 'carrinho.dart';
 import 'personal_data.dart';
 
 class Profile extends StatefulWidget {
+  Map? userPrefs;
 
-  Profile({Key? key}) : super(key: key);
+  Profile({Key? key, this.userPrefs}) : super(key: key);
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -126,22 +127,22 @@ class _ProfileState extends State<Profile> {
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-          route: Home(),
+          route: Home(userPrefs: widget.userPrefs,),
           icon: const Icon(Icons.home),
           current: false,
         ),
         search: MyIconButtonNavigator(
-          route: SearchScreen(),
+          route: SearchScreen(userPrefs: widget.userPrefs,),
           icon: const Icon(Icons.search),
           current: false,
         ),
         cart: MyIconButtonNavigator(
-          route: Carrinho(),
+          route: Carrinho(userPrefs: widget.userPrefs,),
           icon: const Icon(Icons.shopping_cart),
           current: false,
         ),
         user: MyIconButtonNavigator(
-          route: Profile(),
+          route: null,
           icon: const Icon(Icons.person),
           current: true,
         ),

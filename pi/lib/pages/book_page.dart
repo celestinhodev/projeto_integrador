@@ -10,20 +10,21 @@ import '../components/navigation_bar.dart';
 
 // Constants
 import '../constantes/cores.dart';
-import 'package:pi/constantes/appwrite_constants.dart';
+import '../constantes/appwrite_system.dart';
 
 // Pages
-import 'Home.dart';
+import 'home.dart';
 import 'carrinho.dart';
 import 'profile.dart';
 import 'search.dart';
 
 // BookDetail Page
 class BookDetailsPage extends StatefulWidget {
-  String? documentId;
+  models.Document documentInstance;
+  Map? userPrefs;
 
   BookDetailsPage(
-      {super.key, required this.documentId});
+      {super.key, required this.documentInstance, this.userPrefs});
 
   @override
   State<BookDetailsPage> createState() => _BookDetailsPageState();
@@ -32,7 +33,7 @@ class BookDetailsPage extends StatefulWidget {
 class _BookDetailsPageState extends State<BookDetailsPage> {
   // Declarations
   // Appwrite
-  AppwriteConstants appwrite_constants = AppwriteConstants();
+  AppwriteSystem appwriteSystem = AppwriteSystem();
 
   Map<String, String> book_data = {
     'title': '',
@@ -48,23 +49,19 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   List<Widget> carouselItens = [];
 
   // Methods
-  void getBookDataFromDB() async {
-    var document =
-        await appwrite_constants.getDocument(documentId: widget.documentId!);
-
-    List<String> listImages = appwrite_constants.prepareList(
-        listImagesString: document!.data['listImages']);
+  void setBookInformation() async {
+    List<String> listImagesUrl = appwriteSystem.prepareUrlListFromString(listImageUrlString: widget.documentInstance.data['listImages']);
 
     setState(() {
-      book_data['title'] = document.data['title'];
-      book_data['price'] = document.data['price'];
-      book_data['description'] = document.data['description'];
-      book_data['category'] = document.data['category'];
-      book_data['author'] = document.data['author'];
-      book_data['year'] = document.data['year'];
+      book_data['title'] = widget.documentInstance.data['title'];
+      book_data['price'] = widget.documentInstance.data['price'];
+      book_data['description'] = widget.documentInstance.data['description'];
+      book_data['category'] = widget.documentInstance.data['category'];
+      book_data['author'] = widget.documentInstance.data['author'];
+      book_data['year'] = widget.documentInstance.data['year'];
 
-      for (var element in listImages) {
-        carouselItens.add(Image.network(element));
+      for (String imageUrl in listImagesUrl) {
+        carouselItens.add(Image.network(imageUrl));
       }
     });
   }
@@ -74,16 +71,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     // ignore: todo
     // TODO: implement initState
 
-    if (widget.documentId != null) {
-      getBookDataFromDB();
-    } else {
-      carouselItens = [
-        Image.asset('images/livros/livro.png'),
-        Image.asset('images/livros/livro.png'),
-        Image.asset('images/livros/livro.png'),
-        Image.asset('images/livros/livro.png'),
-      ];
-    }
+    setBookInformation();
   }
 
   @override
@@ -348,7 +336,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
               color: paletteBrown,
               child: TextButton(
                 onPressed: () async {
-                  await appwrite_constants.cartAddItem(documentId: widget.documentId!);
+
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: paletteBrown,

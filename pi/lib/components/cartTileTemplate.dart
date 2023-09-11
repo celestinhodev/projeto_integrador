@@ -5,34 +5,22 @@ class cartTileTemplate extends StatefulWidget {
   String titleBook;
   double amount;
   double price;
+  String imageUrl;
 
   cartTileTemplate({
     super.key,
     required this.titleBook,
     required this.amount,
     required this.price,
+    required this.imageUrl,
   });
 
 
   @override
-  State<cartTileTemplate> createState() => _cartTileTemplateState(
-    titleBook: titleBook,
-    amount: amount,
-    price: price
-  );
+  State<cartTileTemplate> createState() => _cartTileTemplateState();
 }
 
 class _cartTileTemplateState extends State<cartTileTemplate> {
-  String titleBook;
-  double amount;
-  double price;
-
-  _cartTileTemplateState({
-    required this.titleBook,
-    required this.amount,
-    required this.price,
-  });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,8 +42,8 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                     constraints: const BoxConstraints(
                       maxWidth: 260,
                     ),
-                    child: const Text(
-                      'Titulo aqui muito grande pra eu testar se ta quebrando e descendo pra outra linha',
+                    child: Text(
+                      widget.titleBook,
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
@@ -71,7 +59,7 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            amount--;
+                            widget.amount--;
                           });
                         },
                         icon: const Icon(Icons.remove),
@@ -89,7 +77,7 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                         ),
                         child: Center(
                           child: Text(
-                            amount.toString(),
+                            widget.amount.toString(),
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -103,7 +91,7 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            amount++;
+                            widget.amount++;
                           });
                         },
                         icon: const Icon(Icons.add),
@@ -112,7 +100,7 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                         width: 15,
                       ),
                       Text(
-                        'x R\$${(amount * price).toStringAsFixed(2)}',
+                        'x R\$${(widget.amount * widget.price).toStringAsFixed(2)}',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

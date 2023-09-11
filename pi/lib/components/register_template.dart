@@ -7,13 +7,13 @@ class registerTemplate extends StatefulWidget {
   bool isPassword;
   bool needErrorVerification;
 
-  registerTemplate(
-      {super.key,
-      required this.hintText,
-      required this.isPassword,
-      required this.textEditingController,
-      required this.needErrorVerification,
-      });
+  registerTemplate({
+    super.key,
+    required this.hintText,
+    required this.isPassword,
+    required this.textEditingController,
+    required this.needErrorVerification,
+  });
 
   @override
   State<registerTemplate> createState() => _registerTemplateState();
@@ -53,7 +53,9 @@ class _registerTemplateState extends State<registerTemplate> {
                 color: paletteWhite,
               ),
               controller: widget.textEditingController,
-              onChanged: (value) => widget.needErrorVerification == true ? errorVerify() : null, 
+              keyboardType: TextInputType.visiblePassword,
+              onChanged: (value) =>
+                  widget.needErrorVerification == true ? errorVerify() : null,
               decoration: InputDecoration(
                 errorText: errorText,
                 errorStyle: TextStyle(
@@ -87,7 +89,15 @@ class _registerTemplateState extends State<registerTemplate> {
               ),
               controller: widget.textEditingController,
               obscureText: _senhaLogin,
-              onChanged: (value) => widget.needErrorVerification == true ? errorVerify() : null, 
+              onChanged: (value) =>
+                  widget.needErrorVerification == true ? errorVerify() : null,
+              keyboardType: widget.hintText == 'Email'
+                  ? TextInputType.emailAddress
+                  : widget.hintText == 'Nome Completo'
+                      ? TextInputType.name
+                      : widget.hintText == 'Telefone'
+                          ? TextInputType.phone
+                          : TextInputType.text,
               decoration: InputDecoration(
                 errorText: errorText,
                 errorStyle: TextStyle(

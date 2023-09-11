@@ -2,35 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
 
 import 'package:pi/components/navigation_bar.dart';
-import 'package:pi/constantes/appwrite_constants.dart';
+import 'package:pi/constantes/appwrite_system.dart';
 import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
 
-import '../components/cardTileTemplate.dart';
-import 'Home.dart';
+import '../components/cartTileTemplate.dart';
+import 'home.dart';
 
 class Carrinho extends StatefulWidget {
-  Carrinho({super.key});
+  Map? userPrefs;
+
+  Carrinho({super.key, this.userPrefs});
 
   @override
   State<Carrinho> createState() => _CarrinhoState();
 }
 
 class _CarrinhoState extends State<Carrinho> {
-  AppwriteConstants appwrite_constants = AppwriteConstants();
+  AppwriteSystem appwriteSystem = AppwriteSystem();
 
   double subtotalPrice = 0.0;
-  List<Widget> listCartItens = [];
+  List<Widget> cartItensWidgets = [];
+  List<dynamic> cartItens = [];
 
-  void getCartItens() async   {
-    List<String> listCartItensDB = await appwrite_constants.getCartItens();
+  // Methods
+  void getCartItens() async {
+    cartItens = await appwriteSystem.getCurrentCart(document: widget.userPrefs!['data']['cartItens']);
 
-    for (var element in listCartItensDB) {
-      appwrite_constants.database.getBook(documentId: documentId);
-
-      cartTileTemplate(titleBook: titleBook, amount: 1, price: price);
-    }
+    for (var item in cartItens) {
+      setState(() {
+        cartItensWidgets.add(cartTileTemplate(titleBook: item['title'], amount: item['amount'], price: item['price'], imageUrl: item['imageUrl']));
+      });
+    }    
   }
 
   @override
@@ -60,7 +64,7 @@ class _CarrinhoState extends State<Carrinho> {
             height: 408,
             child: SingleChildScrollView(
               child: Column(
-                children: listCartItens,
+                children: cartItensWidgets,
               ),
             ),
           ),
@@ -98,7 +102,9 @@ class _CarrinhoState extends State<Carrinho> {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  
+                },
                 style: ElevatedButton.styleFrom(backgroundColor: paletteYellow),
                 child: const Padding(
                   padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
@@ -117,20 +123,20 @@ class _CarrinhoState extends State<Carrinho> {
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-          route: Home(),
+          route: Home(userPrefs: widget.userPrefs,),
           icon: const Icon(Icons.home),
           current: false,
         ),
         search: MyIconButtonNavigator(
-            route: SearchScreen(),
+            route: SearchScreen(userPrefs: widget.userPrefs),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: Carrinho(),
+            route: null,
             icon: const Icon(Icons.shopping_cart),
             current: true),
         user: MyIconButtonNavigator(
-          route: Profile(),
+          route: Profile(userPrefs: widget.userPrefs),
           icon: const Icon(Icons.person),
           current: false,
         ),

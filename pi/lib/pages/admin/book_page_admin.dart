@@ -1,8 +1,10 @@
 // Packages
+import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart' as models;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pi/constantes/appwrite_constants.dart';
+import 'package:pi/constantes/appwrite_system.dart';
 import 'package:pi/pages/admin/home_admin.dart';
 
 // Components
@@ -15,9 +17,9 @@ import '../../constantes/cores.dart';
 
 // BookDetail Page
 class BookCreationPage extends StatefulWidget {
-  String? documentId;
+  models.Document? documentInstance;
 
-  BookCreationPage({super.key, required this.documentId});
+  BookCreationPage({super.key, required this.documentInstance});
 
   @override
   State<BookCreationPage> createState() => _BookCreationPageState();
@@ -26,9 +28,9 @@ class BookCreationPage extends StatefulWidget {
 class _BookCreationPageState extends State<BookCreationPage> {
   // Declaration's
   // Appwrite
-  AppwriteConstants appwrite_constants = AppwriteConstants();
+  AppwriteSystem appwriteSystem = AppwriteSystem();
 
-  Map book_data = {
+  Map<String, dynamic> book_data = {
     'title': 'Titulo',
     'price': 'Preço',
     'category': 'Categoria',
@@ -53,8 +55,8 @@ class _BookCreationPageState extends State<BookCreationPage> {
   int _groupValue = 0;
 
   List<XFile> listXFiles = [];
-  List<XFile> listXFilesForUpload = [];
-  List<String> imagePath = [];
+  List<InputFile> listInputFiles = [];
+  List<String> listImagesUrl = [];
   List<String> deletedImages = [];
 
   bool dataIsLoaded = false;
@@ -68,7 +70,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomeAdmin(),
+          builder: (context) => HomeAdmin(),
         ),
         (route) => false);
   }
@@ -87,50 +89,25 @@ class _BookCreationPageState extends State<BookCreationPage> {
     });
   }
 
-  void getBookDataFromDB({required String documentId}) async {
-    try {
-      var document =
-          await appwrite_constants.getDocument(documentId: documentId);
+  void getBookDataFromDB() async {
+    setState(() {
+      book_data['title'] = widget.documentInstance!.data['title'];
+      book_data['price'] = widget.documentInstance!.data['price'];
+      book_data['category'] = widget.documentInstance!.data['category'];
+      book_data['author'] = widget.documentInstance!.data['author'];
+      book_data['description'] = widget.documentInstance!.data['description'];
+      book_data['year'] = widget.documentInstance!.data['year'];
 
-      book_data['title'] = document!.data['title'];
-      book_data['price'] = document.data['price'];
-      book_data['category'] = document.data['category'];
-      book_data['author'] = document.data['author'];
-      book_data['description'] = document.data['description'];
-      book_data['year'] = document.data['year'];
+      listImagesUrl = appwriteSystem.prepareUrlListFromString(
+          listImageUrlString: widget.documentInstance!.data['listImages']);
 
-      setState(() {
-        book_data['title'] = document.data['title'];
-        book_data['price'] = document.data['price'];
-        book_data['category'] = document.data['category'];
-        book_data['author'] = document.data['author'];
-        book_data['description'] = document.data['description'];
-        book_data['year'] = document.data['year'];
+      for (String imageUrl in listImagesUrl) {
+        carouselItens.add(Image.network(imageUrl));
+        listXFileImages.add(XFile(''));
+      }
 
-        print(book_data['year']);
-
-        if (document.data['listImages'].toString().contains(',')) {
-          imagePath = appwrite_constants.prepareList(
-              listImagesString: document.data['listImages']);
-        } else {
-          imagePath = [
-            document.data['listImages']
-                .toString()
-                .replaceAll('[', '')
-                .replaceAll(']', '')
-          ];
-        }
-
-        for (var element in imagePath) {
-          print(element);
-          carouselItens.add(Image.network(element));
-          listXFileImages.add(XFile(''));
-        }
-
-        dataIsLoaded = true;
-      });
-    } catch (e) {
-    }
+      dataIsLoaded = true;
+    });
   }
 
   void deleteImageFromCarousel() {
@@ -139,12 +116,8 @@ class _BookCreationPageState extends State<BookCreationPage> {
         // ignore: prefer_is_empty
         if (carouselItens.length == 1 && containPlaceholderImage == false) {
           listXFileImages = [];
-
-          try {
-            deletedImages.add(imagePath[0]);
-          } catch (e) {}
-
-          imagePath = [];
+          deletedImages.add(listImagesUrl[0]);
+          listImagesUrl = [];
 
           setCarouselToPlaceholder();
 
@@ -154,10 +127,10 @@ class _BookCreationPageState extends State<BookCreationPage> {
           listXFileImages.removeAt(_groupValue);
 
           try {
-            deletedImages.add(imagePath[_groupValue]);
+            deletedImages.add(listImagesUrl[_groupValue]);
           } catch (e) {}
 
-          imagePath.removeAt(_groupValue);
+          listImagesUrl.removeAt(_groupValue);
 
           carouselItens.removeAt(_groupValue);
         }
@@ -165,8 +138,6 @@ class _BookCreationPageState extends State<BookCreationPage> {
         if (_groupValue != 0) {
           _groupValue--;
         }
-
-        print(deletedImages);
       });
     } catch (e) {
       print(e);
@@ -181,7 +152,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
         if (containPlaceholderImage == true) {
           carouselItens = [];
           carouselItens.add(Image.network(image!.path));
-          imagePath.add('');
+          listImagesUrl.add('');
 
           listXFileImages.add(image);
 
@@ -190,7 +161,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
         } else if (containPlaceholderImage == false) {
           carouselItens.add(Image.network(image!.path));
 
-          imagePath.add('');
+          listImagesUrl.add('');
 
           listXFileImages.add(image);
         }
@@ -209,22 +180,29 @@ class _BookCreationPageState extends State<BookCreationPage> {
     book_data['year'] = yearEditingController.text;
   }
 
-  void setImagesToUpload() {
-    setState(() {
-      for (var element in listXFileImages) {
-        if (element.path != '') {
-          listXFilesForUpload.add(element);
-        }
+  Future<void> setImagesToUpload() async {
+    for (XFile XFileImage in listXFileImages) {
+      if (XFileImage.path != '') {
+        var bytes = await XFileImage.readAsBytes();
+
+        setState(() {
+          listInputFiles.add(
+            InputFile.fromBytes(
+              bytes: bytes,
+              filename: XFileImage.name,
+            ),
+          );
+        });
       }
-    });
+    }
   }
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.documentId != null) {
-      getBookDataFromDB(documentId: widget.documentId!);
+    if (widget.documentInstance != null) {
+      getBookDataFromDB();
       showDeleteImageButton = true;
       containPlaceholderImage = false;
     } else {
@@ -348,7 +326,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                           hintText: book_data['title'],
                           keyboardType: TextInputType.text,
                           obscureText: false,
-                          hasToBeFilled: widget.documentId == null,
+                          hasToBeFilled: widget.documentInstance == null,
                         )
                       : const SizedBox(),
 
@@ -383,7 +361,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                                 hintText: book_data['price'],
                                 keyboardType: TextInputType.text,
                                 obscureText: false,
-                                hasToBeFilled: widget.documentId == null,
+                                hasToBeFilled: widget.documentInstance == null,
                               )
                             : const SizedBox(),
                       ),
@@ -418,7 +396,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                           hintText: book_data['description'],
                           keyboardType: TextInputType.text,
                           obscureText: false,
-                          hasToBeFilled: widget.documentId == null,
+                          hasToBeFilled: widget.documentInstance == null,
                         )
                       : const SizedBox(),
 
@@ -462,7 +440,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                                 hintText: book_data['category'],
                                 keyboardType: TextInputType.text,
                                 obscureText: false,
-                                hasToBeFilled: widget.documentId == null,
+                                hasToBeFilled: widget.documentInstance == null,
                               )
                             : const SizedBox(),
                       ),
@@ -493,7 +471,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                                 hintText: book_data['author'],
                                 keyboardType: TextInputType.text,
                                 obscureText: false,
-                                hasToBeFilled: widget.documentId == null,
+                                hasToBeFilled: widget.documentInstance == null,
                               )
                             : const SizedBox(),
                       ),
@@ -524,7 +502,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                                 hintText: book_data['year'],
                                 keyboardType: TextInputType.text,
                                 obscureText: false,
-                                hasToBeFilled: widget.documentId == null,
+                                hasToBeFilled: widget.documentInstance == null,
                               )
                             : const SizedBox(),
                       ),
@@ -551,10 +529,10 @@ class _BookCreationPageState extends State<BookCreationPage> {
                     getInfoFromTextfield();
                   });
 
-                  setImagesToUpload();
+                  await setImagesToUpload();
 
                   // Create document
-                  if (widget.documentId == null &&
+                  if (widget.documentInstance == null &&
                       carouselItens.isNotEmpty &&
                       !containPlaceholderImage &&
                       book_data['title'] != '' &&
@@ -563,57 +541,51 @@ class _BookCreationPageState extends State<BookCreationPage> {
                       book_data['author'] != '' &&
                       book_data['description'] != '' &&
                       book_data['year'] != '') {
-                    bool responseSuccess =
-                        await appwrite_constants.createDocument(
-                      title: book_data['title'],
-                      author: book_data['author'],
-                      price: book_data['price'],
-                      category: book_data['category'],
-                      description: book_data['description'],
-                      year: book_data['year'],
-                      listXFileImages: listXFilesForUpload,
+                    bool responseSuccess = await appwriteSystem.createDocument(
+                      bookInformation: book_data,
+                      listInputFile: listInputFiles,
                     );
 
                     if (responseSuccess) {
                       navigateBackHome();
                     }
-                  } else if (widget.documentId != null &&
+                  } else if (widget.documentInstance != null &&
                       carouselItens.isNotEmpty &&
                       !containPlaceholderImage) {
-                    var document = await appwrite_constants.getDocument(
-                        documentId: widget.documentId!);
-
                     if (book_data['title'] == '') {
-                      book_data['title'] = document!.data['title'];
+                      book_data['title'] =
+                          widget.documentInstance!.data['title'];
                     }
                     if (book_data['category'] == '') {
-                      book_data['category'] = document!.data['category'];
+                      book_data['category'] =
+                          widget.documentInstance!.data['category'];
                     }
                     if (book_data['price'] == '') {
-                      book_data['price'] = document!.data['price'];
+                      book_data['price'] =
+                          widget.documentInstance!.data['price'];
                     }
                     if (book_data['author'] == '') {
-                      book_data['author'] = document!.data['author'];
+                      book_data['author'] =
+                          widget.documentInstance!.data['author'];
                     }
                     if (book_data['description'] == '') {
-                      book_data['description'] = document!.data['description'];
+                      book_data['description'] =
+                          widget.documentInstance!.data['description'];
                     }
                     if (book_data['year'] == '') {
-                      book_data['year'] = document!.data['year'];
+                      book_data['year'] = widget.documentInstance!.data['year'];
                     }
 
-                    bool responseSuccess =
-                        await appwrite_constants.updateDocument(
-                      idDocument: widget.documentId,
-                      title: book_data['title'],
-                      author: book_data['author'],
-                      price: book_data['price'],
-                      category: book_data['category'],
-                      description: book_data['description'],
-                      year: book_data['year'],
-                      listXFileImages: listXFilesForUpload,
-                      listCurrentImages: imagePath,
-                      deletedImages: deletedImages,
+                    for (var element in listImagesUrl) {
+                      listImagesUrl.remove('');
+                    }
+
+                    bool responseSuccess = await appwriteSystem.updateDocument(
+                      documentId: widget.documentInstance!.$id,
+                      newBookInformation: book_data,
+                      listRemainingImages: listImagesUrl, 
+                      listNewImages: listInputFiles,
+                      listDeletedImagesUrl: deletedImages,
                     );
 
                     if (responseSuccess) {
@@ -628,7 +600,9 @@ class _BookCreationPageState extends State<BookCreationPage> {
                   fontSize: 18,
                 )),
                 child: Text(
-                  widget.documentId == null ? 'Create Book' : 'Update book',
+                  widget.documentInstance == null
+                      ? 'Create Book'
+                      : 'Update book',
                   style: const TextStyle(
                     color: paletteBlack,
                   ),
@@ -636,15 +610,16 @@ class _BookCreationPageState extends State<BookCreationPage> {
               ),
             ),
           ),
-          widget.documentId != null
+          widget.documentInstance != null
               ? Expanded(
                   child: Container(
                     color: Colors.red,
                     padding: const EdgeInsets.all(8),
                     child: TextButton(
                       onPressed: () async {
-                        bool responseSuccess = await appwrite_constants
-                            .deleteDocument(widget.documentId!);
+                        bool responseSuccess =
+                            await appwriteSystem.deleteDocument(
+                                documentId: widget.documentInstance!.$id);
 
                         if (responseSuccess) {
                           navigateBackHome();

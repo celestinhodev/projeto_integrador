@@ -8,9 +8,11 @@ import '../pages/book_page.dart';
 class BookTemplate extends StatefulWidget {
   // Declaration's
   String nomeLivro;
-  String? documentId;
   String caminhoImagem;
   bool admin;
+  models.Document documentInstance;
+
+  Map? userPrefs;
 
   // Constructor
   BookTemplate({
@@ -18,7 +20,8 @@ class BookTemplate extends StatefulWidget {
     required this.caminhoImagem,
     required this.nomeLivro,
     required this.admin,
-    this.documentId,
+    required this.documentInstance,
+    this.userPrefs,
   });
 
   @override
@@ -44,7 +47,8 @@ class _BookTemplateState extends State<BookTemplate> {
               context,
               MaterialPageRoute(
                 builder: (context) => BookDetailsPage(
-                  documentId: widget.documentId,
+                  documentInstance: widget.documentInstance,
+                  userPrefs: widget.userPrefs,
                 ),
               ),
             );
@@ -53,7 +57,7 @@ class _BookTemplateState extends State<BookTemplate> {
               context,
               MaterialPageRoute(
                 builder: (context) => BookCreationPage(
-                  documentId: widget.documentId,
+                  documentInstance: widget.documentInstance,
                 ),
               ),
             );

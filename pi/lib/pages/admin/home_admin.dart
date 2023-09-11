@@ -1,20 +1,16 @@
 // Packages
 import 'package:appwrite/models.dart' as models;
-
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 // Components
 import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
-import 'package:pi/components/navigation_bar.dart';
-import 'package:pi/constantes/appwrite_constants.dart';
+import 'package:pi/constantes/appwrite_system.dart';
 import 'package:pi/pages/admin/book_page_admin.dart';
 
 // Constantes
 import '../../constantes/cores.dart';
-
-//carrossel (organizar depois)
-import 'package:carousel_slider/carousel_slider.dart'; // Importe a biblioteca aqui
 
 class HomeAdmin extends StatefulWidget {
   const HomeAdmin({Key? key}) : super(key: key);
@@ -26,7 +22,7 @@ class HomeAdmin extends StatefulWidget {
 class _HomeAdminState extends State<HomeAdmin> {
   // Declaration's
   // Appwrite
-  AppwriteConstants appwrite_constants = AppwriteConstants();
+  AppwriteSystem appwriteSystem = AppwriteSystem();
 
   // Carousel
   CarouselController carouselController = CarouselController();
@@ -40,19 +36,18 @@ class _HomeAdminState extends State<HomeAdmin> {
   // Methods
   void getBooks() async {
     List<Widget> booksPrepare = [];
-    var finalWidget;
-    var listDocuments = await appwrite_constants.listDocuments();
+    Widget finalWidget;
+    models.DocumentList? listDocuments = await appwriteSystem.listDocuments(searchText: '');
 
     if (listDocuments!.total != 0) {
-      for (var element in listDocuments.documents) {
-        String nomeLivro = element.data['title'];
-        List<String> listImagesUrl = appwrite_constants.prepareList(
-                listImagesString: element.data['listImages']);
+      for (models.Document documentInstance in listDocuments.documents) {
+        String nomeLivro = documentInstance.data['title'];
+        List<String> listImagesUrl = appwriteSystem.prepareUrlListFromString(listImageUrlString: documentInstance.data['listImages']);
 
         finalWidget = BookTemplate(
           caminhoImagem: listImagesUrl[0],
           nomeLivro: nomeLivro,
-          documentId: element.$id,
+          documentInstance: documentInstance,
           admin: true,
         );
         booksPrepare.add(finalWidget);
@@ -124,7 +119,7 @@ class _HomeAdminState extends State<HomeAdmin> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BookCreationPage(documentId: null,),
+              builder: (context) => BookCreationPage(documentInstance: null),
             ),
           );
         },

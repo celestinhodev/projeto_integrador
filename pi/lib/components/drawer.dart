@@ -7,11 +7,11 @@ import '../constantes/cores.dart';
 
 // Pages
 import '../pages/carrinho.dart';
-import '../pages/Home.dart';
+import '../pages/home.dart';
 
 
 class MyDrawer extends StatefulWidget {
-  MyDrawer({super.key});
+  const MyDrawer({super.key,});
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();

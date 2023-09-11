@@ -4,9 +4,9 @@ import 'package:appwrite/models.dart' as models;
 
 import '../components/register_template.dart';
 import '../components/submitt_button.dart';
-import '../constantes/appwrite_constants.dart';
+import '../constantes/appwrite_system.dart';
 import 'package:pi/constantes/cores.dart';
-import 'package:pi/pages/Home.dart';
+import 'package:pi/pages/home.dart';
 
 import 'admin/home_admin.dart';
 import 'register.dart';
@@ -21,9 +21,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   // Declarations
   // Appwrite
-  AppwriteConstants appwrite_constants = AppwriteConstants();
-
-  bool _senhaLogin = false;
+  AppwriteSystem appwriteSystem = AppwriteSystem();
 
   TextEditingController emailEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
@@ -31,21 +29,11 @@ class _LoginState extends State<Login> {
   String password = '';
 
   // Methods
-  Future<bool> checkLogin() async {
+  void setEditingControllerText() {
     setState(() {
       email = emailEditingController.text;
       password = passwordEditingController.text;
     });
-
-    try {
-      bool loginStatus = await appwrite_constants.accountLogin(
-        email: email,
-        password: password,
-      );
-
-      return true;
-    } catch (e) {}
-    return false;
   }
 
   void navigateAfterLogin({required bool loginStatus}) {
@@ -127,11 +115,13 @@ class _LoginState extends State<Login> {
             SubmittButton(
               buttonText: 'Login',
               onPressed: () async {
-                bool login_info = await checkLogin();
+                setEditingControllerText();
+
+                bool loginStatus = await appwriteSystem.loginAccount(email: email, password: password);
 
                 if (emailEditingController.text != '' &&
                     passwordEditingController.text != '') {
-                  navigateAfterLogin(loginStatus: login_info);
+                  navigateAfterLogin(loginStatus: loginStatus);
                 } else {}
               },
             ),

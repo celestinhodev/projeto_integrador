@@ -4,21 +4,20 @@ import 'package:appwrite/models.dart' as models;
 
 // Constants
 import '../constantes/cores.dart';
-import 'package:pi/constantes/appwrite_constants.dart';
 
 // Pages
 import '../pages/book_page.dart';
 
 class SearchBookTemplate extends StatefulWidget {
-  String documentId;
   String title;
   String imagePath;
+  models.Document documentInstance;
 
   SearchBookTemplate({
     super.key,
-    required this.documentId,
     required this.title,
     required this.imagePath,
+    required this.documentInstance,
   });
 
   @override
@@ -34,7 +33,7 @@ class _SearchBookTemplateState extends State<SearchBookTemplate> {
           context,
           MaterialPageRoute(
             builder: (context) => BookDetailsPage(
-              documentId: widget.documentId,
+              documentInstance: widget.documentInstance,
             ),
           ),
         );

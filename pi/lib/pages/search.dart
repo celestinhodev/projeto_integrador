@@ -5,17 +5,18 @@ import 'package:appwrite/models.dart' as models;
 //Constantes (corrigir a separação aqui)
 import 'package:pi/components/booktok_appbar.dart';
 import 'package:pi/components/navigation_bar.dart';
-import 'package:pi/constantes/appwrite_constants.dart';
+import 'package:pi/constantes/appwrite_system.dart';
 import 'package:pi/constantes/cores.dart';
 
 //Componentes
 import '../components/search_book_template.dart';
-import '/pages/Home.dart';
+import 'home.dart';
 import '/pages/carrinho.dart';
 import '/pages/profile.dart';
 
 class SearchScreen extends StatefulWidget {
-  SearchScreen({super.key});
+  Map? userPrefs;
+  SearchScreen({super.key, this.userPrefs});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -23,7 +24,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   // Declaration's
-  AppwriteConstants appwrite_constants = AppwriteConstants();
+  AppwriteSystem appwriteSystem = AppwriteSystem();
 
   TextEditingController searchController = TextEditingController();
 
@@ -37,13 +38,13 @@ class _SearchScreenState extends State<SearchScreen> {
     });
 
     models.DocumentList? listBooks =
-        await appwrite_constants.searchBooks(searchText: searchText);
+        await appwriteSystem.listDocuments(searchText: searchText);
 
     if (listBooks == null || listBooks.total == 0) {
       setState(() {
         listResults = [
-          Padding(
-            padding: const EdgeInsets.all(32.0),
+          const Padding(
+            padding: EdgeInsets.all(32.0),
             child: Text(
               'Livro não encontrado',
               style: TextStyle(
@@ -56,16 +57,17 @@ class _SearchScreenState extends State<SearchScreen> {
       });
     } else {
       listResults = [];
-      for (var element in listBooks.documents) {
-        var listImages = appwrite_constants.prepareList(
-            listImagesString: element.data['listImages']);
+      for (models.Document documentInstance in listBooks.documents) {
+        String bookImageUrl = (appwriteSystem.prepareUrlListFromString(listImageUrlString: documentInstance.data['listImages']))[0];
+
+        String bookTitle = documentInstance.data['title'];
 
         setState(() {
           listResults.add(
             SearchBookTemplate(
-              documentId: element.$id,
-              title: element.data['title'],
-              imagePath: listImages[0],
+              title: bookTitle,
+              imagePath: bookImageUrl,
+              documentInstance: documentInstance,
             ),
           );
         });
@@ -75,7 +77,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -103,13 +104,13 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   Expanded(
                     child: TextField(
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: paletteWhite,
                       ),
                       onChanged: (value) {
                         searchAction(value);
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Buscar por título, autor',
                         hintStyle: TextStyle(color: paletteWhite),
                         border: InputBorder.none,
@@ -120,7 +121,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             searchText == ''
-                ? Center(
+                ? const Center(
                     child: Padding(
                       padding: const EdgeInsets.all(32.0),
                       child: Text(
@@ -141,22 +142,22 @@ class _SearchScreenState extends State<SearchScreen> {
       //Barra de navegação ----------------------------------------------------------------
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-          route: Home(),
+          route: Home(userPrefs: widget.userPrefs,),
           icon: const Icon(Icons.home),
           current: false,
         ),
         search: MyIconButtonNavigator(
-          route: SearchScreen(),
+          route: null,
           icon: const Icon(Icons.search),
           current: true,
         ),
         cart: MyIconButtonNavigator(
-          route: Carrinho(),
+          route: Carrinho(userPrefs: widget.userPrefs,),
           icon: const Icon(Icons.shopping_cart),
           current: false,
         ),
         user: MyIconButtonNavigator(
-          route: Profile(),
+          route: Profile(userPrefs: widget.userPrefs,),
           icon: const Icon(Icons.person),
           current: false,
         ),
