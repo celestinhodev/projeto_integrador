@@ -8,12 +8,12 @@ import 'package:pi/pages/search.dart';
 import '../components/book_template.dart';
 import '../components/drawer.dart';
 import '../components/navigation_bar.dart';
-import 'home.dart';
+import 'Home.dart';
 import 'carrinho.dart';
 import 'personal_data.dart';
 
 class Profile extends StatefulWidget {
-  Map? userPrefs;
+  models.Document? userPrefs;
 
   Profile({Key? key, this.userPrefs}) : super(key: key);
 

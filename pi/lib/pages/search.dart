@@ -10,12 +10,12 @@ import 'package:pi/constantes/cores.dart';
 
 //Componentes
 import '../components/search_book_template.dart';
-import 'home.dart';
+import 'Home.dart';
 import '/pages/carrinho.dart';
 import '/pages/profile.dart';
 
 class SearchScreen extends StatefulWidget {
-  Map? userPrefs;
+  models.Document? userPrefs;
   SearchScreen({super.key, this.userPrefs});
 
   @override

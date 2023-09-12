@@ -41,8 +41,8 @@ class MyIconButtonNavigator extends StatelessWidget {
   bool current;
 
   MyIconButtonNavigator({
-    required this.route, 
-    required this.icon, 
+    required this.route,
+    required this.icon,
     required this.current,
     super.key,
   });
@@ -51,7 +51,7 @@ class MyIconButtonNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        if(current == false) {
+        if (current == false) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -62,7 +62,6 @@ class MyIconButtonNavigator extends StatelessWidget {
       },
       icon: icon,
       isSelected: false,
-
       color: paletteWhite,
     );
   }

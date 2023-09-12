@@ -6,6 +6,8 @@ class cartTileTemplate extends StatefulWidget {
   double amount;
   double price;
   String imageUrl;
+  Function() addToAmount;
+  Function() subtractFromAmount;
 
   cartTileTemplate({
     super.key,
@@ -13,6 +15,8 @@ class cartTileTemplate extends StatefulWidget {
     required this.amount,
     required this.price,
     required this.imageUrl,
+    required this.addToAmount,
+    required this.subtractFromAmount,
   });
 
 
@@ -25,23 +29,25 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
   Widget build(BuildContext context) {
     return Container(
       height: 160,
+      constraints: BoxConstraints(
+        maxWidth: 500
+      ),
       padding: const EdgeInsets.only(bottom: 5),
       child: GridTile(
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(35, 10, 55, 5),
-              child: Image.asset('images/livros/livro.png'),
+              padding: const EdgeInsets.fromLTRB(35, 10, 35, 5),
+              child: Image.network(widget.imageUrl)
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    constraints: const BoxConstraints(
-                      maxWidth: 260,
-                    ),
+                    constraints: BoxConstraints(maxWidth: 250),
                     child: Text(
                       widget.titleBook,
                       style: TextStyle(
@@ -53,19 +59,15 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                       maxLines: 4,
                     ),
                   ),
-                  const Spacer(),
+
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {
-                          setState(() {
-                            widget.amount--;
-                          });
-                        },
+                        onPressed: widget.subtractFromAmount,
                         icon: const Icon(Icons.remove),
                       ),
                       const SizedBox(
-                        width: 5,
+                        width: 2,
                       ),
                       Container(
                         padding: const EdgeInsets.all(8),
@@ -79,30 +81,26 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                           child: Text(
                             widget.amount.toString(),
                             style: const TextStyle(
-                              fontSize: 18,
+                              fontSize: 17,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
                       const SizedBox(
-                        width: 5,
+                        width: 2,
                       ),
                       IconButton(
-                        onPressed: () {
-                          setState(() {
-                            widget.amount++;
-                          });
-                        },
+                        onPressed: widget.addToAmount,
                         icon: const Icon(Icons.add),
                       ),
                       const SizedBox(
-                        width: 15,
+                        width: 10,
                       ),
                       Text(
                         'x R\$${(widget.amount * widget.price).toStringAsFixed(2)}',
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -110,9 +108,6 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                   )
                 ],
               ),
-            ),
-            const SizedBox(
-              width: 55,
             ),
           ],
         ),

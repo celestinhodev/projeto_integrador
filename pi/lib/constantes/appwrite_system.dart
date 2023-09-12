@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
 import 'dart:convert';
@@ -341,10 +343,8 @@ class AppwriteSystem {
     return false;
   }
 
-  Future<List<dynamic>> getCurrentCart({required models.Document? document}) async {
+  Future<List<dynamic>> getCurrentCart({required String currentCartString}) async {
     try {
-      String currentCartString = document!.data['cartItens'];
-
       List json = JsonDecoder().convert(currentCartString);
 
       return json;
@@ -352,5 +352,18 @@ class AppwriteSystem {
       print(e);
       return [];
     }
+  }
+
+  Future<bool> updateCart({required List<dynamic> newCartItens, required String documentId}) async {
+    try {
+      String cartToUpload = JsonEncoder().convert(newCartItens);
+      await databaseInstance.updateDocument(databaseId: databaseId, collectionId: userInfoCollectionId, documentId: documentId, data: {
+        'cartItens': cartToUpload,
+      });
+
+      return true;
+    } catch (e) {}
+    
+    return false;
   }
 }

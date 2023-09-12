@@ -11,8 +11,7 @@ class BookTemplate extends StatefulWidget {
   String caminhoImagem;
   bool admin;
   models.Document documentInstance;
-
-  Map? userPrefs;
+  models.Document? userPrefs;
 
   // Constructor
   BookTemplate({

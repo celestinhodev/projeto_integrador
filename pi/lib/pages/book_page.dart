@@ -1,4 +1,6 @@
 // Packages
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:carousel_slider/carousel_slider.dart';
@@ -13,7 +15,7 @@ import '../constantes/cores.dart';
 import '../constantes/appwrite_system.dart';
 
 // Pages
-import 'home.dart';
+import 'Home.dart';
 import 'carrinho.dart';
 import 'profile.dart';
 import 'search.dart';
@@ -21,10 +23,9 @@ import 'search.dart';
 // BookDetail Page
 class BookDetailsPage extends StatefulWidget {
   models.Document documentInstance;
-  Map? userPrefs;
+  models.Document? userPrefs;
 
-  BookDetailsPage(
-      {super.key, required this.documentInstance, this.userPrefs});
+  BookDetailsPage({super.key, required this.documentInstance, this.userPrefs});
 
   @override
   State<BookDetailsPage> createState() => _BookDetailsPageState();
@@ -43,14 +44,17 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     'author': '',
     'year': '',
   };
+  List<String> listImagesUrl = [];
 
   int _value = 0;
   CarouselController bookCarouselController = CarouselController();
   List<Widget> carouselItens = [];
+  List<dynamic> cartItens = [];
 
   // Methods
   void setBookInformation() async {
-    List<String> listImagesUrl = appwriteSystem.prepareUrlListFromString(listImageUrlString: widget.documentInstance.data['listImages']);
+    listImagesUrl = appwriteSystem.prepareUrlListFromString(
+        listImageUrlString: widget.documentInstance.data['listImages']);
 
     setState(() {
       book_data['title'] = widget.documentInstance.data['title'];
@@ -66,11 +70,33 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     });
   }
 
+  void setCart() async {
+    cartItens = await appwriteSystem.getCurrentCart(
+        currentCartString: widget.userPrefs!.data['cartItens']);
+  }
+
+  cartItemModel() {
+    return {
+      "amount": 1,
+      "price": double.parse(book_data['price']!),
+      "title": book_data['title'],
+      "imagePath": listImagesUrl[0]
+    };
+  }
+
+  Future<void> addToCart() async {
+    cartItens.add(cartItemModel());
+    await appwriteSystem.updateCart(
+        newCartItens: cartItens, documentId: widget.userPrefs!.$id);
+    widget.userPrefs!.data['cartItens'] = JsonEncoder().convert(cartItens);
+  }
+
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
 
+    setCart();
     setBookInformation();
   }
 
@@ -336,7 +362,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
               color: paletteBrown,
               child: TextButton(
                 onPressed: () async {
-
+                  addToCart();
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: paletteBrown,
@@ -354,20 +380,28 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-          route: Home(),
+          route: Home(
+            userPrefs: widget.userPrefs,
+          ),
           icon: const Icon(Icons.home),
           current: false,
         ),
         search: MyIconButtonNavigator(
-            route: SearchScreen(),
+            route: SearchScreen(
+              userPrefs: widget.userPrefs,
+            ),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: Carrinho(),
+            route: Carrinho(
+              userPrefs: widget.userPrefs,
+            ),
             icon: const Icon(Icons.shopping_cart),
             current: false),
         user: MyIconButtonNavigator(
-          route: Profile(),
+          route: Profile(
+            userPrefs: widget.userPrefs,
+          ),
           icon: const Icon(Icons.person),
           current: false,
         ),

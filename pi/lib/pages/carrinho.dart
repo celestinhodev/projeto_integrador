@@ -8,10 +8,10 @@ import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
 
 import '../components/cartTileTemplate.dart';
-import 'home.dart';
+import 'Home.dart';
 
 class Carrinho extends StatefulWidget {
-  Map? userPrefs;
+  models.Document? userPrefs;
 
   Carrinho({super.key, this.userPrefs});
 
@@ -27,12 +27,20 @@ class _CarrinhoState extends State<Carrinho> {
   List<dynamic> cartItens = [];
 
   // Methods
-  void getCartItens() async {
-    cartItens = await appwriteSystem.getCurrentCart(document: widget.userPrefs!['data']['cartItens']);
+  addToAmount() {
 
-    for (var item in cartItens) {
+  }
+
+  subtractFromAmount() {
+    
+  }
+
+  Future<void> getCartItens() async {
+    cartItens = await appwriteSystem.getCurrentCart(currentCartString: widget.userPrefs!.data['cartItens']);
+    
+    for (Map<String, dynamic> item in cartItens) {
       setState(() {
-        cartItensWidgets.add(cartTileTemplate(titleBook: item['title'], amount: item['amount'], price: item['price'], imageUrl: item['imageUrl']));
+        cartItensWidgets.add(cartTileTemplate(titleBook: item['title'], amount: item['amount'], price: item['price'], imageUrl: item['imagePath'], addToAmount: addToAmount, subtractFromAmount: subtractFromAmount,));
       });
     }    
   }
@@ -61,7 +69,7 @@ class _CarrinhoState extends State<Carrinho> {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 10),
-            height: 408,
+            height: MediaQuery.of(context).size.height*0.8,
             child: SingleChildScrollView(
               child: Column(
                 children: cartItensWidgets,

@@ -6,7 +6,7 @@ import '../components/register_template.dart';
 import '../components/submitt_button.dart';
 import '../constantes/appwrite_system.dart';
 import 'package:pi/constantes/cores.dart';
-import 'package:pi/pages/home.dart';
+import 'package:pi/pages/Home.dart';
 
 import 'admin/home_admin.dart';
 import 'register.dart';
@@ -36,10 +36,10 @@ class _LoginState extends State<Login> {
     });
   }
 
-  void navigateAfterLogin({required bool loginStatus}) {
+  void navigateAfterLogin({required bool loginStatus}) async {
     if (loginStatus == true) {
       switch (email) {
-        case 'staffchattube@gmail.com':
+        case '':
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -48,10 +48,11 @@ class _LoginState extends State<Login> {
           );
           break;
         default:
+          models.Document? userPrefs = await appwriteSystem.getUserPreferences();
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(),
+              builder: (context) => Home(userPrefs: userPrefs),
             ),
           );
       }

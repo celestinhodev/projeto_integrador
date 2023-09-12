@@ -20,7 +20,7 @@ import '../constantes/cores.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // Importe a biblioteca aqui
 
 class Home extends StatefulWidget {
-  Map? userPrefs;
+  models.Document? userPrefs;
   Home({Key? key, this.userPrefs}) : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
   // Appwrite
   AppwriteSystem appwriteSystem = AppwriteSystem();
   late models.Account account;
-  Map userPrefs = {};
+  models.Document? userPrefs;
 
   // Carousel
   CarouselController carouselController = CarouselController();
@@ -46,10 +46,10 @@ class _HomeState extends State<Home> {
 
   // Methods
   void getUserPrefs() async {
-    if(widget.userPrefs != null && widget.userPrefs!.isNotEmpty) {
+    if(widget.userPrefs != null) {
       userPrefs = widget.userPrefs!;
     } else {
-      userPrefs = (await appwriteSystem.getUserPreferences())!.toMap();
+      userPrefs = await appwriteSystem.getUserPreferences();
     }
   }
 
@@ -70,6 +70,7 @@ class _HomeState extends State<Home> {
             caminhoImagem: imagePath,
             documentInstance: documentInstance,
             admin: false,
+            userPrefs: widget.userPrefs,
           ),
         );
       });
