@@ -187,7 +187,7 @@ class AppwriteSystem {
   }
 
   Future<models.DocumentList?> listDocuments(
-      {required String searchText}) async {
+      {required String searchText, String atributes = 'title'}) async {
     models.DocumentList listDocuments;
 
     try {
@@ -202,7 +202,9 @@ class AppwriteSystem {
           listDocuments = await databaseInstance.listDocuments(
               databaseId: databaseId,
               collectionId: collectionId,
-              queries: [Query.search('title', searchText)]);
+              queries: [
+                Query.search(atributes!, searchText),
+              ]);
       }
 
       return listDocuments;
@@ -212,7 +214,7 @@ class AppwriteSystem {
   }
 
   // Account methods
-  Future<bool> loginAccount(
+  Future<String> loginAccount(
       {required String email, required String password}) async {
     try {
       await accountInstance.createEmailSession(
@@ -220,17 +222,21 @@ class AppwriteSystem {
         password: password,
       );
 
-      return true;
-    } catch (e) {}
-
-    return false;
+      return '201';
+    } catch (e) {
+      return e.toString().replaceAll(')', '').split('(')[1];
+    }
   }
 
   Future<void> createPreferences({required String userId}) async {
     try {
-      await databaseInstance.createDocument(databaseId: databaseId, collectionId: userInfoCollectionId, documentId: ID.unique(), data: {
-        "userId": userId,
-      });
+      await databaseInstance.createDocument(
+          databaseId: databaseId,
+          collectionId: userInfoCollectionId,
+          documentId: ID.unique(),
+          data: {
+            "userId": userId,
+          });
     } catch (e) {}
   }
 
@@ -254,13 +260,13 @@ class AppwriteSystem {
     var account = await accountInstance.get();
 
     return (await databaseInstance.listDocuments(
-        databaseId: databaseId,
-        collectionId: userInfoCollectionId,
-        queries: [
-          Query.search('userId', account.$id),
-        ],
-      ))
-          .documents[0];
+      databaseId: databaseId,
+      collectionId: userInfoCollectionId,
+      queries: [
+        Query.search('userId', account.$id),
+      ],
+    ))
+        .documents[0];
   }
 
   Future<bool> updatePreferences(
@@ -343,7 +349,8 @@ class AppwriteSystem {
     return false;
   }
 
-  Future<List<dynamic>> getCurrentCart({required String currentCartString}) async {
+  Future<List<dynamic>> getCurrentCart(
+      {required String currentCartString}) async {
     try {
       List json = JsonDecoder().convert(currentCartString);
 
@@ -354,16 +361,24 @@ class AppwriteSystem {
     }
   }
 
-  Future<bool> updateCart({required List<dynamic> newCartItens, required String documentId}) async {
+  Future<bool> updateCart(
+      {required List<dynamic> newCartItens, required String documentId}) async {
     try {
       String cartToUpload = JsonEncoder().convert(newCartItens);
-      await databaseInstance.updateDocument(databaseId: databaseId, collectionId: userInfoCollectionId, documentId: documentId, data: {
-        'cartItens': cartToUpload,
-      });
+
+      await databaseInstance.updateDocument(
+          databaseId: databaseId,
+          collectionId: userInfoCollectionId,
+          documentId: documentId,
+          data: {
+            'cartItens': cartToUpload,
+          });
 
       return true;
-    } catch (e) {}
-    
+    } catch (e) {
+      print(e);
+    }
+
     return false;
   }
 }

@@ -104,7 +104,7 @@ class _HomeState extends State<Home> {
       // Comum Component App Bar
       appBar: BookTokAppBar,
 
-      drawer: MyDrawer(),
+      drawer: MyDrawer(userPrefs: widget.userPrefs),
 
       backgroundColor: paletteBlack,
       body: SingleChildScrollView(

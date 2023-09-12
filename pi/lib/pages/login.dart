@@ -28,7 +28,41 @@ class _LoginState extends State<Login> {
   String email = '';
   String password = '';
 
+  Widget error = Container(
+    color: Colors.redAccent,
+    padding: EdgeInsets.all(8),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Email ou senha incorretos.'),
+      ],
+    ),
+  );
+  Widget success = Container(
+    color: Colors.green,
+    padding: EdgeInsets.all(8),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Login concluido!'),
+      ],
+    ),
+  );
+  Widget? statusShowing = null;
+
   // Methods
+  showErrorMessage(atualError) async {
+    setState(() {
+      statusShowing = atualError;
+    });
+
+    await Future.delayed(Duration(seconds: 2));
+
+    setState(() {
+      statusShowing = null;
+    });
+  }
+
   void setEditingControllerText() {
     setState(() {
       email = emailEditingController.text;
@@ -36,10 +70,11 @@ class _LoginState extends State<Login> {
     });
   }
 
-  void navigateAfterLogin({required bool loginStatus}) async {
-    if (loginStatus == true) {
+  void navigateAfterLogin({required String loginStatus}) async {
+    if (loginStatus == '201') {
+      await showErrorMessage(success);
       switch (email) {
-        case '':
+        case 'staffchattube@gmail.com':
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -48,7 +83,8 @@ class _LoginState extends State<Login> {
           );
           break;
         default:
-          models.Document? userPrefs = await appwriteSystem.getUserPreferences();
+          models.Document? userPrefs =
+              await appwriteSystem.getUserPreferences();
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -57,7 +93,7 @@ class _LoginState extends State<Login> {
           );
       }
     } else {
-      print('Falha no login');
+      showErrorMessage(error);
     }
   }
 
@@ -68,6 +104,7 @@ class _LoginState extends State<Login> {
       body: Center(
         child: Column(
           children: [
+
             Image.asset(
               'images/logo-login.png',
               width: 500,
@@ -118,7 +155,8 @@ class _LoginState extends State<Login> {
               onPressed: () async {
                 setEditingControllerText();
 
-                bool loginStatus = await appwriteSystem.loginAccount(email: email, password: password);
+                String loginStatus = await appwriteSystem.loginAccount(
+                    email: email, password: password);
 
                 if (emailEditingController.text != '' &&
                     passwordEditingController.text != '') {
@@ -175,6 +213,10 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
+      bottomSheet: statusShowing != null ? BottomSheet(
+        onClosing: () {},
+        builder: (context) => statusShowing!
+      ) : null,
     );
   }
 }

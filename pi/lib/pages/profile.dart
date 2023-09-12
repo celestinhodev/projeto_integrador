@@ -32,7 +32,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BookTokAppBar,
-      drawer: MyDrawer(),
+      drawer: MyDrawer(userPrefs: widget.userPrefs,),
       body: Container(
         color: paletteBlack,
         child: Column(

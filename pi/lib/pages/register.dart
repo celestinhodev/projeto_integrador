@@ -36,6 +36,41 @@ class _RegisterState extends State<Register> {
 
   bool isChecked = false;
 
+  Widget error = Container(
+    color: Colors.redAccent,
+    padding: EdgeInsets.all(8),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Falha no registro.'),
+      ],
+    ),
+  );
+  Widget success = Container(
+    color: Colors.green,
+    padding: EdgeInsets.all(8),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Registro bem-sucedido!'),
+      ],
+    ),
+  );
+  Widget? statusShowing = null;
+
+  // Methods
+  showErrorMessage(atualError) async {
+    setState(() {
+      statusShowing = atualError;
+    });
+
+    await Future.delayed(Duration(seconds: 2));
+
+    setState(() {
+      statusShowing = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,12 +208,15 @@ class _RegisterState extends State<Register> {
               }
       
               if (registerSuccess == true) {
+                await showErrorMessage(success);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Login(),
                   ),
                 );
+              } else {
+                showErrorMessage(error);
               }
             },
           ),
@@ -208,6 +246,10 @@ class _RegisterState extends State<Register> {
           ),
         ]),
       ),
+      bottomSheet: statusShowing != null ? BottomSheet(
+        onClosing: () {},
+        builder: (context) => statusShowing!
+      ) : null,
     );
   }
 }

@@ -3,9 +3,12 @@ import 'package:pi/constantes/cores.dart';
 
 class cartTileTemplate extends StatefulWidget {
   String titleBook;
-  double amount;
+  int amount;
   double price;
   String imageUrl;
+  int index;
+  Function(int index) indexDelete;
+  Function(int amount, int index) amountUpdate;
 
   cartTileTemplate({
     super.key,
@@ -13,6 +16,9 @@ class cartTileTemplate extends StatefulWidget {
     required this.amount,
     required this.price,
     required this.imageUrl,
+    required this.index,
+    required this.indexDelete,
+    required this.amountUpdate,
   });
 
 
@@ -62,6 +68,10 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                         onPressed: () {
                           setState(() {
                             widget.amount--;
+                            widget.amountUpdate(widget.amount, widget.index);
+                            if(widget.amount == 0) {
+                              widget.indexDelete(widget.index,);  
+                            }
                           });
                         },
                         icon: const Icon(Icons.remove),
@@ -94,6 +104,7 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                         onPressed: () {
                           setState(() {
                             widget.amount++;
+                            widget.amountUpdate(widget.amount, widget.index);
                           });
                         },
                         icon: const Icon(Icons.add),

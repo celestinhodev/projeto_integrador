@@ -1,6 +1,8 @@
 // Packages
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:pi/pages/profile.dart';
+import 'package:pi/pages/search.dart';
 
 // Constants
 import '../constantes/cores.dart';
@@ -11,7 +13,8 @@ import '../pages/home.dart';
 
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({super.key,});
+  models.Document? userPrefs;
+  MyDrawer({super.key, this.userPrefs});
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -90,7 +93,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Home(),
+                  builder: (context) => Home(userPrefs: widget.userPrefs,),
                 ),
               );
             },
@@ -102,7 +105,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Carrinho(),
+                  builder: (context) => Carrinho(userPrefs: widget.userPrefs,),
                 ),
               );
             },
@@ -111,8 +114,12 @@ class _MyDrawerState extends State<MyDrawer> {
             title: Text('Meu perfil', style: textStylePages),
             contentPadding: const EdgeInsets.only(left: 35),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Profile(userPrefs: widget.userPrefs,),
+                ),
+              );
             },
           ),
           const SizedBox(
@@ -133,32 +140,48 @@ class _MyDrawerState extends State<MyDrawer> {
             title: Text('> Terror', style: textStyleCategories),
             contentPadding: const EdgeInsets.only(left: 45),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(userPrefs: widget.userPrefs, textSearch: 'TERROR'),
+                ),
+              );
             },
           ),
           ListTile(
             title: Text('> Romance', style: textStyleCategories),
             contentPadding: const EdgeInsets.only(left: 45),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(userPrefs: widget.userPrefs, textSearch: 'ROMANCE'),
+                ),
+              );
             },
           ),
           ListTile(
             title: Text('> Fantasia', style: textStyleCategories),
             contentPadding: const EdgeInsets.only(left: 45),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(userPrefs: widget.userPrefs, textSearch: 'FANTASIA'),
+                ),
+              );
             },
           ),
           ListTile(
             title: Text('> Infantil', style: textStyleCategories),
             contentPadding: const EdgeInsets.only(left: 45),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(userPrefs: widget.userPrefs, textSearch: 'INFANTIL'),
+                ),
+              );
             },
           ),
         ],

@@ -27,27 +27,69 @@ class _CarrinhoState extends State<Carrinho> {
   List<dynamic> cartItens = [];
 
   // Methods
-  void addToAmount(String title) {
-    print(title);
-  }
-
-  void subtractFromAmount(String title) {
-  }
-
   Future<void> getCartItens() async {
-    cartItens = await appwriteSystem.getCurrentCart(
-        currentCartString: widget.userPrefs!.data['cartItens']);
+    if (widget.userPrefs!.data['cartItens'] != '[]') {
+      cartItens = await appwriteSystem.getCurrentCart(
+          currentCartString: widget.userPrefs!.data['cartItens']);
 
-    for (Map<String, dynamic> item in cartItens) {
+      int counter = 0;
+
+      for (Map<String, dynamic> item in cartItens) {
+        setState(() {
+          cartItensWidgets.add(cartTileTemplate(
+            titleBook: item['title'],
+            amount: item['amount'],
+            price: item['price'],
+            imageUrl: item['imagePath'],
+            index: counter,
+            indexDelete: deleteItemFromCart,
+            amountUpdate: amountUpdate,
+          ));
+        });
+
+        counter++;
+      }
+    }
+  }
+
+  void deleteItemFromCart(int index) async {
+    if (cartItens.length > 1) {
+      cartItens.removeAt(index);
+      cartItensWidgets = [];
+
+      int counter = 0;
+
+      for (Map<String, dynamic> item in cartItens) {
+        setState(() {
+          cartItensWidgets.add(cartTileTemplate(
+            titleBook: item['title'],
+            amount: item['amount'],
+            price: item['price'],
+            imageUrl: item['imagePath'],
+            index: counter,
+            indexDelete: deleteItemFromCart,
+            amountUpdate: amountUpdate,
+          ));
+        });
+
+        counter++;
+      }
+    } else {
+      cartItens = [];
+
       setState(() {
-        cartItensWidgets.add(cartTileTemplate(
-          titleBook: item['title'],
-          amount: item['amount'],
-          price: item['price'],
-          imageUrl: item['imagePath'],
-        ));
+        cartItensWidgets = [];
       });
     }
+
+    widget.userPrefs!.data['cartItens'] = cartItens;
+
+    var response = await appwriteSystem.updateCart(
+        newCartItens: cartItens, documentId: widget.userPrefs!.$id);
+  }
+
+  void amountUpdate(int amount, int index) async {
+    
   }
 
   @override

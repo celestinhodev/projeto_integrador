@@ -4,6 +4,7 @@ import 'package:appwrite/models.dart' as models;
 
 //Constantes (corrigir a separação aqui)
 import 'package:pi/components/booktok_appbar.dart';
+import 'package:pi/components/drawer.dart';
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/appwrite_system.dart';
 import 'package:pi/constantes/cores.dart';
@@ -16,7 +17,8 @@ import '/pages/profile.dart';
 
 class SearchScreen extends StatefulWidget {
   models.Document? userPrefs;
-  SearchScreen({super.key, this.userPrefs});
+  String? textSearch;
+  SearchScreen({super.key, this.userPrefs, this.textSearch});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -27,18 +29,19 @@ class _SearchScreenState extends State<SearchScreen> {
   AppwriteSystem appwriteSystem = AppwriteSystem();
 
   TextEditingController searchController = TextEditingController();
+  late TextEditingController searchControllerCustom = TextEditingController(text: widget.textSearch);
 
   String searchText = '';
   List<Widget> listResults = [];
 
   // Methods
-  void searchAction(String value) async {
+  void searchAction(String value, [String searchAtribute = 'title']) async {
     setState(() {
       searchText = value;
     });
 
     models.DocumentList? listBooks =
-        await appwriteSystem.listDocuments(searchText: searchText);
+        await appwriteSystem.listDocuments(searchText: searchText, atributes: searchAtribute);
 
     if (listBooks == null || listBooks.total == 0) {
       setState(() {
@@ -58,7 +61,8 @@ class _SearchScreenState extends State<SearchScreen> {
     } else {
       listResults = [];
       for (models.Document documentInstance in listBooks.documents) {
-        String bookImageUrl = (appwriteSystem.prepareUrlListFromString(listImageUrlString: documentInstance.data['listImages']))[0];
+        String bookImageUrl = (appwriteSystem.prepareUrlListFromString(
+            listImageUrlString: documentInstance.data['listImages']))[0];
 
         String bookTitle = documentInstance.data['title'];
 
@@ -68,6 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
               title: bookTitle,
               imagePath: bookImageUrl,
               documentInstance: documentInstance,
+              userPrefs: widget.userPrefs,
             ),
           );
         });
@@ -78,12 +83,19 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
+    if(widget.textSearch != null) {
+      setState(() {
+        searchController.text = widget.textSearch!;
+        searchAction(widget.textSearch!, 'category');
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BookTokAppBar,
+      drawer: MyDrawer(userPrefs: widget.userPrefs,),
       body: Container(
         color: paletteBlack,
         child: Column(
@@ -110,6 +122,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       onChanged: (value) {
                         searchAction(value);
                       },
+                      controller: searchController,
                       decoration: const InputDecoration(
                         hintText: 'Buscar por título, autor',
                         hintStyle: TextStyle(color: paletteWhite),
@@ -142,7 +155,9 @@ class _SearchScreenState extends State<SearchScreen> {
       //Barra de navegação ----------------------------------------------------------------
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-          route: Home(userPrefs: widget.userPrefs,),
+          route: Home(
+            userPrefs: widget.userPrefs,
+          ),
           icon: const Icon(Icons.home),
           current: false,
         ),
@@ -152,12 +167,16 @@ class _SearchScreenState extends State<SearchScreen> {
           current: true,
         ),
         cart: MyIconButtonNavigator(
-          route: Carrinho(userPrefs: widget.userPrefs,),
+          route: Carrinho(
+            userPrefs: widget.userPrefs,
+          ),
           icon: const Icon(Icons.shopping_cart),
           current: false,
         ),
         user: MyIconButtonNavigator(
-          route: Profile(userPrefs: widget.userPrefs,),
+          route: Profile(
+            userPrefs: widget.userPrefs,
+          ),
           icon: const Icon(Icons.person),
           current: false,
         ),

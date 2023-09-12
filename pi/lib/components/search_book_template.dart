@@ -12,12 +12,14 @@ class SearchBookTemplate extends StatefulWidget {
   String title;
   String imagePath;
   models.Document documentInstance;
+  models.Document? userPrefs;
 
   SearchBookTemplate({
     super.key,
     required this.title,
     required this.imagePath,
     required this.documentInstance,
+    this.userPrefs,
   });
 
   @override
@@ -34,6 +36,7 @@ class _SearchBookTemplateState extends State<SearchBookTemplate> {
           MaterialPageRoute(
             builder: (context) => BookDetailsPage(
               documentInstance: widget.documentInstance,
+              userPrefs: widget.userPrefs,
             ),
           ),
         );
