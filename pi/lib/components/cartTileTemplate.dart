@@ -6,8 +6,6 @@ class cartTileTemplate extends StatefulWidget {
   double amount;
   double price;
   String imageUrl;
-  Function() addToAmount;
-  Function() subtractFromAmount;
 
   cartTileTemplate({
     super.key,
@@ -15,8 +13,6 @@ class cartTileTemplate extends StatefulWidget {
     required this.amount,
     required this.price,
     required this.imageUrl,
-    required this.addToAmount,
-    required this.subtractFromAmount,
   });
 
 
@@ -63,7 +59,11 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: widget.subtractFromAmount,
+                        onPressed: () {
+                          setState(() {
+                            widget.amount--;
+                          });
+                        },
                         icon: const Icon(Icons.remove),
                       ),
                       const SizedBox(
@@ -91,7 +91,11 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                         width: 2,
                       ),
                       IconButton(
-                        onPressed: widget.addToAmount,
+                        onPressed: () {
+                          setState(() {
+                            widget.amount++;
+                          });
+                        },
                         icon: const Icon(Icons.add),
                       ),
                       const SizedBox(

@@ -27,22 +27,27 @@ class _CarrinhoState extends State<Carrinho> {
   List<dynamic> cartItens = [];
 
   // Methods
-  addToAmount() {
-
+  void addToAmount(String title) {
+    print(title);
   }
 
-  subtractFromAmount() {
-    
+  void subtractFromAmount(String title) {
   }
 
   Future<void> getCartItens() async {
-    cartItens = await appwriteSystem.getCurrentCart(currentCartString: widget.userPrefs!.data['cartItens']);
-    
+    cartItens = await appwriteSystem.getCurrentCart(
+        currentCartString: widget.userPrefs!.data['cartItens']);
+
     for (Map<String, dynamic> item in cartItens) {
       setState(() {
-        cartItensWidgets.add(cartTileTemplate(titleBook: item['title'], amount: item['amount'], price: item['price'], imageUrl: item['imagePath'], addToAmount: addToAmount, subtractFromAmount: subtractFromAmount,));
+        cartItensWidgets.add(cartTileTemplate(
+          titleBook: item['title'],
+          amount: item['amount'],
+          price: item['price'],
+          imageUrl: item['imagePath'],
+        ));
       });
-    }    
+    }
   }
 
   @override
@@ -69,7 +74,7 @@ class _CarrinhoState extends State<Carrinho> {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 10),
-            height: MediaQuery.of(context).size.height*0.8,
+            height: MediaQuery.of(context).size.height * 0.8,
             child: SingleChildScrollView(
               child: Column(
                 children: cartItensWidgets,
@@ -110,9 +115,7 @@ class _CarrinhoState extends State<Carrinho> {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
               child: ElevatedButton(
-                onPressed: () {
-                  
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(backgroundColor: paletteYellow),
                 child: const Padding(
                   padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
@@ -131,7 +134,9 @@ class _CarrinhoState extends State<Carrinho> {
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-          route: Home(userPrefs: widget.userPrefs,),
+          route: Home(
+            userPrefs: widget.userPrefs,
+          ),
           icon: const Icon(Icons.home),
           current: false,
         ),
@@ -140,9 +145,7 @@ class _CarrinhoState extends State<Carrinho> {
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: null,
-            icon: const Icon(Icons.shopping_cart),
-            current: true),
+            route: null, icon: const Icon(Icons.shopping_cart), current: true),
         user: MyIconButtonNavigator(
           route: Profile(userPrefs: widget.userPrefs),
           icon: const Icon(Icons.person),
