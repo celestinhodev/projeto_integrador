@@ -90,6 +90,21 @@ class _PersonalDataState extends State<PersonalData> {
     if (newPreferences.isNotEmpty) {
       preferencesUpdateSuccess = await appwriteSystem.updatePreferences(
           newPreferences: newPreferences);
+      if(newPreferences['cep'] != null || newPreferences['cep'] != '') {
+        widget.userPrefs!.data['cep'] = newPreferences['cep'];
+      }
+
+      if(newPreferences['city'] != null || newPreferences['city'] != '') {
+        widget.userPrefs!.data['city'] = newPreferences['city'];
+      }
+
+      if(newPreferences['address'] != null || newPreferences['address'] != '') {
+        widget.userPrefs!.data['address'] = newPreferences['address'];
+      }
+
+      if(newPreferences['complement'] != null || newPreferences['complement'] != '') {
+        widget.userPrefs!.data['complement'] = newPreferences['complement'];
+      }
     }
 
     if (emailUpdateSuccess &&
@@ -128,7 +143,6 @@ class _PersonalDataState extends State<PersonalData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BookTokAppBar,
-      drawer: MyDrawer(userPrefs: widget.userPrefs),
       backgroundColor: paletteBlack,
       body: SingleChildScrollView(
         child: Column(
