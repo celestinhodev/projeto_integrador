@@ -25,6 +25,7 @@ class _LoginState extends State<Login> {
 
   TextEditingController emailEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
+  FocusNode focusNode = FocusNode();
   String email = '';
   String password = '';
 
@@ -115,6 +116,11 @@ class _LoginState extends State<Login> {
               isPassword: false,
               textEditingController: emailEditingController,
               needErrorVerification: true,
+              submittField: (p0) {
+                setState(() {
+                  FocusScope.of(context).requestFocus(focusNode);
+                });
+              },
             ),
             const SizedBox(height: 25),
             registerTemplate(
@@ -122,6 +128,18 @@ class _LoginState extends State<Login> {
               isPassword: true,
               textEditingController: passwordEditingController,
               needErrorVerification: true,
+              focusNode: focusNode,
+              submittField: (p0) async {
+                setEditingControllerText();
+
+                String loginStatus = await appwriteSystem.loginAccount(
+                    email: email, password: password);
+
+                if (emailEditingController.text != '' &&
+                    passwordEditingController.text != '') {
+                  navigateAfterLogin(loginStatus: loginStatus);
+                } else {}
+              },
             ),
             //////////////Esqueceu a senha///////////////////////////
             Row(

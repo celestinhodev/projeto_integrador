@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
 
 import 'package:pi/components/booktok_appbar.dart';
+import 'package:pi/constantes/appwrite_system.dart';
 import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/search.dart';
 
@@ -22,10 +25,13 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  AppwriteSystem appwriteSystem = AppwriteSystem();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    appwriteSystem.updateCart(
+        newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']), documentId: widget.userPrefs!.$id);
   }
 
   @override
@@ -62,7 +68,7 @@ class _ProfileState extends State<Profile> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PersonalData(),
+                          builder: (context) => PersonalData(userPrefs: widget.userPrefs),
                         ));
                   },
                   child: const Text(
@@ -102,7 +108,7 @@ class _ProfileState extends State<Profile> {
               ],
             ),
             const Padding(
-              padding: EdgeInsets.fromLTRB(0, 30, 320, 0),
+              padding: EdgeInsets.fromLTRB(18, 30, 320, 0),
               child: Text(
                 'Seus Pedidos',
                 style: TextStyle(
@@ -112,7 +118,7 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(18, 20, 12, 0),
+              padding: const EdgeInsets.fromLTRB(18, 20, 18, 0),
               child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,

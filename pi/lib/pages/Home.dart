@@ -1,4 +1,6 @@
 // Packages
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
 
@@ -96,6 +98,8 @@ class _HomeState extends State<Home> {
       Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
     ];
+    appwriteSystem.updateCart(
+        newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']), documentId: widget.userPrefs!.$id);
 
     getBooksFromDB();
   }

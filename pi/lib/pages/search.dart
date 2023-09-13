@@ -1,4 +1,6 @@
 //Packages
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
 
@@ -83,6 +85,8 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
+    appwriteSystem.updateCart(
+        newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']), documentId: widget.userPrefs!.$id);
     if(widget.textSearch != null) {
       setState(() {
         searchController.text = widget.textSearch!;

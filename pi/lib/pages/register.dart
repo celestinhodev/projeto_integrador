@@ -87,6 +87,7 @@ class _RegisterState extends State<Register> {
             isPassword: false,
             textEditingController: nameEditingController,
             needErrorVerification: true,
+            submittField: (p0) {},
           ),
           const SizedBox(height: 25),
           registerTemplate(
@@ -94,6 +95,7 @@ class _RegisterState extends State<Register> {
             isPassword: false,
             textEditingController: emailEditingController,
             needErrorVerification: true,
+            submittField: (p0) {},
           ),
           const SizedBox(height: 25),
           registerTemplate(
@@ -101,6 +103,7 @@ class _RegisterState extends State<Register> {
             isPassword: true,
             textEditingController: passwordEditingController,
             needErrorVerification: true,
+            submittField: (p0) {},
           ),
           const SizedBox(height: 25),
           registerTemplate(
@@ -108,6 +111,7 @@ class _RegisterState extends State<Register> {
             isPassword: true,
             textEditingController: confirmPasswordEditingController,
             needErrorVerification: true,
+            submittField: (p0) {},
           ),
           const SizedBox(height: 40),
           
