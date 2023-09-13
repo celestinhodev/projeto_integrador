@@ -85,9 +85,19 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   }
 
   Future<void> addToCart() async {
-    cartItens.add(cartItemModel());
+    var inCart = false;
+    for (var element in cartItens) {
+      if(element['title'] == book_data['title']) {
+        inCart = true;
+        element['amount']++;
+      }
+    }
+    if(inCart == false) {
+      cartItens.add(cartItemModel());
+    }
     await appwriteSystem.updateCart(
         newCartItens: cartItens, documentId: widget.userPrefs!.$id);
+
     widget.userPrefs!.data['cartItens'] = JsonEncoder().convert(cartItens);
   }
 

@@ -17,8 +17,11 @@ import 'profile.dart';
 import 'search.dart';
 
 class PersonalData extends StatefulWidget {
-  const PersonalData({
+  models.Document? userPrefs;
+
+  PersonalData({
     super.key,
+    this.userPrefs,
   });
 
   @override
@@ -108,7 +111,7 @@ class _PersonalDataState extends State<PersonalData> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Profile(),
+          builder: (context) => Profile(userPrefs: widget.userPrefs),
         ),
       );
     } else {
@@ -125,7 +128,7 @@ class _PersonalDataState extends State<PersonalData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BookTokAppBar,
-      drawer: MyDrawer(),
+      drawer: MyDrawer(userPrefs: widget.userPrefs),
       backgroundColor: paletteBlack,
       body: SingleChildScrollView(
         child: Column(
@@ -278,6 +281,7 @@ class _PersonalDataState extends State<PersonalData> {
                               isPassword: true,
                               textEditingController: oldPasswordEditingController,
                               needErrorVerification: true,
+                              submittField: (p0) {},
                             ),
                             actions: [
                               CupertinoDialogAction(
@@ -305,7 +309,7 @@ class _PersonalDataState extends State<PersonalData> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Profile(),
+                            builder: (context) => Profile(userPrefs: widget.userPrefs),
                           ),
                         );
                       },
@@ -324,22 +328,22 @@ class _PersonalDataState extends State<PersonalData> {
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-          route: Home(),
+          route: Home(userPrefs: widget.userPrefs),
           icon: const Icon(Icons.home),
           current: false,
         ),
         search: MyIconButtonNavigator(
-          route: SearchScreen(),
+          route: SearchScreen(userPrefs: widget.userPrefs),
           icon: const Icon(Icons.search),
           current: false,
         ),
         cart: MyIconButtonNavigator(
-          route: Carrinho(),
+          route: Carrinho(userPrefs: widget.userPrefs),
           icon: const Icon(Icons.shopping_cart),
           current: false,
         ),
         user: MyIconButtonNavigator(
-          route: Profile(),
+          route: Profile(userPrefs: widget.userPrefs),
           icon: const Icon(Icons.person),
           current: true,
         ),

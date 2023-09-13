@@ -6,6 +6,8 @@ class registerTemplate extends StatefulWidget {
   TextEditingController textEditingController = TextEditingController();
   bool isPassword;
   bool needErrorVerification;
+  void Function(String) submittField;
+  FocusNode? focusNode;
 
   registerTemplate({
     super.key,
@@ -13,6 +15,8 @@ class registerTemplate extends StatefulWidget {
     required this.isPassword,
     required this.textEditingController,
     required this.needErrorVerification,
+    required this.submittField,
+    this.focusNode,
   });
 
   @override
@@ -54,8 +58,10 @@ class _registerTemplateState extends State<registerTemplate> {
               ),
               controller: widget.textEditingController,
               keyboardType: TextInputType.visiblePassword,
+              focusNode: widget.focusNode,
               onChanged: (value) =>
                   widget.needErrorVerification == true ? errorVerify() : null,
+              onSubmitted: widget.submittField,
               decoration: InputDecoration(
                 errorText: errorText,
                 errorStyle: TextStyle(
@@ -89,6 +95,7 @@ class _registerTemplateState extends State<registerTemplate> {
               ),
               controller: widget.textEditingController,
               obscureText: _senhaLogin,
+              focusNode: widget.focusNode,
               onChanged: (value) =>
                   widget.needErrorVerification == true ? errorVerify() : null,
               keyboardType: widget.hintText == 'Email'

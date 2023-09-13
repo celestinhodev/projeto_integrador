@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pi/constantes/appwrite_system.dart';
-import 'package:pi/pages/admin/book_page_admin.dart';
-import 'package:pi/pages/carrinho.dart';
-import 'package:pi/pages/home.dart';
-import 'package:pi/pages/login.dart';
-import 'package:pi/pages/register.dart';
+import 'constantes/appwrite_system.dart';
+import 'pages/admin/book_page_admin.dart';
+import 'pages/carrinho.dart';
+import 'pages/home.dart';
+import 'pages/login.dart';
+import 'pages/register.dart';
 
 import 'pages/admin/home_admin.dart';
 import 'pages/personal_data.dart';

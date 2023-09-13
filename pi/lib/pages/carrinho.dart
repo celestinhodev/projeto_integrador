@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
 
@@ -28,6 +30,8 @@ class _CarrinhoState extends State<Carrinho> {
 
   // Methods
   Future<void> getCartItens() async {
+    subtotalPrice = 0;
+
     if (widget.userPrefs!.data['cartItens'] != '[]') {
       cartItens = await appwriteSystem.getCurrentCart(
           currentCartString: widget.userPrefs!.data['cartItens']);
@@ -45,6 +49,7 @@ class _CarrinhoState extends State<Carrinho> {
             indexDelete: deleteItemFromCart,
             amountUpdate: amountUpdate,
           ));
+          subtotalPrice += item['price'] * item['amount'];
         });
 
         counter++;
@@ -70,6 +75,7 @@ class _CarrinhoState extends State<Carrinho> {
             indexDelete: deleteItemFromCart,
             amountUpdate: amountUpdate,
           ));
+          subtotalPrice += item['price'] * item['amount'];
         });
 
         counter++;
@@ -82,19 +88,52 @@ class _CarrinhoState extends State<Carrinho> {
       });
     }
 
-    widget.userPrefs!.data['cartItens'] = cartItens;
+    widget.userPrefs!.data['cartItens'] = JsonEncoder().convert(cartItens);
 
     var response = await appwriteSystem.updateCart(
         newCartItens: cartItens, documentId: widget.userPrefs!.$id);
   }
 
   void amountUpdate(int amount, int index) async {
-    
+    cartItens[index]['amount'] = amount;
+    cartItensWidgets = [];
+    subtotalPrice = 0;
+
+    int counter = 0;
+
+    for (Map<String, dynamic> item in cartItens) {
+      setState(() {
+        cartItensWidgets.add(cartTileTemplate(
+          titleBook: item['title'],
+          amount: item['amount'],
+          price: item['price'],
+          imageUrl: item['imagePath'],
+          index: counter,
+          indexDelete: deleteItemFromCart,
+          amountUpdate: amountUpdate,
+        ));
+        subtotalPrice += item['price'] * item['amount'];
+      });
+
+      counter++;
+    }
+
+    widget.userPrefs!.data['cartItens'] =
+        const JsonEncoder().convert(cartItens);
+
+    var response = await appwriteSystem.updateCart(
+      newCartItens: cartItens,
+      documentId: widget.userPrefs!.$id,
+    );
   }
 
   @override
   void initState() {
     super.initState();
+    appwriteSystem.updateCart(
+      newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
+      documentId: widget.userPrefs!.$id,
+    );
 
     getCartItens();
   }
@@ -140,16 +179,18 @@ class _CarrinhoState extends State<Carrinho> {
                   const Text(
                     'SUBTOTAL',
                     style: TextStyle(
-                        color: paletteBlack,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
+                      color: paletteBlack,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
                   Text(
                     'R\$${subtotalPrice.toStringAsFixed(2)}',
                     style: const TextStyle(
-                        color: paletteBlack,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
+                      color: paletteBlack,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
                 ],
               ),
@@ -164,9 +205,10 @@ class _CarrinhoState extends State<Carrinho> {
                   child: Text(
                     'FINALIZAR COMPRA',
                     style: TextStyle(
-                        color: paletteBlack,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
+                      color: paletteBlack,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
@@ -176,18 +218,20 @@ class _CarrinhoState extends State<Carrinho> {
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-          route: Home(
-            userPrefs: widget.userPrefs,
-          ),
+          route: Home(userPrefs: widget.userPrefs),
           icon: const Icon(Icons.home),
           current: false,
         ),
         search: MyIconButtonNavigator(
-            route: SearchScreen(userPrefs: widget.userPrefs),
-            icon: const Icon(Icons.search),
-            current: false),
+          route: SearchScreen(userPrefs: widget.userPrefs),
+          icon: const Icon(Icons.search),
+          current: false,
+        ),
         cart: MyIconButtonNavigator(
-            route: null, icon: const Icon(Icons.shopping_cart), current: true),
+          route: null,
+          icon: const Icon(Icons.shopping_cart),
+          current: true,
+        ),
         user: MyIconButtonNavigator(
           route: Profile(userPrefs: widget.userPrefs),
           icon: const Icon(Icons.person),
