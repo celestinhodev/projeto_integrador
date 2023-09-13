@@ -1,15 +1,24 @@
+// Imports
+// Packages
 import 'dart:convert';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:pi/pages/personal_data.dart';
 
-import 'package:pi/components/navigation_bar.dart';
-import 'package:pi/constantes/appwrite_system.dart';
-import 'package:pi/constantes/cores.dart';
-import 'package:pi/pages/profile.dart';
-import 'package:pi/pages/search.dart';
-
+// Components
+import '../components/booktok_appbar.dart';
+import '../components/navigation_bar.dart';
+import '../components/address_check_template.dart';
 import '../components/cartTileTemplate.dart';
+
+// Constants
+import '../constantes/appwrite_system.dart';
+import '../constantes/cores.dart';
+
+// Pages
+import 'profile.dart';
+import 'search.dart';
 import 'Home.dart';
 
 class Carrinho extends StatefulWidget {
@@ -127,15 +136,90 @@ class _CarrinhoState extends State<Carrinho> {
     );
   }
 
+  finalizarCompra() {
+    setState(() {
+      if (widget.userPrefs == null ||
+          widget.userPrefs!.data['cep'] == null ||
+          widget.userPrefs!.data['city'] == null ||
+          widget.userPrefs!.data['address'] == null ||
+          widget.userPrefs!.data['complement'] == null) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text(
+              'Seu endereço está incompleto... ',
+              style: TextStyle(
+                color: paletteWhite,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+            backgroundColor: paletteBlack,
+            content: Text(
+              'Para continuar a compra atualize seu endereço.',
+              style: TextStyle(color: paletteWhite, fontSize: 18),
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 5,
+            ),
+            actions: [
+              CupertinoDialogAction(
+                child: const Text('Atualizar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PersonalData(userPrefs: widget.userPrefs),
+                      ));
+                },
+              ),
+              CupertinoDialogAction(
+                child: Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => Scaffold(
+            appBar: BookTokAppBar,
+            backgroundColor: paletteWhite,
+            body: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
+                  AddressCheckTemplate(
+                    Text1: 'Endereço',
+                    cep: widget.userPrefs!.data['cep'],
+                    city: widget.userPrefs!.data['city'],
+                    address: widget.userPrefs!.data['address'],
+                    complement: widget.userPrefs!.data['complement'],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    /*
     appwriteSystem.updateCart(
       newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
       documentId: widget.userPrefs!.$id,
-    );
-
-    getCartItens();
+    );*/
+    /*
+    getCartItens();*/
   }
 
   @override
@@ -198,7 +282,9 @@ class _CarrinhoState extends State<Carrinho> {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  finalizarCompra();
+                },
                 style: ElevatedButton.styleFrom(backgroundColor: paletteYellow),
                 child: const Padding(
                   padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
