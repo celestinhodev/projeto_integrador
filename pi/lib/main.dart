@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi/constantes/appwrite_system.dart';
+import 'package:pi/pages/Home.dart';
 import 'package:pi/pages/admin/book_page_admin.dart';
 import 'package:pi/pages/carrinho.dart';
 import 'package:pi/pages/home.dart';
@@ -13,6 +14,6 @@ import 'pages/search.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: Login(),
+    home: Carrinho(),
   ));
 }

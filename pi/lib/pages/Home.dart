@@ -5,6 +5,7 @@ import 'package:appwrite/models.dart' as models;
 // Components
 import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
+import 'package:pi/components/carousel_item_template.dart';
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/appwrite_system.dart';
 import 'package:pi/pages/carrinho.dart';
@@ -89,6 +90,7 @@ class _HomeState extends State<Home> {
     // ignore: todo
     // TODO: implement initState
     carouselBannerItens = [
+      CarItemTemplate(caminhoImagem: 'images/livros/livro.png', Texto: 'aaaaaaaaaaa'),
       Image.asset('images/livros/livro.png'),
       Image.asset('images/logo-appbar.png'),
       Image.asset('images/livros/livro.png'),
