@@ -499,7 +499,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                         child: dataIsLoaded == true
                             ? TextFieldAdmin(
                                 controller: yearEditingController,
-                                hintText: book_data['year'],
+                                hintText: book_data['year'].toString(),
                                 keyboardType: TextInputType.text,
                                 obscureText: false,
                                 hasToBeFilled: widget.documentInstance == null,
@@ -573,7 +573,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                           widget.documentInstance!.data['description'];
                     }
                     if (book_data['year'] == '') {
-                      book_data['year'] = widget.documentInstance!.data['year'];
+                      book_data['year'] = int.parse(widget.documentInstance!.data['year']);
                     }
 
                     for (var element in listImagesUrl) {
