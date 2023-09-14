@@ -31,20 +31,20 @@ class _LoginState extends State<Login> {
 
   Widget error = Container(
     color: Colors.redAccent,
-    padding: EdgeInsets.all(8),
+    padding: const EdgeInsets.all(8),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: const [
         Text('Email ou senha incorretos.'),
       ],
     ),
   );
   Widget success = Container(
     color: Colors.green,
-    padding: EdgeInsets.all(8),
+    padding: const EdgeInsets.all(8),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: const [
         Text('Login concluido!'),
       ],
     ),
@@ -57,7 +57,7 @@ class _LoginState extends State<Login> {
       statusShowing = atualError;
     });
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     setState(() {
       statusShowing = null;
@@ -79,7 +79,7 @@ class _LoginState extends State<Login> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeAdmin(),
+              builder: (context) => const HomeAdmin(),
             ),
           );
           break;
@@ -213,7 +213,7 @@ class _LoginState extends State<Login> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Register(),
+                          builder: (context) => const Register(),
                         ),
                       );
                     },

@@ -7,6 +7,7 @@ import 'package:appwrite/models.dart' as models;
 // Components
 import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
+import 'package:pi/components/car_item_template_2.dart';
 import 'package:pi/components/carousel_item_template.dart';
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/appwrite_system.dart';
@@ -46,10 +47,9 @@ class _HomeState extends State<Home> {
   // Lançamentos
   List<Widget> listaLivrosLancamentos = [];
 
-
   // Methods
   void getUserPrefs() async {
-    if(widget.userPrefs != null) {
+    if (widget.userPrefs != null) {
       userPrefs = widget.userPrefs!;
     } else {
       userPrefs = await appwriteSystem.getUserPreferences();
@@ -57,7 +57,6 @@ class _HomeState extends State<Home> {
   }
 
   void getBooksFromDB() async {
-
     var listDocuments = await appwriteSystem.listDocuments(searchText: '');
     List<Widget> preparedBooks = [];
 
@@ -92,14 +91,21 @@ class _HomeState extends State<Home> {
     // ignore: todo
     // TODO: implement initState
     carouselBannerItens = [
-      CarItemTemplate(caminhoImagem: 'images/livros/livro.png', Texto: 'aaaaaaaaaaa'),
-      Image.asset('images/livros/livro.png'),
+      CarItemTemplate(
+          caminhoImagem: 'images/livros/jujutsu_kaisen.png', titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01', texto: 'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
+
+      Car2ItemTemplate(caminhoImagem: 'images/livros/jujutsu_kaisen.png', texto: 'ratinho nho nho nho nho nho nho', titulo: 'ratin taligado, tipo, é um rato'),
       Image.asset('images/logo-appbar.png'),
       Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
     ];
-    appwriteSystem.updateCart(
-        newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']), documentId: widget.userPrefs!.$id);
+    if (widget.userPrefs != null) {
+      appwriteSystem.updateCart(
+        newCartItens:
+            JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
+        documentId: widget.userPrefs!.$id,
+      );
+    }
 
     getBooksFromDB();
   }
@@ -215,19 +221,23 @@ class _HomeState extends State<Home> {
       //Barra de navegação ------------------------------------------------------
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-            route: null,
-            icon: const Icon(Icons.home),
-            current: true),
+            route: null, icon: const Icon(Icons.home), current: true),
         search: MyIconButtonNavigator(
-            route: SearchScreen(userPrefs: userPrefs,),
+            route: SearchScreen(
+              userPrefs: userPrefs,
+            ),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: Carrinho(userPrefs: userPrefs,),
+            route: Carrinho(
+              userPrefs: userPrefs,
+            ),
             icon: const Icon(Icons.shopping_cart),
             current: false),
         user: MyIconButtonNavigator(
-            route: Profile(userPrefs: userPrefs,),
+            route: Profile(
+              userPrefs: userPrefs,
+            ),
             icon: const Icon(Icons.person),
             current: false),
       ),

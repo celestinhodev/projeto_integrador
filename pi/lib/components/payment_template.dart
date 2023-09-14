@@ -70,7 +70,6 @@ class _PayTemplateState extends State<PayTemplate> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(50, 0, 0, 8),
                         child: Text(widget.Text2,
-                          
                           softWrap: false,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 99,
