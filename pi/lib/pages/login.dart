@@ -83,6 +83,22 @@ class _LoginState extends State<Login> {
             ),
           );
           break;
+        case 'isabelle.lima@gmail.com':
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeAdmin(),
+            ),
+          );
+          break;
+        case 'gugamarquesgsm@gmail.com':
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeAdmin(),
+            ),
+          );
+          break;
         default:
           models.Document? userPrefs =
               await appwriteSystem.getUserPreferences();
@@ -105,7 +121,6 @@ class _LoginState extends State<Login> {
       body: Center(
         child: Column(
           children: [
-
             Image.asset(
               'images/logo-login.png',
               width: 500,
@@ -231,10 +246,9 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
-      bottomSheet: statusShowing != null ? BottomSheet(
-        onClosing: () {},
-        builder: (context) => statusShowing!
-      ) : null,
+      bottomSheet: statusShowing != null
+          ? BottomSheet(onClosing: () {}, builder: (context) => statusShowing!)
+          : null,
     );
   }
 }

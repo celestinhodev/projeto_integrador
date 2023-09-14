@@ -25,123 +25,106 @@ class _AddressCheckTemplateState extends State<AddressCheckTemplate> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(maxHeight: 250, maxWidth: 200),
       decoration: BoxDecoration(
+        color: palettWhiteGrey,
         border: Border.all(
           color: paletteGrey,
           width: 2,
         ),
       ),
-      child: Container(
-        color: palettWhiteGrey,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.Text1,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.Text1,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 5,),
+            Text(
+              'Cep: ',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: paletteBlack,
+              ),
+            ),
+            Text(
+              widget.cep,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 16,
+                color: paletteBlack,
+              ),
+            ),
+            SizedBox(height: 5,),
+            Text(
+              'Cidade: ',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: paletteBlack,
+              ),
+            ),
+            Container(
+              constraints: BoxConstraints(maxWidth: 150),
+              child: Text(
+                widget.city,
+                softWrap: false,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
                 style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: paletteBlack,
                 ),
               ),
-              Row(
-                children: [
-                  Text(
-                    'Cep: ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: paletteBlack,
-                    ),
-                  ),
-                  Text(
-                    widget.cep,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 99,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: paletteBlack,
-                      height: 1.8,
-                    ),
-                  ),
-                ],
+            ),
+            SizedBox(height: 5,),
+            Text(
+              'Endereço: ',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: paletteBlack,
               ),
-
-              Row(
-                children: [
-                  Text(
-                    'Cidade: ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: paletteBlack,
-                    ),
-                  ),
-                  Text(
-                    widget.city,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 99,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: paletteBlack,
-                      height: 1.8,
-                    ),
-                  ),
-                ],
+            ),
+            Text(
+              widget.address,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 16,
+                color: paletteBlack,
               ),
-
-              Row(
-                children: [
-                  Text(
-                    'Endereço: ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: paletteBlack,
-                    ),
-                  ),
-                  Text(
-                    widget.address,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 99,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: paletteBlack,
-                      height: 1.8,
-                    ),
-                  ),
-                ],
+            ),
+            SizedBox(height: 5,),
+            Text(
+              'Complemento: ',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: paletteBlack,
               ),
-
-              Row(
-                children: [
-                  Text(
-                    'Complemento: ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: paletteBlack,
-                    ),
-                  ),
-                  Text(
-                    widget.complement,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 99,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: paletteBlack,
-                      height: 1.8,
-                    ),
-                  ),
-                ],
+            ),
+            Text(
+              widget.complement,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 16,
+                color: paletteBlack,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
