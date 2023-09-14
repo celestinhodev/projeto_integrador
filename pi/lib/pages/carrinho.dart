@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:pi/pages/payment.dart';
 import 'package:pi/pages/personal_data.dart';
 
 // Components
@@ -142,17 +143,20 @@ class _CarrinhoState extends State<Carrinho> {
           widget.userPrefs!.data['cep'] == null ||
           widget.userPrefs!.data['city'] == null ||
           widget.userPrefs!.data['address'] == null ||
-          widget.userPrefs!.data['complement'] == null) {
+          widget.userPrefs!.data['complement'] == null ||
+          widget.userPrefs!.data['cep'] == '' ||
+          widget.userPrefs!.data['city'] == '' ||
+          widget.userPrefs!.data['address'] == '' ||
+          widget.userPrefs!.data['complement'] == '') {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
             title: const Text(
               'Seu endereço está incompleto... ',
               style: TextStyle(
-                color: paletteWhite,
-                fontSize: 20,
-                fontWeight: FontWeight.bold
-              ),
+                  color: paletteWhite,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             backgroundColor: paletteBlack,
             content: Text(
@@ -187,23 +191,45 @@ class _CarrinhoState extends State<Carrinho> {
       } else {
         showDialog(
           context: context,
-          builder: (context) => Scaffold(
-            appBar: BookTokAppBar,
-            backgroundColor: paletteWhite,
-            body: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                children: [
-                  AddressCheckTemplate(
-                    Text1: 'Endereço',
-                    cep: widget.userPrefs!.data['cep'],
-                    city: widget.userPrefs!.data['city'],
-                    address: widget.userPrefs!.data['address'],
-                    complement: widget.userPrefs!.data['complement'],
-                  ),
-                ],
+          builder: (context) => AlertDialog(
+            title: const Text(
+              'Seu endereço está correto?',
+              style: TextStyle(
+                  color: paletteWhite,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            backgroundColor: paletteBlack,
+            content: Container(
+              constraints: BoxConstraints(maxWidth: 300),
+              child: AddressCheckTemplate(
+                Text1: 'Endereço',
+                cep: widget.userPrefs!.data['cep'],
+                city: widget.userPrefs!.data['city'],
+                address: widget.userPrefs!.data['address'],
+                complement: widget.userPrefs!.data['complement'],
               ),
             ),
+            actions: [
+              CupertinoDialogAction(
+                child: const Text('Continuar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Payment(userPrefs: widget.userPrefs),
+                      ));
+                },
+              ),
+              CupertinoDialogAction(
+                child: Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
         );
       }
@@ -213,13 +239,13 @@ class _CarrinhoState extends State<Carrinho> {
   @override
   void initState() {
     super.initState();
-    /*
+
     appwriteSystem.updateCart(
       newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
       documentId: widget.userPrefs!.$id,
-    );*/
-    /*
-    getCartItens();*/
+    );
+
+    getCartItens();
   }
 
   @override

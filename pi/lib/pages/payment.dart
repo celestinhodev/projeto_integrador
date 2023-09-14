@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:appwrite/models.dart' as models;
 import 'package:pi/components/payment_template.dart';
 import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/carrinho.dart';
@@ -10,7 +11,8 @@ import '../components/submitt_button.dart';
 import 'Home.dart';
 
 class Payment extends StatefulWidget {
-  const Payment({Key? key}) : super(key: key);
+  models.Document? userPrefs;
+  Payment({Key? key, this.userPrefs}) : super(key: key);
 
   @override
   _PaymentState createState() => _PaymentState();
@@ -27,6 +29,9 @@ class _PaymentState extends State<Payment> {
   }
 
   bool isChecked = true;
+  int groupValue = 0;
+  FocusNode focusNode1 = FocusNode();
+  FocusNode focusNode2 = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +75,25 @@ class _PaymentState extends State<Payment> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PayTemplate(
+                    value: 0,
+                    groupValue: groupValue,
+                    onChanged: (p0) {
+                      setState(() {
+                        groupValue = 0;
+                      });
+                    },
                     Text1: 'Boleto',
                     Text2:
                         'Vencimento em 1 dia útil. A data de entrega será alterada devido ao tempo de processamento do boleto. Veja mais na próxima página.',
                   ),
                   PayTemplate(
+                    value: 1,
+                    groupValue: groupValue,
+                    onChanged: (p0) {
+                      setState(() {
+                        groupValue = 1;
+                      });
+                    },
                     Text1: 'Pix',
                     Text2:
                         'O código Pix gerado para pagamento é válido por 30 minutos após a finalização do pedido.',
@@ -96,9 +115,9 @@ class _PaymentState extends State<Payment> {
                               const Text(
                                 'Adicionar outra forma de pagamento',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 19),
+                                    fontWeight: FontWeight.bold, fontSize: 18),
                               ),
-                              const SizedBox(width: 25),
+                              const SizedBox(width: 15),
                               ClipOval(
                                 child: Container(
                                   width: 30,
