@@ -177,7 +177,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
     book_data['category'] = categoryEditingController.text;
     book_data['author'] = authorEditingController.text;
     book_data['description'] = descriptionEditingController.text;
-    book_data['year'] = yearEditingController.text;
+    book_data['year'] = int.parse(yearEditingController.text);
   }
 
   Future<void> setImagesToUpload() async {

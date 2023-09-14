@@ -45,11 +45,12 @@ class _HomeState extends State<Home> {
   // Page
   // Lançamentos
   List<Widget> listaLivrosLancamentos = [];
-
+  List<Widget> listaLivrosRomance = [];
+  List<Widget> listaLivrosFantasia = [];
 
   // Methods
   void getUserPrefs() async {
-    if(widget.userPrefs != null) {
+    if (widget.userPrefs != null) {
       userPrefs = widget.userPrefs!;
     } else {
       userPrefs = await appwriteSystem.getUserPreferences();
@@ -57,26 +58,30 @@ class _HomeState extends State<Home> {
   }
 
   void getBooksFromDB() async {
-
     var listDocuments = await appwriteSystem.listDocuments(searchText: '');
     List<Widget> preparedBooks = [];
+    int count = 1;
 
     for (models.Document documentInstance in listDocuments!.documents) {
-      String title = documentInstance.data['title'];
-      String imagePath = (appwriteSystem.prepareUrlListFromString(
-          listImageUrlString: documentInstance.data['listImages']))[0];
+      if (count < 7) {
+        String title = documentInstance.data['title'];
+        String imagePath = (appwriteSystem.prepareUrlListFromString(
+            listImageUrlString: documentInstance.data['listImages']))[0];
 
-      setState(() {
-        preparedBooks.add(
-          BookTemplate(
-            nomeLivro: title,
-            caminhoImagem: imagePath,
-            documentInstance: documentInstance,
-            admin: false,
-            userPrefs: widget.userPrefs,
-          ),
-        );
-      });
+        setState(() {
+          preparedBooks.add(
+            BookTemplate(
+              nomeLivro: title,
+              caminhoImagem: imagePath,
+              documentInstance: documentInstance,
+              admin: false,
+              userPrefs: widget.userPrefs,
+            ),
+          );
+        });
+
+        count++;
+      } else {break;}
     }
 
     setState(() {
@@ -87,19 +92,24 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    getUserPrefs();
 
     // ignore: todo
     // TODO: implement initState
     carouselBannerItens = [
-      CarItemTemplate(caminhoImagem: 'images/livros/livro.png', Texto: 'aaaaaaaaaaa'),
+      CarItemTemplate(
+          caminhoImagem: 'images/livros/livro.png', Texto: 'aaaaaaaaaaa'),
       Image.asset('images/livros/livro.png'),
       Image.asset('images/logo-appbar.png'),
       Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
     ];
-    appwriteSystem.updateCart(
-        newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']), documentId: widget.userPrefs!.$id);
+    if (widget.userPrefs != null) {
+      getUserPrefs();
+      appwriteSystem.updateCart(
+          newCartItens:
+              JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
+          documentId: widget.userPrefs!.$id);
+    }
 
     getBooksFromDB();
   }
@@ -182,7 +192,7 @@ class _HomeState extends State<Home> {
             ),
             //Fim do Carrossel ----------------------------------------------------------------
 
-            // Titulo lançamento
+            // lançamento
             const Padding(
               padding: EdgeInsets.fromLTRB(22, 20, 0, 0),
               child: Text(
@@ -190,14 +200,18 @@ class _HomeState extends State<Home> {
                 style: TextStyle(
                   fontSize: 20,
                   color: paletteWhite,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
 
             const SizedBox(height: 20),
 
-            //Linha 1 -----------------------------------------------------------------------
-            Padding(
+            Container(
+              constraints: BoxConstraints(
+                minHeight: 225,
+              ),
+              color: Colors.red,
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -208,6 +222,68 @@ class _HomeState extends State<Home> {
                 children: listaLivrosLancamentos,
               ),
             ),
+
+            // Romance
+            const Padding(
+              padding: EdgeInsets.fromLTRB(22, 20, 0, 0),
+              child: Text(
+                'Romance',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: paletteWhite,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Container(
+              constraints: BoxConstraints(
+                minHeight: 225,
+              ),
+              color: Colors.green,
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+              child: GridView(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  mainAxisExtent: 225,
+                ),
+                shrinkWrap: true,
+                children: listaLivrosRomance,
+              ),
+            ),
+
+            // Romance
+            const Padding(
+              padding: EdgeInsets.fromLTRB(22, 20, 0, 0),
+              child: Text(
+                'Fantasia',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: paletteWhite,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Container(
+              constraints: BoxConstraints(
+                minHeight: 225,
+              ),
+              color: Colors.green,
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+              child: GridView(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  mainAxisExtent: 225,
+                ),
+                shrinkWrap: true,
+                children: listaLivrosFantasia,
+              ),
+            ),
           ],
         ),
       ),
@@ -215,19 +291,23 @@ class _HomeState extends State<Home> {
       //Barra de navegação ------------------------------------------------------
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-            route: null,
-            icon: const Icon(Icons.home),
-            current: true),
+            route: null, icon: const Icon(Icons.home), current: true),
         search: MyIconButtonNavigator(
-            route: SearchScreen(userPrefs: userPrefs,),
+            route: SearchScreen(
+              userPrefs: userPrefs,
+            ),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: Carrinho(userPrefs: userPrefs,),
+            route: Carrinho(
+              userPrefs: userPrefs,
+            ),
             icon: const Icon(Icons.shopping_cart),
             current: false),
         user: MyIconButtonNavigator(
-            route: Profile(userPrefs: userPrefs,),
+            route: Profile(
+              userPrefs: userPrefs,
+            ),
             icon: const Icon(Icons.person),
             current: false),
       ),

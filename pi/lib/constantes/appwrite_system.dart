@@ -142,11 +142,6 @@ class AppwriteSystem {
       newBookInformation['listImages'] = listRemainingImages.toString();
     }
 
-    print(listRemainingImages);
-    print(listNewImages);
-
-    print(newBookInformation['listImages']);
-
     try {
       await databaseInstance.updateDocument(
         databaseId: databaseId,
