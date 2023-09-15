@@ -96,7 +96,9 @@ class AppwriteSystem {
       );
 
       return true;
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
 
     return false;
   }
@@ -182,23 +184,26 @@ class AppwriteSystem {
   }
 
   Future<models.DocumentList?> listDocuments(
-      {required String searchText, String atributes = 'title'}) async {
+      {required String searchText, required String atributes}) async {
     models.DocumentList listDocuments;
 
     try {
       switch (searchText) {
-        case '':
+        case 'title':
           listDocuments = await databaseInstance.listDocuments(
-            databaseId: databaseId,
-            collectionId: collectionId,
-          );
+              databaseId: databaseId,
+              collectionId: collectionId,
+              queries: [
+                Query.limit(31),
+                Query.orderAsc('title'),
+              ]);
           break;
         default:
           listDocuments = await databaseInstance.listDocuments(
               databaseId: databaseId,
               collectionId: collectionId,
               queries: [
-                Query.search(atributes!, searchText),
+                Query.search(atributes, searchText),
               ]);
       }
 

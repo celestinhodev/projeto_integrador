@@ -37,7 +37,7 @@ class _HomeAdminState extends State<HomeAdmin> {
   void getBooks() async {
     List<Widget> booksPrepare = [];
     Widget finalWidget;
-    models.DocumentList? listDocuments = await appwriteSystem.listDocuments(searchText: '');
+    models.DocumentList? listDocuments = await appwriteSystem.listDocuments(searchText: '', atributes: 'title');
 
     if (listDocuments!.total != 0) {
       for (models.Document documentInstance in listDocuments.documents) {

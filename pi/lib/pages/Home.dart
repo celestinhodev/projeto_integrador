@@ -59,31 +59,35 @@ class _HomeState extends State<Home> {
   }
 
   void getBooksFromDB() async {
-    var listDocuments = await appwriteSystem.listDocuments(searchText: '');
+    var listDocuments = await appwriteSystem.listDocuments(searchText: 'title', atributes: 'title');
     List<Widget> preparedBooks = [];
     int count = 1;
 
-    for (models.Document documentInstance in listDocuments!.documents) {
-      if (count < 7) {
-        String title = documentInstance.data['title'];
-        String imagePath = (appwriteSystem.prepareUrlListFromString(
-            listImageUrlString: documentInstance.data['listImages']))[0];
+    try {
+      for (models.Document documentInstance in listDocuments!.documents) {
+        if (count <= 7) {
+          String title = documentInstance.data['title'];
+          String imagePath = (appwriteSystem.prepareUrlListFromString(
+              listImageUrlString: documentInstance.data['listImages']))[0];
 
-        setState(() {
-          preparedBooks.add(
-            BookTemplate(
-              nomeLivro: title,
-              caminhoImagem: imagePath,
-              documentInstance: documentInstance,
-              admin: false,
-              userPrefs: widget.userPrefs,
-            ),
-          );
-        });
+          setState(() {
+            preparedBooks.add(
+              BookTemplate(
+                nomeLivro: title,
+                caminhoImagem: imagePath,
+                documentInstance: documentInstance,
+                admin: false,
+                userPrefs: widget.userPrefs,
+              ),
+            );
+          });
 
-        count++;
-      } else {break;}
-    }
+          count++;
+        } else {
+          break;
+        }
+      }
+    } catch (e) {}
 
     setState(() {
       listaLivrosLancamentos = preparedBooks;
@@ -98,9 +102,14 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     carouselBannerItens = [
       CarItemTemplate(
-          caminhoImagem: 'images/livros/jujutsu_kaisen.png', titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01', texto: 'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
-
-      Car2ItemTemplate(caminhoImagem: 'images/livros/jujutsu_kaisen.png', texto: 'ratinho nho nho nho nho nho nho', titulo: 'ratin taligado, tipo, é um rato'),
+          caminhoImagem: 'images/livros/jujutsu_kaisen.png',
+          titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01',
+          texto:
+              'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
+      Car2ItemTemplate(
+          caminhoImagem: 'images/livros/jujutsu_kaisen.png',
+          texto: 'ratinho nho nho nho nho nho nho',
+          titulo: 'ratin taligado, tipo, é um rato'),
       Image.asset('images/logo-appbar.png'),
       Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
@@ -213,7 +222,6 @@ class _HomeState extends State<Home> {
               constraints: BoxConstraints(
                 minHeight: 225,
               ),
-              color: Colors.red,
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -244,7 +252,6 @@ class _HomeState extends State<Home> {
               constraints: BoxConstraints(
                 minHeight: 225,
               ),
-              color: Colors.green,
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -275,7 +282,6 @@ class _HomeState extends State<Home> {
               constraints: BoxConstraints(
                 minHeight: 225,
               ),
-              color: Colors.green,
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

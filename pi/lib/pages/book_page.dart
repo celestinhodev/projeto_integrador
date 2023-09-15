@@ -331,7 +331,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         ),
                       ),
                       Text(
-                        book_data['year']!,
+                        book_data['year']!.toString(),
                         style: const TextStyle(
                           color: paletteWhite,
                           fontSize: 15,
