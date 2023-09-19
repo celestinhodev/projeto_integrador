@@ -46,7 +46,41 @@ class _PersonalDataState extends State<PersonalData> {
   TextEditingController telephoneEditingController = TextEditingController();
   TextEditingController oldPasswordEditingController = TextEditingController();
 
+  Widget? statusShowing;
+
+  Widget error = Container(
+    color: Colors.redAccent,
+    padding: const EdgeInsets.all(10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        Text('Falha ao alterar as preferencias.'),
+      ],
+    ),
+  );
+  Widget success = Container(
+    color: Colors.green,
+    padding: const EdgeInsets.all(10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        Text('Alterações alteradas com sucesso!!'),
+      ],
+    ),
+  );
+
   // Methods
+  showErrorMessage(atualError) async {
+    setState(() {
+      statusShowing = atualError;
+    });
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    setState(() {
+      statusShowing = null;
+    });
+  }
 
   Future<bool> updatePersonalDataInDB() async {
     Map<String, dynamic> newPreferences = {};
@@ -115,17 +149,18 @@ class _PersonalDataState extends State<PersonalData> {
         telephoneUpdateSuccess &&
         passwordUpdateSuccess &&
         preferencesUpdateSuccess) {
+      return true;
     } else {
       return false;
     }
-
-    return true;
   }
 
   void makePrefsUpdate() async {
     bool updateSuccess = await updatePersonalDataInDB();
 
     if (updateSuccess) {
+      Navigator.of(context).pop();
+      await showErrorMessage(success);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -134,6 +169,8 @@ class _PersonalDataState extends State<PersonalData> {
       );
     } else {
       Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      await showErrorMessage(error);
     }
   }
 
@@ -166,11 +203,11 @@ class _PersonalDataState extends State<PersonalData> {
                       ),
                     ),
                   ),
-          
+
                   const Divider(
                     color: paletteWhite,
                   ),
-          
+
                   // Elements
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
@@ -261,7 +298,8 @@ class _PersonalDataState extends State<PersonalData> {
                                 child: PersonalDataTextField(
                                   hintText: 'Complemento',
                                   isPassword: false,
-                                  textEditingController: complementEditingController,
+                                  textEditingController:
+                                      complementEditingController,
                                 ),
                               ),
                               const SizedBox(
@@ -271,13 +309,16 @@ class _PersonalDataState extends State<PersonalData> {
                                 child: PersonalDataTextField(
                                   hintText: 'Telefone',
                                   isPassword: false,
-                                  textEditingController: telephoneEditingController,
+                                  textEditingController:
+                                      telephoneEditingController,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         SubmittButton(
                           buttonText: 'Salvar Alterações',
                           onPressed: () async {
@@ -295,14 +336,29 @@ class _PersonalDataState extends State<PersonalData> {
                                 content: RegisterTemplate(
                                   hintText: 'Senha Atual',
                                   isPassword: true,
-                                  textEditingController: oldPasswordEditingController,
+                                  textEditingController:
+                                      oldPasswordEditingController,
                                   needErrorVerification: true,
                                   submittField: (p0) {},
                                 ),
                                 actions: [
                                   CupertinoDialogAction(
                                     child: const Text('Continuar'),
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => Container(
+                                          color:
+                                              const Color.fromARGB(61, 0, 0, 0),
+                                          child: Center(
+                                            child: Image.asset(
+                                              'images/loading.gif',
+                                              width: 85,
+                                              height: 85,
+                                            ),
+                                          ),
+                                        ),
+                                      );
                                       makePrefsUpdate();
                                     },
                                   ),
@@ -333,8 +389,8 @@ class _PersonalDataState extends State<PersonalData> {
                           },
                           child: Text(
                             'Cancelar e Voltar',
-                            style:
-                                TextStyle(fontSize: 18, color: Colors.blue.shade400),
+                            style: TextStyle(
+                                fontSize: 18, color: Colors.blue.shade400),
                           ),
                         ),
                       ],
@@ -346,6 +402,11 @@ class _PersonalDataState extends State<PersonalData> {
           ),
         ],
       ),
+      
+      bottomSheet: statusShowing != null
+          ? BottomSheet(onClosing: () {}, builder: (context) => statusShowing!)
+          : null,
+
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
           route: Home(userPrefs: widget.userPrefs),
