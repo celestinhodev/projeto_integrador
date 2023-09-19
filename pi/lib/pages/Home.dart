@@ -59,13 +59,19 @@ class _HomeState extends State<Home> {
   }
 
   void getBooksFromDB() async {
-    var listDocuments = await appwriteSystem.listDocuments(searchText: 'title', atributes: 'title');
+    var listDocuments = await appwriteSystem.listDocuments(
+        searchText: 'title', atributes: 'title');
+    var listDocumentsRomance = await appwriteSystem.listDocuments(
+        searchText: 'ROMANCE', atributes: 'category');
+    var listDocumentsFantasia = await appwriteSystem.listDocuments(
+        searchText: 'FANTASIA', atributes: 'category');
+
     List<Widget> preparedBooks = [];
     int count = 1;
 
     try {
       for (models.Document documentInstance in listDocuments!.documents) {
-        if (count <= 7) {
+        if (count <= 8) {
           String title = documentInstance.data['title'];
           String imagePath = (appwriteSystem.prepareUrlListFromString(
               listImageUrlString: documentInstance.data['listImages']))[0];
@@ -87,11 +93,81 @@ class _HomeState extends State<Home> {
           break;
         }
       }
-    } catch (e) {}
 
-    setState(() {
-      listaLivrosLancamentos = preparedBooks;
-    });
+      setState(() {
+        listaLivrosLancamentos = preparedBooks;
+      });
+
+      count = 1;
+      preparedBooks = [];
+
+      for (models.Document documentInstance
+          in listDocuments.documents) {
+        if (count <= 8) {
+          if (documentInstance.data['category'] == 'ROMANCE') {
+            String title = documentInstance.data['title'];
+            String imagePath = (appwriteSystem.prepareUrlListFromString(
+                listImageUrlString: documentInstance.data['listImages']))[0];
+
+            setState(() {
+              preparedBooks.add(
+                BookTemplate(
+                  nomeLivro: title,
+                  caminhoImagem: imagePath,
+                  documentInstance: documentInstance,
+                  admin: false,
+                  userPrefs: widget.userPrefs,
+                ),
+              );
+            });
+
+            count++;
+          }
+        } else {
+          break;
+        }
+      }
+
+      setState(() {
+        listaLivrosRomance = preparedBooks;
+      });
+
+      count = 1;
+      preparedBooks = [];
+
+      for (models.Document documentInstance in listDocuments.documents) {
+        if (count <= 8) {
+          if (documentInstance.data['category'] == 'FANTASIA') {
+            String title = documentInstance.data['title'];
+            String imagePath = (appwriteSystem.prepareUrlListFromString(
+                listImageUrlString: documentInstance.data['listImages']))[0];
+
+            setState(() {
+              preparedBooks.add(
+                BookTemplate(
+                  nomeLivro: title,
+                  caminhoImagem: imagePath,
+                  documentInstance: documentInstance,
+                  admin: false,
+                  userPrefs: widget.userPrefs,
+                ),
+              );
+            });
+
+            count++;
+          }
+        } else {
+          break;
+        }
+      }
+
+      setState(() {
+        listaLivrosFantasia = preparedBooks;
+      });
+
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -100,6 +176,7 @@ class _HomeState extends State<Home> {
 
     // ignore: todo
     // TODO: implement initState
+    
     carouselBannerItens = [
       CarItemTemplate(
           caminhoImagem: 'images/livros/jujutsu_kaisen.png',
@@ -114,6 +191,8 @@ class _HomeState extends State<Home> {
       Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
     ];
+    
+
     if (widget.userPrefs != null) {
       getUserPrefs();
       appwriteSystem.updateCart(
@@ -219,7 +298,7 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
 
             Container(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 minHeight: 225,
               ),
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
@@ -249,7 +328,7 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
 
             Container(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 minHeight: 225,
               ),
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
@@ -279,7 +358,7 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
 
             Container(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 minHeight: 225,
               ),
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),

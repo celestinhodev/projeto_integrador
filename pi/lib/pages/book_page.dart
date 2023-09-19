@@ -62,7 +62,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       book_data['description'] = widget.documentInstance.data['description'];
       book_data['category'] = widget.documentInstance.data['category'];
       book_data['author'] = widget.documentInstance.data['author'];
-      book_data['year'] = widget.documentInstance.data['year'];
+      book_data['year'] = widget.documentInstance.data['year'].toString();
 
       for (String imageUrl in listImagesUrl) {
         carouselItens.add(Image.network(imageUrl));
@@ -78,7 +78,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   cartItemModel() {
     return {
       "amount": 1,
-      "price": double.parse(book_data['price']!),
+      "price": book_data['price'],
       "title": book_data['title'],
       "imagePath": listImagesUrl[0]
     };

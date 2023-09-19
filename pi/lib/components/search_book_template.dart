@@ -68,12 +68,19 @@ class _SearchBookTemplateState extends State<SearchBookTemplate> {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 20, 20, 20),
-                    child: Text(
-                      widget.title,
-                      style: TextStyle(
-                          color: paletteWhite,
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Text(
+                        widget.title,
+                        softWrap: false,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: paletteWhite,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                      ),
                     ),
                   ),
                 ],

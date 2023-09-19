@@ -198,6 +198,16 @@ class AppwriteSystem {
                 Query.orderAsc('title'),
               ]);
           break;
+        case 'category':
+          listDocuments = await databaseInstance.listDocuments(
+              databaseId: databaseId,
+              collectionId: collectionId,
+              queries: [
+                Query.limit(31),
+                Query.equal('category', searchText),
+              ]);
+        
+          break;
         default:
           listDocuments = await databaseInstance.listDocuments(
               databaseId: databaseId,
