@@ -51,6 +51,52 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   List<Widget> carouselItens = [];
   List<dynamic> cartItens = [];
 
+  Widget success = Container(
+    height: 60,
+    width: 250,
+    decoration: BoxDecoration(
+      color: Colors.green,
+    ),
+    padding: const EdgeInsets.all(10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        Text('Item adicionado ao carrinho!', style: TextStyle(fontSize: 18),),
+      ],
+    ),
+  );
+  Widget error = Container(
+    height: 60,
+    width: 250,
+    decoration: BoxDecoration(
+      color: Colors.redAccent,
+    ),
+    padding: const EdgeInsets.all(10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        Text('Falha ao adicionar ao carrinho.', style: TextStyle(fontSize: 18),),
+      ],
+    ),
+  );
+
+  Widget? statusShowing = null;
+
+  showStatusMessage(atualStatus) async {
+    setState(() {
+      showDialog(
+        context: context,
+        builder: (context) => Dialog(child: atualStatus),
+      );
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    setState(() {
+      Navigator.pop(context);
+    });
+  }
+
   // Methods
   void setBookInformation() async {
     listImagesUrl = appwriteSystem.prepareUrlListFromString(
@@ -87,18 +133,21 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   Future<void> addToCart() async {
     var inCart = false;
     for (var element in cartItens) {
-      if(element['title'] == book_data['title']) {
+      if (element['title'] == book_data['title']) {
         inCart = true;
         element['amount']++;
       }
     }
-    if(inCart == false) {
+    if (inCart == false) {
       cartItens.add(cartItemModel());
     }
     await appwriteSystem.updateCart(
         newCartItens: cartItens, documentId: widget.userPrefs!.$id);
 
     widget.userPrefs!.data['cartItens'] = JsonEncoder().convert(cartItens);
+
+    Navigator.pop(context);
+    showStatusMessage(success);
   }
 
   @override
@@ -372,6 +421,19 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
               color: paletteBrown,
               child: TextButton(
                 onPressed: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) => Container(
+                      color: Color.fromARGB(61, 0, 0, 0),
+                      child: Center(
+                        child: Image.asset(
+                          'images/loading.gif',
+                          width: 85,
+                          height: 85,
+                        ),
+                      ),
+                    ),
+                  );
                   addToCart();
                 },
                 style: TextButton.styleFrom(

@@ -18,6 +18,7 @@ import '../components/carousel_templates/carousel_item_template.dart';
 
 // Constantes
 import '../components/drawer.dart';
+import '../components/loadingBookSkeleton.dart';
 import '../components/radio_button.dart';
 import '../constantes/cores.dart';
 
@@ -202,6 +203,10 @@ class _HomeState extends State<Home> {
           documentId: widget.userPrefs!.$id);
     }
 
+    listaLivrosLancamentos = List.generate(8, (index) => LoadingHomeBookSkeleton());
+    listaLivrosRomance = List.generate(8, (index) => LoadingHomeBookSkeleton());
+    listaLivrosFantasia = List.generate(8, (index) => LoadingHomeBookSkeleton());
+    
     getBooksFromDB();
   }
 

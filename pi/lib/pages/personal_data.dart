@@ -146,200 +146,204 @@ class _PersonalDataState extends State<PersonalData> {
     return Scaffold(
       appBar: BookTokAppBar,
       backgroundColor: paletteBlack,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title
-            const Padding(
-              padding: EdgeInsets.fromLTRB(25, 15, 20, 10),
-              child: Text(
-                'Dados Pessoais',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: paletteWhite,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            Divider(
-              color: paletteWhite,
-            ),
-
-            // Elements
-            Container(
-              width: MediaQuery.of(context).size.width,
-              constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.6),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    constraints: BoxConstraints(maxWidth: 350),
-                    child: PersonalDataTextField(
-                      hintText: 'Nome',
-                      isPassword: false,
-                      textEditingController: nameEditingController,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    constraints: BoxConstraints(maxWidth: 350),
-                    child: PersonalDataTextField(
-                      hintText: 'Email',
-                      isPassword: false,
-                      textEditingController: emailEditingController,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    constraints: BoxConstraints(maxWidth: 350),
-                    child: PersonalDataTextField(
-                      hintText: 'Senha',
-                      isPassword: true,
-                      textEditingController: passwordEditingController,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    constraints: BoxConstraints(maxWidth: 350),
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      children: [
-                        Expanded(
-                          child: PersonalDataTextField(
-                            hintText: 'CEP',
-                            isPassword: false,
-                            textEditingController: cepEditingController,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                          child: PersonalDataTextField(
-                            hintText: 'Cidade',
-                            isPassword: false,
-                            textEditingController: cityEditingController,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    constraints: BoxConstraints(maxWidth: 350),
-                    child: PersonalDataTextField(
-                      hintText: 'Endereço',
-                      isPassword: false,
-                      textEditingController: addressEditingController,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    constraints: BoxConstraints(maxWidth: 350),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: PersonalDataTextField(
-                            hintText: 'Complemento',
-                            isPassword: false,
-                            textEditingController: complementEditingController,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                          child: PersonalDataTextField(
-                            hintText: 'Telefone',
-                            isPassword: false,
-                            textEditingController: telephoneEditingController,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  SubmittButton(
-                    buttonText: 'Salvar Alterações',
-                    onPressed: () async {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text(
-                            'Deseja continuar? insira sua senha: ',
-                            style: TextStyle(
-                              color: paletteWhite,
-                              fontSize: 18,
-                            ),
-                          ),
-                          backgroundColor: paletteBlack,
-                          content: registerTemplate(
-                            hintText: 'Senha Atual',
-                            isPassword: true,
-                            textEditingController: oldPasswordEditingController,
-                            needErrorVerification: true,
-                            submittField: (p0) {},
-                          ),
-                          actions: [
-                            CupertinoDialogAction(
-                              child: const Text('Continuar'),
-                              onPressed: () {
-                                makePrefsUpdate();
-                              },
-                            ),
-                            CupertinoDialogAction(
-                              child: Text('Cancelar'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              Profile(userPrefs: widget.userPrefs),
-                        ),
-                      );
-                    },
+                  // Title
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(25, 15, 20, 10),
                     child: Text(
-                      'Cancelar e Voltar',
-                      style:
-                          TextStyle(fontSize: 18, color: Colors.blue.shade400),
+                      'Dados Pessoais',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: paletteWhite,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
+          
+                  Divider(
+                    color: paletteWhite,
+                  ),
+          
+                  // Elements
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          constraints: BoxConstraints(maxWidth: 350),
+                          child: PersonalDataTextField(
+                            hintText: 'Nome',
+                            isPassword: false,
+                            textEditingController: nameEditingController,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          constraints: BoxConstraints(maxWidth: 350),
+                          child: PersonalDataTextField(
+                            hintText: 'Email',
+                            isPassword: false,
+                            textEditingController: emailEditingController,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          constraints: BoxConstraints(maxWidth: 350),
+                          child: PersonalDataTextField(
+                            hintText: 'Senha',
+                            isPassword: true,
+                            textEditingController: passwordEditingController,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          constraints: BoxConstraints(maxWidth: 350),
+                          child: Flex(
+                            direction: Axis.horizontal,
+                            children: [
+                              Expanded(
+                                child: PersonalDataTextField(
+                                  hintText: 'CEP',
+                                  isPassword: false,
+                                  textEditingController: cepEditingController,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: PersonalDataTextField(
+                                  hintText: 'Cidade',
+                                  isPassword: false,
+                                  textEditingController: cityEditingController,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          constraints: BoxConstraints(maxWidth: 350),
+                          child: PersonalDataTextField(
+                            hintText: 'Endereço',
+                            isPassword: false,
+                            textEditingController: addressEditingController,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          constraints: BoxConstraints(maxWidth: 350),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: PersonalDataTextField(
+                                  hintText: 'Complemento',
+                                  isPassword: false,
+                                  textEditingController: complementEditingController,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: PersonalDataTextField(
+                                  hintText: 'Telefone',
+                                  isPassword: false,
+                                  textEditingController: telephoneEditingController,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        SubmittButton(
+                          buttonText: 'Salvar Alterações',
+                          onPressed: () async {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text(
+                                  'Deseja continuar? insira sua senha: ',
+                                  style: TextStyle(
+                                    color: paletteWhite,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                backgroundColor: paletteBlack,
+                                content: registerTemplate(
+                                  hintText: 'Senha Atual',
+                                  isPassword: true,
+                                  textEditingController: oldPasswordEditingController,
+                                  needErrorVerification: true,
+                                  submittField: (p0) {},
+                                ),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: const Text('Continuar'),
+                                    onPressed: () {
+                                      makePrefsUpdate();
+                                    },
+                                  ),
+                                  CupertinoDialogAction(
+                                    child: Text('Cancelar'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Profile(userPrefs: widget.userPrefs),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Cancelar e Voltar',
+                            style:
+                                TextStyle(fontSize: 18, color: Colors.blue.shade400),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(

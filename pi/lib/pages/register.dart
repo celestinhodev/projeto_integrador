@@ -38,7 +38,7 @@ class _RegisterState extends State<Register> {
 
   Widget error = Container(
     color: Colors.redAccent,
-    padding: EdgeInsets.all(8),
+    padding: EdgeInsets.all(10),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -48,7 +48,7 @@ class _RegisterState extends State<Register> {
   );
   Widget success = Container(
     color: Colors.green,
-    padding: EdgeInsets.all(8),
+    padding: EdgeInsets.all(10),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

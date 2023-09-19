@@ -1,6 +1,7 @@
 // Packages
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:pi/components/social_login_button_template.dart';
 
 import '../components/register_template.dart';
 import '../components/submitt_button.dart';
@@ -31,7 +32,7 @@ class _LoginState extends State<Login> {
 
   Widget error = Container(
     color: Colors.redAccent,
-    padding: const EdgeInsets.all(8),
+    padding: const EdgeInsets.all(10),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: const [
@@ -41,7 +42,7 @@ class _LoginState extends State<Login> {
   );
   Widget success = Container(
     color: Colors.green,
-    padding: const EdgeInsets.all(8),
+    padding: const EdgeInsets.all(10),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: const [
@@ -118,133 +119,158 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: paletteBlack,
-      body: Center(
-        child: Column(
-          children: [
-            Image.asset(
-              'images/logo-login.png',
-              width: 500,
-              height: 200,
-            ),
-            registerTemplate(
-              hintText: 'Email',
-              isPassword: false,
-              textEditingController: emailEditingController,
-              needErrorVerification: true,
-              submittField: (p0) {
-                setState(() {
-                  FocusScope.of(context).requestFocus(focusNode);
-                });
-              },
-            ),
-            const SizedBox(height: 25),
-            registerTemplate(
-              hintText: 'Senha',
-              isPassword: true,
-              textEditingController: passwordEditingController,
-              needErrorVerification: true,
-              focusNode: focusNode,
-              submittField: (p0) async {
-                setEditingControllerText();
-
-                String loginStatus = await appwriteSystem.loginAccount(
-                    email: email, password: password);
-
-                if (emailEditingController.text != '' &&
-                    passwordEditingController.text != '') {
-                  navigateAfterLogin(loginStatus: loginStatus);
-                } else {}
-              },
-            ),
-            //////////////Esqueceu a senha///////////////////////////
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 5, 55, 15),
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: paletteWhite,
-                    ),
-                    onPressed: () {
-                      // Lógica aqui
-                    },
-                    child: const Text(
-                      'Esqueceu a senha?',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 15),
-
-            ///////////////Botão login////////////////
-            SubmittButton(
-              buttonText: 'Login',
-              onPressed: () async {
-                setEditingControllerText();
-
-                String loginStatus = await appwriteSystem.loginAccount(
-                    email: email, password: password);
-
-                if (emailEditingController.text != '' &&
-                    passwordEditingController.text != '') {
-                  navigateAfterLogin(loginStatus: loginStatus);
-                } else {}
-              },
-            ),
-            
-            const SizedBox(height: 40),
-            const Text(
-              'Ou, entre com',
-              style: TextStyle(
-                color: paletteWhite,
-                fontSize: 18,
-              ),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
+                  Image.asset(
+                    'images/logo-login.png',
+                    width: 500,
+                    height: 200,
+                  ),
+                  registerTemplate(
+                    hintText: 'Email',
+                    isPassword: false,
+                    textEditingController: emailEditingController,
+                    needErrorVerification: true,
+                    submittField: (p0) {
+                      setState(() {
+                        FocusScope.of(context).requestFocus(focusNode);
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 25),
+                  registerTemplate(
+                    hintText: 'Senha',
+                    isPassword: true,
+                    textEditingController: passwordEditingController,
+                    needErrorVerification: true,
+                    focusNode: focusNode,
+                    submittField: (p0) async {
+                      setEditingControllerText();
+
+                      String loginStatus = await appwriteSystem.loginAccount(
+                          email: email, password: password);
+
+                      if (emailEditingController.text != '' &&
+                          passwordEditingController.text != '') {
+                        navigateAfterLogin(loginStatus: loginStatus);
+                      } else {}
+                    },
+                  ),
+                  //////////////Esqueceu a senha///////////////////////////
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 5, 55, 15),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: paletteWhite,
+                          ),
+                          onPressed: () {
+                            // Lógica aqui
+                          },
+                          child: const Text(
+                            'Esqueceu a senha?',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  ///////////////Botão login////////////////
+                  SubmittButton(
+                    buttonText: 'Login',
+                    onPressed: () async {
+                      setEditingControllerText();
+
+                      String loginStatus = await appwriteSystem.loginAccount(
+                          email: email, password: password);
+
+                      if (emailEditingController.text != '' &&
+                          passwordEditingController.text != '') {
+                        navigateAfterLogin(loginStatus: loginStatus);
+                      } else {}
+                    },
+                  ),
+
+                  const SizedBox(height: 40),
                   const Text(
-                    'Não tem uma conta?',
+                    'Ou, entre com',
                     style: TextStyle(
                       color: paletteWhite,
                       fontSize: 18,
                     ),
                   ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      //cor do foregroud
-                      foregroundColor: paletteWhite,
-                    ),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Register(),
+
+                  const SizedBox(height: 30),
+
+
+                  SocialLoginButton(
+                    socialImagePath: 'images/google-logo.png',
+                    socialText: 'Google',
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 20),
+
+                  SocialLoginButton(
+                    socialImagePath: 'images/facebook-logo.png',
+                    socialText: 'Facebook',
+                    onTap: () {},
+                  ),
+
+                  const SizedBox(height: 40),
+
+
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Não tem uma conta?',
+                          style: TextStyle(
+                            color: paletteWhite,
+                            fontSize: 18,
+                          ),
                         ),
-                      );
-                    },
-                    child: const Text(
-                      'Registre-se',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.blue,
-                      ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            //cor do foregroud
+                            foregroundColor: paletteWhite,
+                          ),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Register(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Registre-se',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomSheet: statusShowing != null
           ? BottomSheet(onClosing: () {}, builder: (context) => statusShowing!)
