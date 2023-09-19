@@ -1,3 +1,4 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
@@ -6,7 +7,6 @@ import 'package:pi/components/personal_data_textfield.dart';
 import 'package:pi/components/register_template.dart';
 import 'package:pi/components/submitt_button.dart';
 import 'package:pi/constantes/appwrite_system.dart';
-import '../components/drawer.dart';
 import '../constantes/cores.dart';
 
 import '../components/booktok_appbar.dart';
@@ -16,6 +16,7 @@ import 'home.dart';
 import 'profile.dart';
 import 'search.dart';
 
+// ignore: must_be_immutable
 class PersonalData extends StatefulWidget {
   models.Document? userPrefs;
 
@@ -144,7 +145,7 @@ class _PersonalDataState extends State<PersonalData> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BookTokAppBar,
+      appBar: bookTokAppBar,
       backgroundColor: paletteBlack,
       body: Column(
         children: [
@@ -166,55 +167,55 @@ class _PersonalDataState extends State<PersonalData> {
                     ),
                   ),
           
-                  Divider(
+                  const Divider(
                     color: paletteWhite,
                   ),
           
                   // Elements
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                          constraints: BoxConstraints(maxWidth: 350),
+                          constraints: const BoxConstraints(maxWidth: 350),
                           child: PersonalDataTextField(
                             hintText: 'Nome',
                             isPassword: false,
                             textEditingController: nameEditingController,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                          constraints: BoxConstraints(maxWidth: 350),
+                          constraints: const BoxConstraints(maxWidth: 350),
                           child: PersonalDataTextField(
                             hintText: 'Email',
                             isPassword: false,
                             textEditingController: emailEditingController,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                          constraints: BoxConstraints(maxWidth: 350),
+                          constraints: const BoxConstraints(maxWidth: 350),
                           child: PersonalDataTextField(
                             hintText: 'Senha',
                             isPassword: true,
                             textEditingController: passwordEditingController,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                          constraints: BoxConstraints(maxWidth: 350),
+                          constraints: const BoxConstraints(maxWidth: 350),
                           child: Flex(
                             direction: Axis.horizontal,
                             children: [
@@ -225,7 +226,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   textEditingController: cepEditingController,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
                               Expanded(
@@ -238,22 +239,22 @@ class _PersonalDataState extends State<PersonalData> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                          constraints: BoxConstraints(maxWidth: 350),
+                          constraints: const BoxConstraints(maxWidth: 350),
                           child: PersonalDataTextField(
                             hintText: 'Endereço',
                             isPassword: false,
                             textEditingController: addressEditingController,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                          constraints: BoxConstraints(maxWidth: 350),
+                          constraints: const BoxConstraints(maxWidth: 350),
                           child: Row(
                             children: [
                               Expanded(
@@ -263,7 +264,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   textEditingController: complementEditingController,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
                               Expanded(
@@ -276,7 +277,7 @@ class _PersonalDataState extends State<PersonalData> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         SubmittButton(
                           buttonText: 'Salvar Alterações',
                           onPressed: () async {
@@ -291,7 +292,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   ),
                                 ),
                                 backgroundColor: paletteBlack,
-                                content: registerTemplate(
+                                content: RegisterTemplate(
                                   hintText: 'Senha Atual',
                                   isPassword: true,
                                   textEditingController: oldPasswordEditingController,
@@ -306,7 +307,7 @@ class _PersonalDataState extends State<PersonalData> {
                                     },
                                   ),
                                   CupertinoDialogAction(
-                                    child: Text('Cancelar'),
+                                    child: const Text('Cancelar'),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                       Navigator.of(context).pop();
@@ -317,7 +318,7 @@ class _PersonalDataState extends State<PersonalData> {
                             );
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         TextButton(

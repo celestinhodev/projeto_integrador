@@ -1,4 +1,6 @@
 // Packages
+// ignore_for_file: empty_catches
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:carousel_slider/carousel_slider.dart';
@@ -12,10 +14,11 @@ import '../../components/booktok_appbar.dart';
 
 // Constants
 import '../../components/radio_button.dart';
-import '../../components/textInputAdmin.dart';
+import '../../components/text_input_admin.dart';
 import '../../constantes/cores.dart';
 
 // BookDetail Page
+// ignore: must_be_immutable
 class BookCreationPage extends StatefulWidget {
   models.Document? documentInstance;
 
@@ -30,7 +33,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
   // Appwrite
   AppwriteSystem appwriteSystem = AppwriteSystem();
 
-  Map<String, dynamic> book_data = {
+  Map<String, dynamic> bookData = {
     'title': 'Titulo',
     'price': 'Preço',
     'category': 'Categoria',
@@ -38,7 +41,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
     'description': 'Descrição',
     'year': 'Ano',
   };
-
+  
   List<XFile> listXFileImages = [];
 
   // TextEditingControllers
@@ -70,7 +73,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeAdmin(),
+          builder: (context) => const HomeAdmin(),
         ),
         (route) => false);
   }
@@ -84,19 +87,18 @@ class _BookCreationPageState extends State<BookCreationPage> {
   void changeCarouselItem(value) {
     setState(() {
       _groupValue = value!;
-      print(_groupValue);
       bookCarouselController.animateToPage(value);
     });
   }
 
   void getBookDataFromDB() async {
     setState(() {
-      book_data['title'] = widget.documentInstance!.data['title'];
-      book_data['price'] = widget.documentInstance!.data['price'];
-      book_data['category'] = widget.documentInstance!.data['category'];
-      book_data['author'] = widget.documentInstance!.data['author'];
-      book_data['description'] = widget.documentInstance!.data['description'];
-      book_data['year'] = widget.documentInstance!.data['year'];
+      bookData['title'] = widget.documentInstance!.data['title'];
+      bookData['price'] = widget.documentInstance!.data['price'];
+      bookData['category'] = widget.documentInstance!.data['category'];
+      bookData['author'] = widget.documentInstance!.data['author'];
+      bookData['description'] = widget.documentInstance!.data['description'];
+      bookData['year'] = widget.documentInstance!.data['year'];
 
       listImagesUrl = appwriteSystem.prepareUrlListFromString(
           listImageUrlString: widget.documentInstance!.data['listImages']);
@@ -113,7 +115,6 @@ class _BookCreationPageState extends State<BookCreationPage> {
   void deleteImageFromCarousel() {
     try {
       setState(() {
-        // ignore: prefer_is_empty
         if (carouselItens.length == 1 && containPlaceholderImage == false) {
           listXFileImages = [];
           deletedImages.add(listImagesUrl[0]);
@@ -139,9 +140,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
           _groupValue--;
         }
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   void addImageToCarousel() async {
@@ -166,30 +165,28 @@ class _BookCreationPageState extends State<BookCreationPage> {
           listXFileImages.add(image);
         }
       });
-    } catch (e) {
-      print('Falha ao pegar a imagem');
-    }
+    } catch (e) {}
   }
 
   void getInfoFromTextfield() {
-    book_data['title'] = titleEditingController.text;
-    book_data['price'] = priceEditingController.text;
-    book_data['category'] = categoryEditingController.text;
-    book_data['author'] = authorEditingController.text;
-    book_data['description'] = descriptionEditingController.text;
-    book_data['year'] = int.parse(yearEditingController.text);
+    bookData['title'] = titleEditingController.text;
+    bookData['price'] = priceEditingController.text;
+    bookData['category'] = categoryEditingController.text;
+    bookData['author'] = authorEditingController.text;
+    bookData['description'] = descriptionEditingController.text;
+    bookData['year'] = int.parse(yearEditingController.text);
   }
 
   Future<void> setImagesToUpload() async {
-    for (XFile XFileImage in listXFileImages) {
-      if (XFileImage.path != '') {
-        var bytes = await XFileImage.readAsBytes();
+    for (XFile xFileImage in listXFileImages) {
+      if (xFileImage.path != '') {
+        var bytes = await xFileImage.readAsBytes();
 
         setState(() {
           listInputFiles.add(
             InputFile.fromBytes(
               bytes: bytes,
-              filename: XFileImage.name,
+              filename: xFileImage.name,
             ),
           );
         });
@@ -216,7 +213,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BookTokAppBar,
+      appBar: bookTokAppBar,
       backgroundColor: paletteBlack,
       body: SingleChildScrollView(
         child: Column(
@@ -246,7 +243,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                   ),
                   Positioned(
                     right: 30,
-                    child: Container(
+                    child: SizedBox(
                       height: 300,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -294,7 +291,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                           bottom: 10,
                           right: 10,
                           child: Container(
-                            padding: EdgeInsets.all(7),
+                            padding: const EdgeInsets.all(7),
                             decoration: BoxDecoration(
                               color: paletteBlack,
                               borderRadius: BorderRadius.circular(99),
@@ -323,7 +320,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                   dataIsLoaded == true
                       ? TextFieldAdmin(
                           controller: titleEditingController,
-                          hintText: book_data['title'],
+                          hintText: bookData['title'],
                           keyboardType: TextInputType.text,
                           obscureText: false,
                           hasToBeFilled: widget.documentInstance == null,
@@ -358,7 +355,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                         child: dataIsLoaded == true
                             ? TextFieldAdmin(
                                 controller: priceEditingController,
-                                hintText: book_data['price'],
+                                hintText: bookData['price'],
                                 keyboardType: TextInputType.text,
                                 obscureText: false,
                                 hasToBeFilled: widget.documentInstance == null,
@@ -393,7 +390,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                   dataIsLoaded == true
                       ? TextFieldAdmin(
                           controller: descriptionEditingController,
-                          hintText: book_data['description'],
+                          hintText: bookData['description'],
                           keyboardType: TextInputType.text,
                           obscureText: false,
                           hasToBeFilled: widget.documentInstance == null,
@@ -421,7 +418,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Categoria:',
                         style: TextStyle(
                           fontSize: 14,
@@ -432,12 +429,12 @@ class _BookCreationPageState extends State<BookCreationPage> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Container(
+                      SizedBox(
                         width: 250,
                         child: dataIsLoaded == true
                             ? TextFieldAdmin(
                                 controller: categoryEditingController,
-                                hintText: book_data['category'],
+                                hintText: bookData['category'],
                                 keyboardType: TextInputType.text,
                                 obscureText: false,
                                 hasToBeFilled: widget.documentInstance == null,
@@ -452,7 +449,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Autor:',
                         style: TextStyle(
                           fontSize: 14,
@@ -463,12 +460,12 @@ class _BookCreationPageState extends State<BookCreationPage> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Container(
+                      SizedBox(
                         width: 250,
                         child: dataIsLoaded == true
                             ? TextFieldAdmin(
                                 controller: authorEditingController,
-                                hintText: book_data['author'],
+                                hintText: bookData['author'],
                                 keyboardType: TextInputType.text,
                                 obscureText: false,
                                 hasToBeFilled: widget.documentInstance == null,
@@ -483,7 +480,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Ano de lançamento:',
                         style: TextStyle(
                           fontSize: 14,
@@ -494,12 +491,12 @@ class _BookCreationPageState extends State<BookCreationPage> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Container(
+                      SizedBox(
                         width: 250,
                         child: dataIsLoaded == true
                             ? TextFieldAdmin(
                                 controller: yearEditingController,
-                                hintText: book_data['year'].toString(),
+                                hintText: bookData['year'].toString(),
                                 keyboardType: TextInputType.text,
                                 obscureText: false,
                                 hasToBeFilled: widget.documentInstance == null,
@@ -535,14 +532,14 @@ class _BookCreationPageState extends State<BookCreationPage> {
                   if (widget.documentInstance == null &&
                       carouselItens.isNotEmpty &&
                       !containPlaceholderImage &&
-                      book_data['title'] != '' &&
-                      book_data['price'] != '' &&
-                      book_data['category'] != '' &&
-                      book_data['author'] != '' &&
-                      book_data['description'] != '' &&
-                      book_data['year'] != '') {
+                      bookData['title'] != '' &&
+                      bookData['price'] != '' &&
+                      bookData['category'] != '' &&
+                      bookData['author'] != '' &&
+                      bookData['description'] != '' &&
+                      bookData['year'] != '') {
                     bool responseSuccess = await appwriteSystem.createDocument(
-                      bookInformation: book_data,
+                      bookInformation: bookData,
                       listInputFile: listInputFiles,
                     );
 
@@ -552,37 +549,38 @@ class _BookCreationPageState extends State<BookCreationPage> {
                   } else if (widget.documentInstance != null &&
                       carouselItens.isNotEmpty &&
                       !containPlaceholderImage) {
-                    if (book_data['title'] == '') {
-                      book_data['title'] =
+                    if (bookData['title'] == '') {
+                      bookData['title'] =
                           widget.documentInstance!.data['title'];
                     }
-                    if (book_data['category'] == '') {
-                      book_data['category'] =
+                    if (bookData['category'] == '') {
+                      bookData['category'] =
                           widget.documentInstance!.data['category'];
                     }
-                    if (book_data['price'] == '') {
-                      book_data['price'] =
+                    if (bookData['price'] == '') {
+                      bookData['price'] =
                           widget.documentInstance!.data['price'];
                     }
-                    if (book_data['author'] == '') {
-                      book_data['author'] =
+                    if (bookData['author'] == '') {
+                      bookData['author'] =
                           widget.documentInstance!.data['author'];
                     }
-                    if (book_data['description'] == '') {
-                      book_data['description'] =
+                    if (bookData['description'] == '') {
+                      bookData['description'] =
                           widget.documentInstance!.data['description'];
                     }
-                    if (book_data['year'] == '') {
-                      book_data['year'] = int.parse(widget.documentInstance!.data['year']);
+                    if (bookData['year'] == '') {
+                      bookData['year'] = int.parse(widget.documentInstance!.data['year']);
                     }
 
+                    // ignore: unused_local_variable
                     for (var element in listImagesUrl) {
                       listImagesUrl.remove('');
                     }
 
                     bool responseSuccess = await appwriteSystem.updateDocument(
                       documentId: widget.documentInstance!.$id,
-                      newBookInformation: book_data,
+                      newBookInformation: bookData,
                       listRemainingImages: listImagesUrl, 
                       listNewImages: listInputFiles,
                       listDeletedImagesUrl: deletedImages,
@@ -591,9 +589,7 @@ class _BookCreationPageState extends State<BookCreationPage> {
                     if (responseSuccess) {
                       navigateBackHome();
                     }
-                  } else {
-                    print('Algum elemento está faltando');
-                  }
+                  } else {}
                 },
                 style: TextButton.styleFrom(
                     textStyle: const TextStyle(
@@ -629,9 +625,9 @@ class _BookCreationPageState extends State<BookCreationPage> {
                           textStyle: const TextStyle(
                         fontSize: 18,
                       )),
-                      child: Text(
+                      child: const Text(
                         'Delete Document',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: paletteWhite,
                         ),
                       ),

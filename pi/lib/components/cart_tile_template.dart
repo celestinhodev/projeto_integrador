@@ -1,7 +1,9 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:pi/constantes/cores.dart';
 
-class cartTileTemplate extends StatefulWidget {
+// ignore: must_be_immutable
+class CartTileTemplate extends StatefulWidget {
   String titleBook;
   int amount;
   double price;
@@ -10,7 +12,7 @@ class cartTileTemplate extends StatefulWidget {
   Function(int index) indexDelete;
   Function(int amount, int index) amountUpdate;
 
-  cartTileTemplate({
+  CartTileTemplate({
     super.key,
     required this.titleBook,
     required this.amount,
@@ -23,15 +25,15 @@ class cartTileTemplate extends StatefulWidget {
 
 
   @override
-  State<cartTileTemplate> createState() => _cartTileTemplateState();
+  State<CartTileTemplate> createState() => _CartTileTemplateState();
 }
 
-class _cartTileTemplateState extends State<cartTileTemplate> {
+class _CartTileTemplateState extends State<CartTileTemplate> {
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 160,
-      constraints: BoxConstraints(
+      constraints: const BoxConstraints(
         maxWidth: 500
       ),
       padding: const EdgeInsets.only(bottom: 5),
@@ -49,10 +51,10 @@ class _cartTileTemplateState extends State<cartTileTemplate> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    constraints: BoxConstraints(maxWidth: 250),
+                    constraints: const BoxConstraints(maxWidth: 250),
                     child: Text(
                       widget.titleBook,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),

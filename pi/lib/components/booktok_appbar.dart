@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Constants
 import '../constantes/cores.dart';
 
-var BookTokAppBar = PreferredSize(
+var bookTokAppBar = PreferredSize(
   preferredSize: const Size(double.infinity, 45),
   child: Hero(
     tag: 'appbar',

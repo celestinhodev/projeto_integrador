@@ -26,7 +26,6 @@ class _HomeAdminState extends State<HomeAdmin> {
 
   // Carousel
   CarouselController carouselController = CarouselController();
-  int _value = 0;
 
   // Books
   List<Widget> books = [];
@@ -73,7 +72,7 @@ class _HomeAdminState extends State<HomeAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       // App Bar
-      appBar: BookTokAppBar,
+      appBar: bookTokAppBar,
 
       // Background Color
       backgroundColor: paletteBlack,
@@ -123,7 +122,7 @@ class _HomeAdminState extends State<HomeAdmin> {
             ),
           );
         },
-        child: Icon(Icons.add_box),
+        child: const Icon(Icons.add_box),
       ),
 
       // Barra de Navegação

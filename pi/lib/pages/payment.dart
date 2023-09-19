@@ -7,24 +7,20 @@ import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
 
 import '../components/navigation_bar.dart';
-import '../components/submitt_button.dart';
 import 'Home.dart';
 
+// ignore: must_be_immutable
 class Payment extends StatefulWidget {
   models.Document? userPrefs;
   Payment({Key? key, this.userPrefs}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _PaymentState createState() => _PaymentState();
 }
 
 class _PaymentState extends State<Payment> {
   Color getColor(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.hovered,
-      MaterialState.focused,
-    };
     return paletteYellow;
   }
 
@@ -86,8 +82,8 @@ class _PaymentState extends State<Payment> {
                                 groupValue = 0;
                               });
                             },
-                            Text1: 'Boleto',
-                            Text2:
+                            text1: 'Boleto',
+                            text2:
                                 'Vencimento em 1 dia útil. A data de entrega será alterada devido ao tempo de processamento do boleto. Veja mais na próxima página.',
                           ),
                           PayTemplate(
@@ -98,8 +94,8 @@ class _PaymentState extends State<Payment> {
                                 groupValue = 1;
                               });
                             },
-                            Text1: 'Pix',
-                            Text2:
+                            text1: 'Pix',
+                            text2:
                                 'O código Pix gerado para pagamento é válido por 30 minutos após a finalização do pedido.',
                           ),
                           const SizedBox(height: 10),

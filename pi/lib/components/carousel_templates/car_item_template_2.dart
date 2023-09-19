@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi/components/submitt_button.dart';
 import 'package:pi/constantes/cores.dart';
-import 'package:pi/pages/Home.dart';
 import 'package:pi/pages/carrinho.dart';
 
 class Car2ItemTemplate extends StatefulWidget {
@@ -9,7 +7,7 @@ class Car2ItemTemplate extends StatefulWidget {
   final String texto;
   final String titulo;
 
-  Car2ItemTemplate({Key? key, required this.caminhoImagem, required this.texto, required this.titulo}) : super(key: key);
+  const Car2ItemTemplate({Key? key, required this.caminhoImagem, required this.texto, required this.titulo}) : super(key: key);
 
   @override
   State<Car2ItemTemplate> createState() => _Car2ItemTemplateState();
@@ -68,7 +66,7 @@ class _Car2ItemTemplateState extends State<Car2ItemTemplate> {
 
               const SizedBox(width: 20),
               // Container para a imagem com largura máxima
-              Container(
+              SizedBox(
                 width: 150, // largura máxima desejada para a imagem
                 child: Image.asset(widget.caminhoImagem),
               ),

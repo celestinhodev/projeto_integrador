@@ -12,6 +12,7 @@ import '../pages/carrinho.dart';
 import '../pages/home.dart';
 
 
+// ignore: must_be_immutable
 class MyDrawer extends StatefulWidget {
   models.Document? userPrefs;
   MyDrawer({super.key, this.userPrefs});
@@ -56,7 +57,7 @@ class _MyDrawerState extends State<MyDrawer> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_back,
                         color: paletteWhite,
                       )),
@@ -205,6 +206,8 @@ class MySeparator extends StatelessWidget {
         final dashHeight = height;
         final dashCount = (boxWidth / (2 * dashWidth)).floor();
         return Flex(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          direction: Axis.horizontal,
           children: List.generate(dashCount, (_) {
             return SizedBox(
               width: dashWidth,
@@ -214,8 +217,6 @@ class MySeparator extends StatelessWidget {
               ),
             );
           }),
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          direction: Axis.horizontal,
         );
       },
     );

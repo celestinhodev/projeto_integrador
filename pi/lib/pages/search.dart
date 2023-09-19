@@ -17,6 +17,7 @@ import 'Home.dart';
 import '/pages/carrinho.dart';
 import '/pages/profile.dart';
 
+// ignore: must_be_immutable
 class SearchScreen extends StatefulWidget {
   models.Document? userPrefs;
   String? textSearch;
@@ -88,7 +89,7 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     appwriteSystem.updateCart(
         newCartItens:
-            JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
+            const JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
         documentId: widget.userPrefs!.$id);
     if (widget.textSearch != null) {
       setState(() {
@@ -101,7 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BookTokAppBar,
+      appBar: bookTokAppBar,
       drawer: MyDrawer(
         userPrefs: widget.userPrefs,
       ),
@@ -143,12 +144,14 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
 
-            SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
 
             searchText == ''
                 ? const Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(32.0),
+                      padding: EdgeInsets.all(32.0),
                       child: Text(
                         'Pesquire alguma coisa',
                         style: TextStyle(

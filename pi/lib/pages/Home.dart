@@ -1,30 +1,34 @@
 // Packages
+// ignore_for_file: empty_catches
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
 
 // Components
-import 'package:pi/components/book_template.dart';
-import 'package:pi/components/booktok_appbar.dart';
-import 'package:pi/components/carousel_templates/car3_item_template.dart';
-import 'package:pi/components/navigation_bar.dart';
-import 'package:pi/constantes/appwrite_system.dart';
-import 'package:pi/pages/carrinho.dart';
-import 'package:pi/pages/profile.dart';
-import 'package:pi/pages/search.dart';
+import '../components/book_template.dart';
+import '../components/loading_book_skeleton.dart';
+import '../components/navigation_bar.dart';
+import '../constantes/appwrite_system.dart';
+import '../components/booktok_appbar.dart';
 import '../components/carousel_templates/car_item_template_2.dart';
 import '../components/carousel_templates/carousel_item_template.dart';
 
 // Constantes
 import '../components/drawer.dart';
-import '../components/loadingBookSkeleton.dart';
 import '../components/radio_button.dart';
 import '../constantes/cores.dart';
 
 //carrossel (organizar depois)
 import 'package:carousel_slider/carousel_slider.dart'; // Importe a biblioteca aqui
 
+// Pages
+import '../pages/carrinho.dart';
+import '../pages/profile.dart';
+import '../pages/search.dart';
+
+// ignore: must_be_immutable
 class Home extends StatefulWidget {
   models.Document? userPrefs;
   Home({Key? key, this.userPrefs}) : super(key: key);
@@ -63,10 +67,6 @@ class _HomeState extends State<Home> {
   void getBooksFromDB() async {
     var listDocuments = await appwriteSystem.listDocuments(
         searchText: 'title', atributes: 'title');
-    var listDocumentsRomance = await appwriteSystem.listDocuments(
-        searchText: 'ROMANCE', atributes: 'category');
-    var listDocumentsFantasia = await appwriteSystem.listDocuments(
-        searchText: 'FANTASIA', atributes: 'category');
 
     List<Widget> preparedBooks = [];
     int count = 1;
@@ -167,9 +167,7 @@ class _HomeState extends State<Home> {
         listaLivrosFantasia = preparedBooks;
       });
 
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   @override
@@ -180,12 +178,12 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     
     carouselBannerItens = [
-      CarItemTemplate(
+      const CarItemTemplate(
           caminhoImagem: 'images/livros/jujutsu_kaisen.png',
           titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01',
           texto:
               'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
-      Car2ItemTemplate(
+      const Car2ItemTemplate(
           caminhoImagem: 'images/livros/jujutsu_kaisen.png',
           texto: 'ratinho nho nho nho nho nho nho',
           titulo: 'ratin taligado, tipo, é um rato'),
@@ -199,13 +197,13 @@ class _HomeState extends State<Home> {
       getUserPrefs();
       appwriteSystem.updateCart(
           newCartItens:
-              JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
+              const JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
           documentId: widget.userPrefs!.$id);
     }
 
-    listaLivrosLancamentos = List.generate(8, (index) => LoadingHomeBookSkeleton());
-    listaLivrosRomance = List.generate(8, (index) => LoadingHomeBookSkeleton());
-    listaLivrosFantasia = List.generate(8, (index) => LoadingHomeBookSkeleton());
+    listaLivrosLancamentos = List.generate(8, (index) => const LoadingHomeBookSkeleton());
+    listaLivrosRomance = List.generate(8, (index) => const LoadingHomeBookSkeleton());
+    listaLivrosFantasia = List.generate(8, (index) => const LoadingHomeBookSkeleton());
     
     getBooksFromDB();
   }
@@ -214,7 +212,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       // Comum Component App Bar
-      appBar: BookTokAppBar,
+      appBar: bookTokAppBar,
 
       drawer: MyDrawer(userPrefs: widget.userPrefs),
 
@@ -258,7 +256,7 @@ class _HomeState extends State<Home> {
                   ),
                   Positioned(
                     bottom: 0,
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

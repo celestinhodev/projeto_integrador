@@ -1,4 +1,4 @@
-import 'dart:html';
+// ignore_for_file: empty_catches
 
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
@@ -88,7 +88,7 @@ class AppwriteSystem {
     bookInformation['listImages'] = listImages.toString();
 
     try {
-      models.Document newDocument = await databaseInstance.createDocument(
+      await databaseInstance.createDocument(
         databaseId: databaseId,
         collectionId: collectionId,
         documentId: ID.unique(),
@@ -96,9 +96,7 @@ class AppwriteSystem {
       );
 
       return true;
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
 
     return false;
   }
@@ -163,7 +161,7 @@ class AppwriteSystem {
   }) async {
     models.Document? document = await readDocument(documentId: documentId);
 
-    List<String> listImagesIdToDelete = await getIdFromImageUrl(
+    List<String> listImagesIdToDelete = getIdFromImageUrl(
         listImageUrlString: document!.data['listImages']);
 
     bool deleteFileSuccess =
@@ -298,9 +296,7 @@ class AppwriteSystem {
           });
 
       return true;
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
 
     return false;
   }
@@ -362,11 +358,10 @@ class AppwriteSystem {
   Future<List<dynamic>> getCurrentCart(
       {required String currentCartString}) async {
     try {
-      List json = JsonDecoder().convert(currentCartString);
+      List json = const JsonDecoder().convert(currentCartString);
 
       return json;
     } catch (e) {
-      print(e);
       return [];
     }
   }
@@ -374,7 +369,7 @@ class AppwriteSystem {
   Future<bool> updateCart(
       {required List<dynamic> newCartItens, required String documentId}) async {
     try {
-      String cartToUpload = JsonEncoder().convert(newCartItens);
+      String cartToUpload = const JsonEncoder().convert(newCartItens);
 
       await databaseInstance.updateDocument(
           databaseId: databaseId,
@@ -385,9 +380,7 @@ class AppwriteSystem {
           });
 
       return true;
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
 
     return false;
   }

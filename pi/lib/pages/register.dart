@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:appwrite/models.dart' as models;
 
 import 'package:pi/components/register_template.dart';
 import 'package:pi/components/submitt_button.dart';
@@ -26,11 +25,6 @@ class _RegisterState extends State<Register> {
   TextEditingController confirmPasswordEditingController = TextEditingController();
 
   Color getColor(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.hovered,
-      MaterialState.focused,
-    };
     return paletteYellow;
   }
 
@@ -38,25 +32,25 @@ class _RegisterState extends State<Register> {
 
   Widget error = Container(
     color: Colors.redAccent,
-    padding: EdgeInsets.all(10),
+    padding: const EdgeInsets.all(10),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: const [
         Text('Falha no registro.'),
       ],
     ),
   );
   Widget success = Container(
     color: Colors.green,
-    padding: EdgeInsets.all(10),
+    padding: const EdgeInsets.all(10),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: const [
         Text('Registro bem-sucedido!'),
       ],
     ),
   );
-  Widget? statusShowing = null;
+  Widget? statusShowing;
 
   // Methods
   showErrorMessage(atualError) async {
@@ -64,7 +58,7 @@ class _RegisterState extends State<Register> {
       statusShowing = atualError;
     });
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     setState(() {
       statusShowing = null;
@@ -82,7 +76,7 @@ class _RegisterState extends State<Register> {
             width: 500,
             height: 200,
           ),
-          registerTemplate(
+          RegisterTemplate(
             hintText: 'Nome Completo',
             isPassword: false,
             textEditingController: nameEditingController,
@@ -90,7 +84,7 @@ class _RegisterState extends State<Register> {
             submittField: (p0) {},
           ),
           const SizedBox(height: 25),
-          registerTemplate(
+          RegisterTemplate(
             hintText: 'Email',
             isPassword: false,
             textEditingController: emailEditingController,
@@ -98,7 +92,7 @@ class _RegisterState extends State<Register> {
             submittField: (p0) {},
           ),
           const SizedBox(height: 25),
-          registerTemplate(
+          RegisterTemplate(
             hintText: 'Senha',
             isPassword: true,
             textEditingController: passwordEditingController,
@@ -106,7 +100,7 @@ class _RegisterState extends State<Register> {
             submittField: (p0) {},
           ),
           const SizedBox(height: 25),
-          registerTemplate(
+          RegisterTemplate(
             hintText: 'Repita a Senha',
             isPassword: true,
             textEditingController: confirmPasswordEditingController,
@@ -213,10 +207,11 @@ class _RegisterState extends State<Register> {
       
               if (registerSuccess == true) {
                 await showErrorMessage(success);
+                // ignore: use_build_context_synchronously
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Login(),
+                    builder: (context) => const Login(),
                   ),
                 );
               } else {
@@ -235,7 +230,7 @@ class _RegisterState extends State<Register> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Login(),
+                    builder: (context) => const Login(),
                   ),
                 );
               },

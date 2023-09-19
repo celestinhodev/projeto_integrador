@@ -9,7 +9,7 @@ class TextFieldAdmin extends StatefulWidget {
   final IconButton? suffixIcon;
   final bool hasToBeFilled;
 
-  TextFieldAdmin({
+  const TextFieldAdmin({
     required this.hintText,
     required this.controller,
     required this.obscureText,
@@ -22,6 +22,7 @@ class TextFieldAdmin extends StatefulWidget {
   @override
   // ignore: no_logic_in_create_state
   State<TextFieldAdmin> createState() => _MyTextFieldState(
+      suffixIcon,
       hintText: hintText,
       controller: controller,
       obscureText: false,
@@ -38,16 +39,15 @@ class _MyTextFieldState extends State<TextFieldAdmin> {
   final IconButton? suffixIcon;
   final bool hasToBeFilled;
 
-  _MyTextFieldState({
+  _MyTextFieldState(this.suffixIcon, {
     required this.hintText,
     required this.controller,
     required this.obscureText,
     required this.keyboardType,
     required this.hasToBeFilled,
-    this.suffixIcon,
   });
 
-  var _text = '';
+  final _text = '';
 
   String? get _errorText {
     final text = widget.controller.value.text;
@@ -70,7 +70,7 @@ class _MyTextFieldState extends State<TextFieldAdmin> {
       
       // Tipo de teclado
       keyboardType: keyboardType,
-      style: TextStyle(
+      style: const TextStyle(
         color: paletteWhite,
       ),
       cursorColor: paletteWhite,
@@ -78,7 +78,7 @@ class _MyTextFieldState extends State<TextFieldAdmin> {
 
       decoration: InputDecoration(
         // Borders
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         enabledBorder:
             const OutlineInputBorder(borderSide: BorderSide(color: paletteWhite)),
         disabledBorder:

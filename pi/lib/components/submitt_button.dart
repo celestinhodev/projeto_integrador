@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constantes/cores.dart';
 
+// ignore: must_be_immutable
 class SubmittButton extends StatefulWidget {
   String buttonText;
   Function()? onPressed;

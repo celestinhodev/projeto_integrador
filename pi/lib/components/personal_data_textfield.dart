@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../constantes/cores.dart';
 
+// ignore: must_be_immutable
 class PersonalDataTextField extends StatefulWidget {
   String? hintText;
   TextEditingController textEditingController = TextEditingController();
@@ -14,17 +14,17 @@ class PersonalDataTextField extends StatefulWidget {
       required this.textEditingController});
 
   @override
-  State<PersonalDataTextField> createState() => _registerTemplateState();
+  State<PersonalDataTextField> createState() => _PersonalDataTextField();
 }
 
-class _registerTemplateState extends State<PersonalDataTextField> {
+class _PersonalDataTextField extends State<PersonalDataTextField> {
   bool _senhaLogin = true;
   
   @override
   Widget build(BuildContext context) {
     return widget.isPassword == false
         ? TextField(
-            style: TextStyle(
+            style: const TextStyle(
               color: paletteWhite,
             ),
             controller: widget.textEditingController,
@@ -51,7 +51,7 @@ class _registerTemplateState extends State<PersonalDataTextField> {
             ),
           )
         : TextField(
-            style: TextStyle(
+            style: const TextStyle(
               color: paletteWhite,
             ),
             controller: widget.textEditingController,

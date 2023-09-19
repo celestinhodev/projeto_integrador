@@ -11,7 +11,7 @@ class MyRadioOption<T> extends StatelessWidget {
   final Color unselectedColor;
   final ValueChanged<T?> onChanged;
 
-  const MyRadioOption({
+  const MyRadioOption({super.key, 
     required this.value,
     required this.groupValue,
     required this.label,

@@ -44,17 +44,17 @@ class _Car3TemplateState extends State<Car3Template> {
                 child: Row(
                   children: [
                   
-                    Container(
+                    SizedBox(
                       width: 100,
                       child: Image.asset(widget.imagem1)
                     ), 
                     const SizedBox(width: 50),
-                    Container(
+                    SizedBox(
                       width: 100,
                       child: Image.asset(widget.imagem2)
                       ), 
                       const SizedBox(width: 50),
-                    Container(
+                    SizedBox(
                       width: 100,
                       child: Image.asset(widget.imagem3)
                       ), 

@@ -8,6 +8,7 @@ import '../constantes/cores.dart';
 // Pages
 import '../pages/book_page.dart';
 
+// ignore: must_be_immutable
 class SearchBookTemplate extends StatefulWidget {
   String title;
   String imagePath;
@@ -42,40 +43,40 @@ class _SearchBookTemplateState extends State<SearchBookTemplate> {
         );
       },
       
-      child: Container(
+      child: SizedBox(
           height: 140,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Divider(
+              const Divider(
                 color: paletteGrey,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 35,
                   ),
-                  Container(
+                  SizedBox(
                     height: 98,
                     child: widget.imagePath != '' ? Image.network(
                       widget.imagePath,
                       fit: BoxFit.cover,
                     ) : null,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 25,
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 20, 20, 20),
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.5,
                       child: Text(
                         widget.title,
                         softWrap: false,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: paletteWhite,
                             fontSize: 19,
                             fontWeight: FontWeight.bold,
@@ -85,7 +86,7 @@ class _SearchBookTemplateState extends State<SearchBookTemplate> {
                   ),
                 ],
               ),
-              Divider(
+              const Divider(
                 color: paletteGrey,
               ),
             ],

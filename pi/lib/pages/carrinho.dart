@@ -8,10 +8,9 @@ import 'package:pi/pages/payment.dart';
 import 'package:pi/pages/personal_data.dart';
 
 // Components
-import '../components/booktok_appbar.dart';
 import '../components/navigation_bar.dart';
 import '../components/address_check_template.dart';
-import '../components/cartTileTemplate.dart';
+import '../components/cart_tile_template.dart';
 
 // Constants
 import '../constantes/appwrite_system.dart';
@@ -22,6 +21,7 @@ import 'profile.dart';
 import 'search.dart';
 import 'Home.dart';
 
+// ignore: must_be_immutable
 class Carrinho extends StatefulWidget {
   models.Document? userPrefs;
 
@@ -50,7 +50,7 @@ class _CarrinhoState extends State<Carrinho> {
 
       for (Map<String, dynamic> item in cartItens) {
         setState(() {
-          cartItensWidgets.add(cartTileTemplate(
+          cartItensWidgets.add(CartTileTemplate(
             titleBook: item['title'],
             amount: item['amount'],
             price: double.parse(item['price'].toString().replaceAll(',', '.')),
@@ -76,7 +76,7 @@ class _CarrinhoState extends State<Carrinho> {
     
       for (Map<String, dynamic> item in cartItens) {
         setState(() {
-          cartItensWidgets.add(cartTileTemplate(
+          cartItensWidgets.add(CartTileTemplate(
             titleBook: item['title'],
             amount: item['amount'],
             price: double.parse(item['price'].toString().replaceAll(',', '.')),
@@ -98,9 +98,9 @@ class _CarrinhoState extends State<Carrinho> {
       });
     }
 
-    widget.userPrefs!.data['cartItens'] = JsonEncoder().convert(cartItens);
+    widget.userPrefs!.data['cartItens'] = const JsonEncoder().convert(cartItens);
 
-    var response = await appwriteSystem.updateCart(
+    await appwriteSystem.updateCart(
         newCartItens: cartItens, documentId: widget.userPrefs!.$id);
   }
   
@@ -113,7 +113,7 @@ class _CarrinhoState extends State<Carrinho> {
 
     for (Map<String, dynamic> item in cartItens) {
       setState(() {
-        cartItensWidgets.add(cartTileTemplate(
+        cartItensWidgets.add(CartTileTemplate(
           titleBook: item['title'],
           amount: item['amount'],
           price: double.parse(item['price'].toString().replaceAll(',', '.')),
@@ -131,7 +131,7 @@ class _CarrinhoState extends State<Carrinho> {
     widget.userPrefs!.data['cartItens'] =
         const JsonEncoder().convert(cartItens);
 
-    var response = await appwriteSystem.updateCart(
+    await appwriteSystem.updateCart(
       newCartItens: cartItens,
       documentId: widget.userPrefs!.$id,
     );
@@ -160,7 +160,7 @@ class _CarrinhoState extends State<Carrinho> {
                   fontWeight: FontWeight.bold),
             ),
             backgroundColor: paletteBlack,
-            content: Text(
+            content: const Text(
               'Para continuar a compra atualize seu endereço.',
               style: TextStyle(color: paletteWhite, fontSize: 18),
               softWrap: false,
@@ -181,7 +181,7 @@ class _CarrinhoState extends State<Carrinho> {
                 },
               ),
               CupertinoDialogAction(
-                child: Text('Cancelar'),
+                child: const Text('Cancelar'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -202,9 +202,9 @@ class _CarrinhoState extends State<Carrinho> {
             ),
             backgroundColor: paletteBlack,
             content: Container(
-              constraints: BoxConstraints(maxWidth: 300),
+              constraints: const BoxConstraints(maxWidth: 300),
               child: AddressCheckTemplate(
-                Text1: 'Endereço',
+                text1: 'Endereço',
                 cep: widget.userPrefs!.data['cep'],
                 city: widget.userPrefs!.data['city'],
                 address: widget.userPrefs!.data['address'],
@@ -225,7 +225,7 @@ class _CarrinhoState extends State<Carrinho> {
                 },
               ),
               CupertinoDialogAction(
-                child: Text('Cancelar'),
+                child: const Text('Cancelar'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -242,7 +242,7 @@ class _CarrinhoState extends State<Carrinho> {
     super.initState();
 
     appwriteSystem.updateCart(
-      newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
+      newCartItens: const JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
       documentId: widget.userPrefs!.$id,
     );
 
@@ -271,11 +271,11 @@ class _CarrinhoState extends State<Carrinho> {
               ),
             ),
           ),
-          SizedBox(height: 118,),
+          const SizedBox(height: 118,),
         ],
       ),
       
-      bottomSheet: Container(
+      bottomSheet: SizedBox(
         height: 118,
         child: Column(
           children: [

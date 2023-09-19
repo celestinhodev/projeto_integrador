@@ -1,4 +1,6 @@
 // Packages
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:pi/components/social_login_button_template.dart';
@@ -50,7 +52,7 @@ class _LoginState extends State<Login> {
       ],
     ),
   );
-  Widget? statusShowing = null;
+  Widget? statusShowing;
 
   // Methods
   showErrorMessage(atualError) async {
@@ -88,7 +90,7 @@ class _LoginState extends State<Login> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeAdmin(),
+              builder: (context) => const HomeAdmin(),
             ),
           );
           break;
@@ -130,7 +132,7 @@ class _LoginState extends State<Login> {
                     width: 500,
                     height: 200,
                   ),
-                  registerTemplate(
+                  RegisterTemplate(
                     hintText: 'Email',
                     isPassword: false,
                     textEditingController: emailEditingController,
@@ -142,7 +144,7 @@ class _LoginState extends State<Login> {
                     },
                   ),
                   const SizedBox(height: 25),
-                  registerTemplate(
+                  RegisterTemplate(
                     hintText: 'Senha',
                     isPassword: true,
                     textEditingController: passwordEditingController,

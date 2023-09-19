@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pi/constantes/cores.dart';
 
+// ignore: must_be_immutable
 class AddressCheckTemplate extends StatefulWidget {
-  String Text1;
+  String text1;
   String cep;
   String city;
   String address;
@@ -10,7 +11,7 @@ class AddressCheckTemplate extends StatefulWidget {
 
   AddressCheckTemplate({
     super.key,
-    required this.Text1,
+    required this.text1,
     required this.cep,
     required this.city,
     required this.address,
@@ -25,7 +26,7 @@ class _AddressCheckTemplateState extends State<AddressCheckTemplate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxHeight: 250, maxWidth: 200),
+      constraints: const BoxConstraints(maxHeight: 250, maxWidth: 200),
       decoration: BoxDecoration(
         color: palettWhiteGrey,
         border: Border.all(
@@ -39,14 +40,14 @@ class _AddressCheckTemplateState extends State<AddressCheckTemplate> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.Text1,
+              widget.text1,
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 5,),
-            Text(
+            const SizedBox(height: 5,),
+            const Text(
               'Cep: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -64,8 +65,8 @@ class _AddressCheckTemplateState extends State<AddressCheckTemplate> {
                 color: paletteBlack,
               ),
             ),
-            SizedBox(height: 5,),
-            Text(
+            const SizedBox(height: 5,),
+            const Text(
               'Cidade: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -74,7 +75,7 @@ class _AddressCheckTemplateState extends State<AddressCheckTemplate> {
               ),
             ),
             Container(
-              constraints: BoxConstraints(maxWidth: 150),
+              constraints: const BoxConstraints(maxWidth: 150),
               child: Text(
                 widget.city,
                 softWrap: false,
@@ -86,8 +87,8 @@ class _AddressCheckTemplateState extends State<AddressCheckTemplate> {
                 ),
               ),
             ),
-            SizedBox(height: 5,),
-            Text(
+            const SizedBox(height: 5,),
+            const Text(
               'Endereço: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -105,8 +106,8 @@ class _AddressCheckTemplateState extends State<AddressCheckTemplate> {
                 color: paletteBlack,
               ),
             ),
-            SizedBox(height: 5,),
-            Text(
+            const SizedBox(height: 5,),
+            const Text(
               'Complemento: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,

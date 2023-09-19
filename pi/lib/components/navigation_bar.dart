@@ -10,7 +10,7 @@ class BookTokNavigation extends StatelessWidget {
   final MyIconButtonNavigator cart;
   final MyIconButtonNavigator user;
 
-  BookTokNavigation({
+  const BookTokNavigation({
     super.key,
     required this.home,
     required this.search,
@@ -35,6 +35,7 @@ class BookTokNavigation extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class MyIconButtonNavigator extends StatelessWidget {
   dynamic route;
   Icon icon;

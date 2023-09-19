@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../constantes/cores.dart';
 
-class registerTemplate extends StatefulWidget {
+// ignore: must_be_immutable
+class RegisterTemplate extends StatefulWidget {
   String? hintText;
   TextEditingController textEditingController = TextEditingController();
   bool isPassword;
@@ -9,7 +10,7 @@ class registerTemplate extends StatefulWidget {
   void Function(String) submittField;
   FocusNode? focusNode;
 
-  registerTemplate({
+  RegisterTemplate({
     super.key,
     required this.hintText,
     required this.isPassword,
@@ -20,12 +21,12 @@ class registerTemplate extends StatefulWidget {
   });
 
   @override
-  State<registerTemplate> createState() => _registerTemplateState();
+  State<RegisterTemplate> createState() => _RegisterTemplateState();
 }
 
-class _registerTemplateState extends State<registerTemplate> {
+class _RegisterTemplateState extends State<RegisterTemplate> {
   bool _senhaLogin = true;
-  String? errorText = null;
+  String? errorText;
 
   void errorVerify() {
     setState(() {
@@ -48,12 +49,12 @@ class _registerTemplateState extends State<registerTemplate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
+      constraints: const BoxConstraints(
         maxWidth: 350,
       ),
       child: widget.isPassword == false
           ? TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 color: paletteWhite,
               ),
               controller: widget.textEditingController,
@@ -64,7 +65,7 @@ class _registerTemplateState extends State<registerTemplate> {
               onSubmitted: widget.submittField,
               decoration: InputDecoration(
                 errorText: errorText,
-                errorStyle: TextStyle(
+                errorStyle: const TextStyle(
                   color: Colors.red,
                 ),
                 hintText: widget.hintText,
@@ -86,11 +87,11 @@ class _registerTemplateState extends State<registerTemplate> {
                     width: 0.4,
                   ),
                 ),
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
             )
           : TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 color: paletteWhite,
               ),
               controller: widget.textEditingController,
@@ -107,7 +108,7 @@ class _registerTemplateState extends State<registerTemplate> {
                           : TextInputType.text,
               decoration: InputDecoration(
                 errorText: errorText,
-                errorStyle: TextStyle(
+                errorStyle: const TextStyle(
                   color: Colors.red,
                 ),
                 hintText: widget.hintText,
@@ -126,7 +127,7 @@ class _registerTemplateState extends State<registerTemplate> {
                     width: 0.4,
                   ),
                 ),
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 suffixIcon: GestureDetector(
                   onTap: () {
                     setState(() {

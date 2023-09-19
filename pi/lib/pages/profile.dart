@@ -8,13 +8,13 @@ import 'package:pi/constantes/appwrite_system.dart';
 import 'package:pi/constantes/cores.dart';
 import 'package:pi/pages/search.dart';
 
-import '../components/book_template.dart';
 import '../components/drawer.dart';
 import '../components/navigation_bar.dart';
 import 'Home.dart';
 import 'carrinho.dart';
 import 'personal_data.dart';
 
+// ignore: must_be_immutable
 class Profile extends StatefulWidget {
   models.Document? userPrefs;
 
@@ -31,13 +31,13 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     appwriteSystem.updateCart(
-        newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']), documentId: widget.userPrefs!.$id);
+        newCartItens: const JsonDecoder().convert(widget.userPrefs!.data['cartItens']), documentId: widget.userPrefs!.$id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BookTokAppBar,
+      appBar: bookTokAppBar,
       drawer: MyDrawer(userPrefs: widget.userPrefs,),
       body: Container(
         color: paletteBlack,
@@ -125,7 +125,7 @@ class _ProfileState extends State<Profile> {
                   mainAxisExtent: 225,
                 ),
                 shrinkWrap: true,
-                children: [],
+                children: const [],
               ),
             ),
           ],

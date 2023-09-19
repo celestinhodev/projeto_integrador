@@ -21,6 +21,7 @@ import 'profile.dart';
 import 'search.dart';
 
 // BookDetail Page
+// ignore: must_be_immutable
 class BookDetailsPage extends StatefulWidget {
   models.Document documentInstance;
   models.Document? userPrefs;
@@ -36,7 +37,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   // Appwrite
   AppwriteSystem appwriteSystem = AppwriteSystem();
 
-  Map<String, String> book_data = {
+  Map<String, String> bookData = {
     'title': '',
     'price': '',
     'description': '',
@@ -54,7 +55,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   Widget success = Container(
     height: 60,
     width: 250,
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       color: Colors.green,
     ),
     padding: const EdgeInsets.all(10),
@@ -68,7 +69,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   Widget error = Container(
     height: 60,
     width: 250,
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       color: Colors.redAccent,
     ),
     padding: const EdgeInsets.all(10),
@@ -80,7 +81,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     ),
   );
 
-  Widget? statusShowing = null;
+  Widget? statusShowing;
 
   showStatusMessage(atualStatus) async {
     setState(() {
@@ -103,12 +104,12 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
         listImageUrlString: widget.documentInstance.data['listImages']);
 
     setState(() {
-      book_data['title'] = widget.documentInstance.data['title'];
-      book_data['price'] = widget.documentInstance.data['price'];
-      book_data['description'] = widget.documentInstance.data['description'];
-      book_data['category'] = widget.documentInstance.data['category'];
-      book_data['author'] = widget.documentInstance.data['author'];
-      book_data['year'] = widget.documentInstance.data['year'].toString();
+      bookData['title'] = widget.documentInstance.data['title'];
+      bookData['price'] = widget.documentInstance.data['price'];
+      bookData['description'] = widget.documentInstance.data['description'];
+      bookData['category'] = widget.documentInstance.data['category'];
+      bookData['author'] = widget.documentInstance.data['author'];
+      bookData['year'] = widget.documentInstance.data['year'].toString();
 
       for (String imageUrl in listImagesUrl) {
         carouselItens.add(Image.network(imageUrl));
@@ -124,8 +125,8 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   cartItemModel() {
     return {
       "amount": 1,
-      "price": book_data['price'],
-      "title": book_data['title'],
+      "price": bookData['price'],
+      "title": bookData['title'],
       "imagePath": listImagesUrl[0]
     };
   }
@@ -133,7 +134,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   Future<void> addToCart() async {
     var inCart = false;
     for (var element in cartItens) {
-      if (element['title'] == book_data['title']) {
+      if (element['title'] == bookData['title']) {
         inCart = true;
         element['amount']++;
       }
@@ -144,16 +145,16 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     await appwriteSystem.updateCart(
         newCartItens: cartItens, documentId: widget.userPrefs!.$id);
 
-    widget.userPrefs!.data['cartItens'] = JsonEncoder().convert(cartItens);
+    widget.userPrefs!.data['cartItens'] = const JsonEncoder().convert(cartItens);
 
+    // ignore: use_build_context_synchronously
     Navigator.pop(context);
     showStatusMessage(success);
   }
 
   @override
   void initState() {
-    // ignore: todo
-    // TODO: implement initState
+    super.initState();
 
     setCart();
     setBookInformation();
@@ -162,7 +163,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BookTokAppBar,
+      appBar: bookTokAppBar,
       backgroundColor: paletteBlack,
       body: SingleChildScrollView(
         child: Column(
@@ -192,7 +193,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   ),
                   Positioned(
                     right: 30,
-                    child: Container(
+                    child: SizedBox(
                       height: 300,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -227,7 +228,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 children: [
                   // Nome Livro
                   Text(
-                    book_data['title']!,
+                    bookData['title']!,
                     style: const TextStyle(
                       color: paletteWhite,
                       fontSize: 22,
@@ -247,7 +248,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         color: paletteWhite,
                       ),
                       Text(
-                        'R\$ ${book_data['price']}',
+                        'R\$ ${bookData['price']}',
                         style: const TextStyle(
                           color: paletteWhite,
                           fontSize: 18,
@@ -286,7 +287,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   ),
 
                   Text(
-                    book_data['description']!,
+                    bookData['description']!,
                     maxLines: 99999,
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,
@@ -332,7 +333,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         ),
                       ),
                       Text(
-                        book_data['category']!,
+                        bookData['category']!,
                         style: const TextStyle(
                           color: paletteWhite,
                           fontSize: 15,
@@ -356,7 +357,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         ),
                       ),
                       Text(
-                        book_data['author']!,
+                        bookData['author']!,
                         style: const TextStyle(
                           color: paletteWhite,
                           fontSize: 15,
@@ -380,7 +381,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                         ),
                       ),
                       Text(
-                        book_data['year']!.toString(),
+                        bookData['year']!.toString(),
                         style: const TextStyle(
                           color: paletteWhite,
                           fontSize: 15,
@@ -424,7 +425,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   showDialog(
                     context: context,
                     builder: (context) => Container(
-                      color: Color.fromARGB(61, 0, 0, 0),
+                      color: const Color.fromARGB(61, 0, 0, 0),
                       child: Center(
                         child: Image.asset(
                           'images/loading.gif',

@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:pi/constantes/cores.dart';
 
+// ignore: must_be_immutable
 class PayTemplate extends StatefulWidget {
-  String Text1;
-  String Text2;
+  String text1;
+  String text2;
   int value;
   int groupValue;
   void Function(Object?) onChanged;
 
   PayTemplate({
     super.key,
-    required this.Text1,
-    required this.Text2,
+    required this.text1,
+    required this.text2,
     required this.groupValue,
     required this.value,
     required this.onChanged,
@@ -25,11 +24,6 @@ class PayTemplate extends StatefulWidget {
 
 class _PayTemplateState extends State<PayTemplate> {
   Color getColor(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.hovered,
-      MaterialState.focused,
-    };
     return paletteGrey;
   }
 
@@ -64,7 +58,7 @@ class _PayTemplateState extends State<PayTemplate> {
                     ),
                   ),
                   Text(
-                    widget.Text1,
+                    widget.text1,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -76,7 +70,7 @@ class _PayTemplateState extends State<PayTemplate> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(50, 0, 0, 8),
                 child: Text(
-                  widget.Text2,
+                  widget.text2,
                   softWrap: false,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 99,

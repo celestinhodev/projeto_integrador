@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi/constantes/cores.dart';
 
+// ignore: must_be_immutable
 class SocialLoginButton extends StatefulWidget {
   void Function() onTap;
   String socialImagePath;
@@ -35,13 +36,13 @@ class _SocialLoginButtonState extends State<SocialLoginButton> {
             Center(
               child: Text(
                 widget.socialText,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: SizedBox(
                 width: 50,
               ),
