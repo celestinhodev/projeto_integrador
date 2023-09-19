@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeAdmin(),
+              builder: (context) => Home(),
             ),
           );
           break;
@@ -197,7 +197,7 @@ class _LoginState extends State<Login> {
                 } else {}
               },
             ),
-
+            
             const SizedBox(height: 40),
             const Text(
               'Ou, entre com',

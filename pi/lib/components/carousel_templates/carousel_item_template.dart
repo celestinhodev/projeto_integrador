@@ -29,7 +29,7 @@ class _CarItemTemplateState extends State<CarItemTemplate> {
             ),
           );
         },
-      
+        
       child: Container(
         color: paletteBrown,
         child: Padding(

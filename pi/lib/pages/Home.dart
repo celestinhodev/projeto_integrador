@@ -7,13 +7,14 @@ import 'package:appwrite/models.dart' as models;
 // Components
 import 'package:pi/components/book_template.dart';
 import 'package:pi/components/booktok_appbar.dart';
-import 'package:pi/components/car_item_template_2.dart';
-import 'package:pi/components/carousel_item_template.dart';
+import 'package:pi/components/carousel_templates/car3_item_template.dart';
 import 'package:pi/components/navigation_bar.dart';
 import 'package:pi/constantes/appwrite_system.dart';
 import 'package:pi/pages/carrinho.dart';
 import 'package:pi/pages/profile.dart';
 import 'package:pi/pages/search.dart';
+import '../components/carousel_templates/car_item_template_2.dart';
+import '../components/carousel_templates/carousel_item_template.dart';
 
 // Constantes
 import '../components/drawer.dart';
@@ -94,13 +95,13 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
-    // ignore: todo
-    // TODO: implement initState
+///////////////itens do carrossel///////////////////////
     carouselBannerItens = [
       CarItemTemplate(
-          caminhoImagem: 'images/livros/jujutsu_kaisen.png', titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01', texto: 'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
-
-      Car2ItemTemplate(caminhoImagem: 'images/livros/jujutsu_kaisen.png', texto: 'ratinho nho nho nho nho nho nho', titulo: 'ratin taligado, tipo, é um rato'),
+          caminhoImagem: 'images/livros/1.png', titulo: 'O Iluminado', texto: 'O livro narra a história de Danny Torrance, um garoto com habilidades paranormais especiais, como telepatia e premonição. Quando sua família se muda para o hotel Overlook, onde seu pai, Jack Torrance, consegue um emprego como zelador, eles esperam encontrar uma nova vida longe de problemas passados. No entanto, o Overlook Hotel é assombrado por antigas energias malignas e espíritos vingativos que se manifestam de maneira aterrorizante. Danny é "iluminado", o que significa que ele possui poderes sobrenaturais que o tornam a única esperança contra o mal que assola o hotel.'),
+      Car2ItemTemplate(
+        caminhoImagem: 'images/livros/madona.png', texto: '1481, Florença, Itália, é o cenário de um intrincado triângulo amoroso entre a camponesa Francesca di Boscoli, a duquesa de Milão, Alessia Sforza, e o aspirante a pintor Vincenzo Mantovani.Francesca busca apenas paz em sua vida, já tão carregada de cicatrizes. Vincenzo espera ser reconhecido como um dos maiores artistas de seu tempo. E Alessia, a bela mecenas, busca impor sua vontade, custe o que custar!.', titulo: 'A Madona e a Vênus'),
+      const Car3Template(texto: 'Lançamentos', imagem1: 'images/livros/madona.png', imagem2: 'images/livros/madona.png', imagem3: 'images/livros/madona.png'),
       Image.asset('images/logo-appbar.png'),
       Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
