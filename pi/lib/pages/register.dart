@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 
 import 'package:pi/components/register_template.dart';
@@ -22,7 +24,8 @@ class _RegisterState extends State<Register> {
   TextEditingController nameEditingController = TextEditingController();
   TextEditingController emailEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
-  TextEditingController confirmPasswordEditingController = TextEditingController();
+  TextEditingController confirmPasswordEditingController =
+      TextEditingController();
 
   Color getColor(Set<MaterialState> states) {
     return paletteYellow;
@@ -108,7 +111,6 @@ class _RegisterState extends State<Register> {
             submittField: (p0) {},
           ),
           const SizedBox(height: 40),
-          
           Padding(
             padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
             child: Column(
@@ -187,27 +189,39 @@ class _RegisterState extends State<Register> {
           SubmittButton(
             buttonText: 'Cadastrar',
             onPressed: () async {
+              showDialog(
+                context: context,
+                builder: (context) => Container(
+                  color: const Color.fromARGB(61, 0, 0, 0),
+                  child: Center(
+                    child: Image.asset(
+                      'images/loading.gif',
+                      width: 85,
+                      height: 85,
+                    ),
+                  ),
+                ),
+              );
+
               String name = nameEditingController.text;
               String email = emailEditingController.text;
               String password = passwordEditingController.text;
               String confirmPassword = confirmPasswordEditingController.text;
-              
+
               bool registerSuccess = false;
-      
+
               if (name != '' &&
                   email != '' &&
                   password != '' &&
                   confirmPassword != '' &&
                   password == confirmPassword &&
                   isChecked) {
-      
-                registerSuccess = await appwriteSystem.registerAccount(name: name, email: email, password: password);
-                
+                registerSuccess = await appwriteSystem.registerAccount(
+                    name: name, email: email, password: password);
               }
-      
+
               if (registerSuccess == true) {
                 await showErrorMessage(success);
-                // ignore: use_build_context_synchronously
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -215,11 +229,11 @@ class _RegisterState extends State<Register> {
                   ),
                 );
               } else {
+                Navigator.of(context).pop();
                 showErrorMessage(error);
               }
             },
           ),
-          
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 22, 0, 22),
             child: TextButton(
@@ -245,10 +259,9 @@ class _RegisterState extends State<Register> {
           ),
         ]),
       ),
-      bottomSheet: statusShowing != null ? BottomSheet(
-        onClosing: () {},
-        builder: (context) => statusShowing!
-      ) : null,
+      bottomSheet: statusShowing != null
+          ? BottomSheet(onClosing: () {}, builder: (context) => statusShowing!)
+          : null,
     );
   }
 }

@@ -192,15 +192,32 @@ class _LoginState extends State<Login> {
                   SubmittButton(
                     buttonText: 'Login',
                     onPressed: () async {
+                      showDialog(
+                        context: context,
+                        builder: (context) => Container(
+                          color: const Color.fromARGB(61, 0, 0, 0),
+                          child: Center(
+                            child: Image.asset(
+                              'images/loading.gif',
+                              width: 85,
+                              height: 85,
+                            ),
+                          ),
+                        ),
+                      );
+
                       setEditingControllerText();
 
                       String loginStatus = await appwriteSystem.loginAccount(
                           email: email, password: password);
 
                       if (emailEditingController.text != '' &&
-                          passwordEditingController.text != '') {
+                          passwordEditingController.text != '' && loginStatus != '400') {
                         navigateAfterLogin(loginStatus: loginStatus);
-                      } else {}
+                      } else {
+                        Navigator.of(context).pop();
+                        showErrorMessage(error);
+                      }
                     },
                   ),
 
@@ -214,7 +231,6 @@ class _LoginState extends State<Login> {
                   ),
 
                   const SizedBox(height: 30),
-
 
                   SocialLoginButton(
                     socialImagePath: 'images/google-logo.png',
