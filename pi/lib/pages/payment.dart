@@ -45,7 +45,7 @@ class _PaymentState extends State<Payment> {
               foregroundColor: paletteWhite,
             ),
             onPressed: () {
-              
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Carrinho(userPrefs: widget.userPrefs,),));
             },
             child: const Text(
               'Cancelar',
@@ -57,139 +57,147 @@ class _PaymentState extends State<Payment> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            const Text(
-              'Selecione uma forma de pagamento',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PayTemplate(
-                    value: 0,
-                    groupValue: groupValue,
-                    onChanged: (p0) {
-                      setState(() {
-                        groupValue = 0;
-                      });
-                    },
-                    Text1: 'Boleto',
-                    Text2:
-                        'Vencimento em 1 dia útil. A data de entrega será alterada devido ao tempo de processamento do boleto. Veja mais na próxima página.',
-                  ),
-                  PayTemplate(
-                    value: 1,
-                    groupValue: groupValue,
-                    onChanged: (p0) {
-                      setState(() {
-                        groupValue = 1;
-                      });
-                    },
-                    Text1: 'Pix',
-                    Text2:
-                        'O código Pix gerado para pagamento é válido por 30 minutos após a finalização do pedido.',
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    color: palettWhiteGrey,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Selecione uma forma de pagamento',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PayTemplate(
+                            value: 0,
+                            groupValue: groupValue,
+                            onChanged: (p0) {
+                              setState(() {
+                                groupValue = 0;
+                              });
+                            },
+                            Text1: 'Boleto',
+                            Text2:
+                                'Vencimento em 1 dia útil. A data de entrega será alterada devido ao tempo de processamento do boleto. Veja mais na próxima página.',
+                          ),
+                          PayTemplate(
+                            value: 1,
+                            groupValue: groupValue,
+                            onChanged: (p0) {
+                              setState(() {
+                                groupValue = 1;
+                              });
+                            },
+                            Text1: 'Pix',
+                            Text2:
+                                'O código Pix gerado para pagamento é válido por 30 minutos após a finalização do pedido.',
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            color: palettWhiteGrey,
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(30, 5, 0, 5),
+                                  child: Row(
+                                    children: [
+                                      const Text(
+                                        'Adicionar outra forma de pagamento',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold, fontSize: 18),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      ClipOval(
+                                        child: Container(
+                                          width: 30,
+                                          height: 30,
+                                          color: paletteYellow,
+                                          child: Center(
+                                            child: IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.add,
+                                                size: 15, // Tamanho para o ícone
+                                                color: paletteDarkGrey,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          padding: const EdgeInsets.fromLTRB(30, 5, 0, 5),
-                          child: Row(
+                          const SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
-                                'Adicionar outra forma de pagamento',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                              const SizedBox(width: 15),
-                              ClipOval(
+                              Expanded(
                                 child: Container(
-                                  width: 30,
-                                  height: 30,
-                                  color: paletteYellow,
-                                  child: Center(
-                                    child: IconButton(
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 1,
+                                  ), // Margem apenas nos lados
+                                  decoration: const BoxDecoration(
+                                    color: paletteYellow,
+                                  ),
+                                  child: SizedBox(
+                                    height: 50, // Ajuste a altura conforme necessário
+                                    child: TextButton(
                                       onPressed: () {},
-                                      icon: const Icon(
-                                        Icons.add,
-                                        size: 15, // Tamanho para o ícone
-                                        color: paletteDarkGrey,
+                                      child: const Text(
+                                        'Continuar',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: paletteBlack,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 1,
-                          ), // Margem apenas nos lados
-                          decoration: const BoxDecoration(
-                            color: paletteYellow,
-                          ),
-                          child: SizedBox(
-                            height: 50, // Ajuste a altura conforme necessário
-                            child: TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Continuar',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: paletteBlack,
-                                ),
                               ),
-                            ),
-                          ),
-                        ),
+                            ],
+                          )
+                        ],
                       ),
-                    ],
-                  )
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       //Barra de navegação ------------------------------------------------------
       bottomNavigationBar: BookTokNavigation(
         home: MyIconButtonNavigator(
-            route: Home(), icon: const Icon(Icons.home), current: true),
+            route: Home(userPrefs: widget.userPrefs,), icon: const Icon(Icons.home), current: true),
         search: MyIconButtonNavigator(
-            route: SearchScreen(),
+            route: SearchScreen(userPrefs: widget.userPrefs,),
             icon: const Icon(Icons.search),
             current: false),
         cart: MyIconButtonNavigator(
-            route: Carrinho(),
+            route: Carrinho(userPrefs: widget.userPrefs,),
             icon: const Icon(Icons.shopping_cart),
             current: false),
         user: MyIconButtonNavigator(
-            route: Profile(),
+            route: Profile(userPrefs: widget.userPrefs,),
             icon: const Icon(Icons.person),
             current: false),
       ),
