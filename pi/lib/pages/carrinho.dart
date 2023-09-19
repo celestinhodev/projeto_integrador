@@ -53,39 +53,39 @@ class _CarrinhoState extends State<Carrinho> {
           cartItensWidgets.add(cartTileTemplate(
             titleBook: item['title'],
             amount: item['amount'],
-            price: item['price'],
+            price: double.parse(item['price'].toString().replaceAll(',', '.')),
             imageUrl: item['imagePath'],
             index: counter,
             indexDelete: deleteItemFromCart,
             amountUpdate: amountUpdate,
           ));
-          subtotalPrice += item['price'] * item['amount'];
+          subtotalPrice += double.parse(item['price'].toString().replaceAll(',', '.')) * item['amount'];
         });
 
         counter++;
       }
     }
   }
-
+  
   void deleteItemFromCart(int index) async {
     if (cartItens.length > 1) {
       cartItens.removeAt(index);
       cartItensWidgets = [];
 
       int counter = 0;
-
+    
       for (Map<String, dynamic> item in cartItens) {
         setState(() {
           cartItensWidgets.add(cartTileTemplate(
             titleBook: item['title'],
             amount: item['amount'],
-            price: item['price'],
+            price: double.parse(item['price'].toString().replaceAll(',', '.')),
             imageUrl: item['imagePath'],
             index: counter,
             indexDelete: deleteItemFromCart,
             amountUpdate: amountUpdate,
           ));
-          subtotalPrice += item['price'] * item['amount'];
+          subtotalPrice += double.parse(item['price'].toString().replaceAll(',', '.')) * item['amount'];
         });
 
         counter++;
@@ -103,7 +103,7 @@ class _CarrinhoState extends State<Carrinho> {
     var response = await appwriteSystem.updateCart(
         newCartItens: cartItens, documentId: widget.userPrefs!.$id);
   }
-
+  
   void amountUpdate(int amount, int index) async {
     cartItens[index]['amount'] = amount;
     cartItensWidgets = [];
@@ -116,13 +116,13 @@ class _CarrinhoState extends State<Carrinho> {
         cartItensWidgets.add(cartTileTemplate(
           titleBook: item['title'],
           amount: item['amount'],
-          price: item['price'],
+          price: double.parse(item['price'].toString().replaceAll(',', '.')),
           imageUrl: item['imagePath'],
           index: counter,
           indexDelete: deleteItemFromCart,
           amountUpdate: amountUpdate,
         ));
-        subtotalPrice += item['price'] * item['amount'];
+        subtotalPrice += double.parse(item['price'].toString().replaceAll(',', '.')) * item['amount'];
       });
 
       counter++;
@@ -136,6 +136,7 @@ class _CarrinhoState extends State<Carrinho> {
       documentId: widget.userPrefs!.$id,
     );
   }
+
 
   finalizarCompra() {
     setState(() {
@@ -263,17 +264,17 @@ class _CarrinhoState extends State<Carrinho> {
       backgroundColor: paletteWhite,
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.only(top: 10),
-            height: MediaQuery.of(context).size.height * 0.8,
+          Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: cartItensWidgets,
               ),
             ),
           ),
+          SizedBox(height: 118,),
         ],
       ),
+      
       bottomSheet: Container(
         height: 118,
         child: Column(

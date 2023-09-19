@@ -31,7 +31,8 @@ class _SearchScreenState extends State<SearchScreen> {
   AppwriteSystem appwriteSystem = AppwriteSystem();
 
   TextEditingController searchController = TextEditingController();
-  late TextEditingController searchControllerCustom = TextEditingController(text: widget.textSearch);
+  late TextEditingController searchControllerCustom =
+      TextEditingController(text: widget.textSearch);
 
   String searchText = '';
   List<Widget> listResults = [];
@@ -42,8 +43,8 @@ class _SearchScreenState extends State<SearchScreen> {
       searchText = value;
     });
 
-    models.DocumentList? listBooks =
-        await appwriteSystem.listDocuments(searchText: searchText, atributes: searchAtribute);
+    models.DocumentList? listBooks = await appwriteSystem.listDocuments(
+        searchText: searchText, atributes: searchAtribute);
 
     if (listBooks == null || listBooks.total == 0) {
       setState(() {
@@ -86,8 +87,10 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     appwriteSystem.updateCart(
-        newCartItens: JsonDecoder().convert(widget.userPrefs!.data['cartItens']), documentId: widget.userPrefs!.$id);
-    if(widget.textSearch != null) {
+        newCartItens:
+            JsonDecoder().convert(widget.userPrefs!.data['cartItens']),
+        documentId: widget.userPrefs!.$id);
+    if (widget.textSearch != null) {
       setState(() {
         searchController.text = widget.textSearch!;
         searchAction(widget.textSearch!, 'category');
@@ -99,7 +102,9 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BookTokAppBar,
-      drawer: MyDrawer(userPrefs: widget.userPrefs,),
+      drawer: MyDrawer(
+        userPrefs: widget.userPrefs,
+      ),
       body: Container(
         color: paletteBlack,
         child: Column(
@@ -137,6 +142,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
+
+            SizedBox(height: 10,),
+
             searchText == ''
                 ? const Center(
                     child: Padding(
@@ -150,8 +158,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                   )
-                : Column(
-                    children: listResults,
+                : Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: listResults,
+                      ),
+                    ),
                   ),
           ],
         ),

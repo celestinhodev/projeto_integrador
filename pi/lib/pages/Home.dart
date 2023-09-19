@@ -60,52 +60,140 @@ class _HomeState extends State<Home> {
   }
 
   void getBooksFromDB() async {
-    var listDocuments = await appwriteSystem.listDocuments(searchText: '');
+    var listDocuments = await appwriteSystem.listDocuments(
+        searchText: 'title', atributes: 'title');
+    var listDocumentsRomance = await appwriteSystem.listDocuments(
+        searchText: 'ROMANCE', atributes: 'category');
+    var listDocumentsFantasia = await appwriteSystem.listDocuments(
+        searchText: 'FANTASIA', atributes: 'category');
+
     List<Widget> preparedBooks = [];
     int count = 1;
 
-    for (models.Document documentInstance in listDocuments!.documents) {
-      if (count < 7) {
-        String title = documentInstance.data['title'];
-        String imagePath = (appwriteSystem.prepareUrlListFromString(
-            listImageUrlString: documentInstance.data['listImages']))[0];
+    try {
+      for (models.Document documentInstance in listDocuments!.documents) {
+        if (count <= 8) {
+          String title = documentInstance.data['title'];
+          String imagePath = (appwriteSystem.prepareUrlListFromString(
+              listImageUrlString: documentInstance.data['listImages']))[0];
 
-        setState(() {
-          preparedBooks.add(
-            BookTemplate(
-              nomeLivro: title,
-              caminhoImagem: imagePath,
-              documentInstance: documentInstance,
-              admin: false,
-              userPrefs: widget.userPrefs,
-            ),
-          );
-        });
+          setState(() {
+            preparedBooks.add(
+              BookTemplate(
+                nomeLivro: title,
+                caminhoImagem: imagePath,
+                documentInstance: documentInstance,
+                admin: false,
+                userPrefs: widget.userPrefs,
+              ),
+            );
+          });
 
-        count++;
-      } else {break;}
+          count++;
+        } else {
+          break;
+        }
+      }
+
+      setState(() {
+        listaLivrosLancamentos = preparedBooks;
+      });
+
+      count = 1;
+      preparedBooks = [];
+
+      for (models.Document documentInstance
+          in listDocuments.documents) {
+        if (count <= 8) {
+          if (documentInstance.data['category'] == 'ROMANCE') {
+            String title = documentInstance.data['title'];
+            String imagePath = (appwriteSystem.prepareUrlListFromString(
+                listImageUrlString: documentInstance.data['listImages']))[0];
+
+            setState(() {
+              preparedBooks.add(
+                BookTemplate(
+                  nomeLivro: title,
+                  caminhoImagem: imagePath,
+                  documentInstance: documentInstance,
+                  admin: false,
+                  userPrefs: widget.userPrefs,
+                ),
+              );
+            });
+
+            count++;
+          }
+        } else {
+          break;
+        }
+      }
+
+      setState(() {
+        listaLivrosRomance = preparedBooks;
+      });
+
+      count = 1;
+      preparedBooks = [];
+
+      for (models.Document documentInstance in listDocuments.documents) {
+        if (count <= 8) {
+          if (documentInstance.data['category'] == 'FANTASIA') {
+            String title = documentInstance.data['title'];
+            String imagePath = (appwriteSystem.prepareUrlListFromString(
+                listImageUrlString: documentInstance.data['listImages']))[0];
+
+            setState(() {
+              preparedBooks.add(
+                BookTemplate(
+                  nomeLivro: title,
+                  caminhoImagem: imagePath,
+                  documentInstance: documentInstance,
+                  admin: false,
+                  userPrefs: widget.userPrefs,
+                ),
+              );
+            });
+
+            count++;
+          }
+        } else {
+          break;
+        }
+      }
+
+      setState(() {
+        listaLivrosFantasia = preparedBooks;
+      });
+
+    } catch (e) {
+      print(e);
     }
-
-    setState(() {
-      listaLivrosLancamentos = preparedBooks;
-    });
   }
 
   @override
   void initState() {
     super.initState();
 
-///////////////itens do carrossel///////////////////////
+    // ignore: todo
+    // TODO: implement initState
+    
     carouselBannerItens = [
       CarItemTemplate(
-          caminhoImagem: 'images/livros/1.png', titulo: 'O Iluminado', texto: 'O livro narra a história de Danny Torrance, um garoto com habilidades paranormais especiais, como telepatia e premonição. Quando sua família se muda para o hotel Overlook, onde seu pai, Jack Torrance, consegue um emprego como zelador, eles esperam encontrar uma nova vida longe de problemas passados. No entanto, o Overlook Hotel é assombrado por antigas energias malignas e espíritos vingativos que se manifestam de maneira aterrorizante. Danny é "iluminado", o que significa que ele possui poderes sobrenaturais que o tornam a única esperança contra o mal que assola o hotel.'),
+          caminhoImagem: 'images/livros/jujutsu_kaisen.png',
+          titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01',
+          texto:
+              'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
       Car2ItemTemplate(
-        caminhoImagem: 'images/livros/madona.png', texto: '1481, Florença, Itália, é o cenário de um intrincado triângulo amoroso entre a camponesa Francesca di Boscoli, a duquesa de Milão, Alessia Sforza, e o aspirante a pintor Vincenzo Mantovani.Francesca busca apenas paz em sua vida, já tão carregada de cicatrizes. Vincenzo espera ser reconhecido como um dos maiores artistas de seu tempo. E Alessia, a bela mecenas, busca impor sua vontade, custe o que custar!.', titulo: 'A Madona e a Vênus'),
-      const Car3Template(texto: 'Lançamentos', imagem1: 'images/livros/madona.png', imagem2: 'images/livros/madona.png', imagem3: 'images/livros/madona.png'),
+          caminhoImagem: 'images/livros/jujutsu_kaisen.png',
+          texto: 'ratinho nho nho nho nho nho nho',
+          titulo: 'ratin taligado, tipo, é um rato'),
       Image.asset('images/logo-appbar.png'),
       Image.asset('images/livros/livro.png'),
       Image.asset('images/livros/livro.png'),
     ];
+    
+
     if (widget.userPrefs != null) {
       getUserPrefs();
       appwriteSystem.updateCart(
@@ -211,10 +299,9 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
 
             Container(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 minHeight: 225,
               ),
-              color: Colors.red,
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -242,10 +329,9 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
 
             Container(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 minHeight: 225,
               ),
-              color: Colors.green,
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -273,10 +359,9 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
 
             Container(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 minHeight: 225,
               ),
-              color: Colors.green,
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
