@@ -78,6 +78,14 @@ class _LoginState extends State<Login> {
     if (loginStatus == '201') {
       await showErrorMessage(success);
       switch (email) {
+        case 'admin@gmail.com':
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeAdmin(),
+            ),
+          );
+          break;
         case 'staffchattube@gmail.com':
           Navigator.pushReplacement(
             context,
