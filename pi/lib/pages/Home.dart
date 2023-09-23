@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:pi/components/carousel_templates/car3_item_template.dart';
 
 // Components
 import '../components/book_template.dart';
@@ -178,18 +179,23 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     
     carouselBannerItens = [
-      const CarItemTemplate(
-          caminhoImagem: 'images/livros/jujutsu_kaisen.png',
-          titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01',
-          texto:
-              'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
-      const Car2ItemTemplate(
-          caminhoImagem: 'images/livros/jujutsu_kaisen.png',
-          texto: 'ratinho nho nho nho nho nho nho',
-          titulo: 'ratin taligado, tipo, é um rato'),
       Image.asset('images/logo-appbar.png'),
-      Image.asset('images/livros/livro.png'),
-      Image.asset('images/livros/livro.png'),
+      //Divisao de item
+      const Car2ItemTemplate(
+      caminhoImagem: 'images/livros/madona.png',
+      texto: '1481, Florença, Itália, é o cenário de um intrincado triângulo amoroso entre a camponesa Francesca di Boscoli, a duquesa de Milão, Alessia Sforza, e o aspirante a pintor Vincenzo Mantovani.Francesca busca apenas paz em sua vida, já tão carregada de cicatrizes. Vincenzo espera ser reconhecido como um dos maiores artistas de seu tempo. E Alessia, a bela mecenas, busca impor sua vontade, custe o que custar!.',
+      titulo: 'A Madona e a Vênus'),
+      //Divisao de item
+      const CarItemTemplate(
+      caminhoImagem: 'images/livros/jujutsu_kaisen.png',
+      titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01',
+      texto: 'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
+      //divisao de item
+      const Car3Template(texto: 'Especial semana do Terror', 
+      imagem1: 'images/livros/o_iluminado.png', 
+      imagem2: 'images/livros/7_monstros.png', 
+      imagem3: 'images/livros/a_casa_assombrada.png'),
+      //divisao de item
     ];
     
 
