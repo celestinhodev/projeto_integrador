@@ -43,7 +43,6 @@ class _Car3TemplateState extends State<Car3Template> {
                 padding: const EdgeInsets.all(15),
                 child: Row(
                   children: [
-                  
                     SizedBox(
                       width: 100,
                       child: Image.asset(widget.imagem1)
