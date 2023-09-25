@@ -44,7 +44,7 @@ class _Car2ItemTemplateState extends State<Car2ItemTemplate> {
                       child: Text(
                         widget.titulo,
                         style: const TextStyle(
-                          fontSize: 17,
+                          fontSize: 16,
                           color: paletteWhite,
                         ),
                       ),

@@ -53,20 +53,27 @@ class _CarItemTemplateState extends State<CarItemTemplate> {
                       child: Text(
                         widget.titulo,
                         style: const TextStyle(
-                          fontSize: 17,
+                          fontSize: 16,
                           color: paletteWhite,
                         ),
                       ),
                     ),
                     const SizedBox(height: 10), // Ajuste o espaçamento conforme necessário
-                    Text(
-                      widget.texto,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 99,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: paletteWhite
+                    Container(
+                      height: 126,
+                      child: Expanded(
+                        child: SingleChildScrollView(
+                          child: Text(
+                            widget.texto,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 99,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: paletteWhite
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],

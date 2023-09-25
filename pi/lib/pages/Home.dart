@@ -186,10 +186,13 @@ class _HomeState extends State<Home> {
       const Car2ItemTemplate(
           caminhoImagem: 'images/livros/jujutsu_kaisen.png',
           texto: 'ratinho nho nho nho nho nho nho',
-          titulo: 'ratin taligado, tipo, é um rato'),
-      Image.asset('images/logo-appbar.png'),
-      Image.asset('images/livros/livro.png'),
-      Image.asset('images/livros/livro.png'),
+          titulo: 'ratin taligado, tipo, é um rato',
+        ),
+      const Car2ItemTemplate(
+          caminhoImagem: 'images/livros/zoozoado.png',
+          texto: 'Também temos livros infantis disponiveis para compra no catálogo para incentivar a leitura dos pequenos \n \nConfira mais informações no app.',
+          titulo: 'Categoria Infantil',
+        ),
     ];
     
 
