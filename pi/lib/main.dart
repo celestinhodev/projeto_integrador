@@ -3,8 +3,8 @@ import 'pages/login.dart';
 import 'pages/Home.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: Home(),
+    home: Login(),
   ));
 }
