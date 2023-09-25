@@ -104,8 +104,7 @@ class _HomeState extends State<Home> {
       count = 1;
       preparedBooks = [];
 
-      for (models.Document documentInstance
-          in listDocuments.documents) {
+      for (models.Document documentInstance in listDocuments.documents) {
         if (count <= 8) {
           if (documentInstance.data['category'] == 'ROMANCE') {
             String title = documentInstance.data['title'];
@@ -167,7 +166,6 @@ class _HomeState extends State<Home> {
       setState(() {
         listaLivrosFantasia = preparedBooks;
       });
-
     } catch (e) {}
   }
 
@@ -177,27 +175,27 @@ class _HomeState extends State<Home> {
 
     // ignore: todo
     // TODO: implement initState
-    
+
     carouselBannerItens = [
-      Image.asset('images/logo-appbar.png'),
+      const CarItemTemplate(
+          caminhoImagem: 'images/livros/jujutsu_kaisen.png',
+          titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01',
+          texto:
+              'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
       //Divisao de item
       const Car2ItemTemplate(
-      caminhoImagem: 'images/livros/madona.png',
-      texto: '1481, Florença, Itália, é o cenário de um intrincado triângulo amoroso entre a camponesa Francesca di Boscoli, a duquesa de Milão, Alessia Sforza, e o aspirante a pintor Vincenzo Mantovani.Francesca busca apenas paz em sua vida, já tão carregada de cicatrizes. Vincenzo espera ser reconhecido como um dos maiores artistas de seu tempo. E Alessia, a bela mecenas, busca impor sua vontade, custe o que custar!.',
-      titulo: 'A Madona e a Vênus'),
-      //Divisao de item
+          caminhoImagem: 'images/livros/madona.png',
+          texto:
+              '1481, Florença, Itália, é o cenário de um intrincado triângulo amoroso entre a camponesa Francesca di Boscoli, a duquesa de Milão, Alessia Sforza, e o aspirante a pintor Vincenzo Mantovani.Francesca busca apenas paz em sua vida, já tão carregada de cicatrizes. Vincenzo espera ser reconhecido como um dos maiores artistas de seu tempo. E Alessia, a bela mecenas, busca impor sua vontade, custe o que custar!.',
+          titulo: 'A Madona e a Vênus'),
+
       const CarItemTemplate(
-      caminhoImagem: 'images/livros/juju.png',
-      titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01',
-      texto: 'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
-      //divisao de item
-      const Car3Template(texto: 'Especial semana do Terror', 
-      imagem1: 'images/livros/o_iluminado.png', 
-      imagem2: 'images/livros/7_monstros.png', 
-      imagem3: 'images/livros/a_casa_assombrada.png'),
-      //divisao de item
+        caminhoImagem: 'images/livros/zoozoado.png',
+        texto:
+            'Também temos livros infantis disponiveis para compra no catálogo para incentivar a leitura dos pequenos \n \nConfira mais informações no app.',
+        titulo: 'Categoria Infantil',
+      ),
     ];
-    
 
     if (widget.userPrefs != null) {
       getUserPrefs();
@@ -207,10 +205,13 @@ class _HomeState extends State<Home> {
           documentId: widget.userPrefs!.$id);
     }
 
-    listaLivrosLancamentos = List.generate(8, (index) => const LoadingHomeBookSkeleton());
-    listaLivrosRomance = List.generate(8, (index) => const LoadingHomeBookSkeleton());
-    listaLivrosFantasia = List.generate(8, (index) => const LoadingHomeBookSkeleton());
-    
+    listaLivrosLancamentos =
+        List.generate(8, (index) => const LoadingHomeBookSkeleton());
+    listaLivrosRomance =
+        List.generate(8, (index) => const LoadingHomeBookSkeleton());
+    listaLivrosFantasia =
+        List.generate(8, (index) => const LoadingHomeBookSkeleton());
+
     getBooksFromDB();
   }
 
