@@ -56,7 +56,7 @@ class _Car3TemplateState extends State<Car3Template> {
                     SizedBox(
                       width: 100,
                       child: Image.asset(widget.imagem3)
-                      ), 
+                    ), 
                   ],
                 ),
               ),

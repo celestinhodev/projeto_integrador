@@ -187,7 +187,7 @@ class _HomeState extends State<Home> {
       titulo: 'A Madona e a Vênus'),
       //Divisao de item
       const CarItemTemplate(
-      caminhoImagem: 'images/livros/jujutsu_kaisen.png',
+      caminhoImagem: 'images/livros/juju.png',
       titulo: 'Jujutsu kaisen - batalha de feiticeiros - vol 01',
       texto: 'Apesar do estudante colegial Yuuji Itadori ter grande força física, ele se inscreve no Clube de Ocultismo. Certo dia, eles encontram um "objeto amaldiçoado" e retiram o selo, atraindo criaturas chamadas de "maldições". Itadori corre em socorro de seus colegas, mas será que ele será capaz de abater essas criaturas usando apenas a força física?!'),
       //divisao de item
