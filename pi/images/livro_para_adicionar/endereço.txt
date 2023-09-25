@@ -1,0 +1,7 @@
+CEP: 00000000
+
+Cidade: Juiz de Fora
+
+Endereço: Endereço Teste
+
+Complemento: Casa 2
